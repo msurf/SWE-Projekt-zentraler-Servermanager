@@ -8,6 +8,6 @@ Wenn der Benutzer eine Client-Hardware hinzufügen möchte, soll das System ihm 
 Wenn der Benutzer eine Client-Hardware auswählt, muss das System dem Benutzer Informationen zur Hardware sowie zur installierten Software anzeigen.
 Wenn der Benutzer eine Client-Hardware auswählt, muss das System dem Benutzer die Möglichkeit bieten, neue Software-Pakete aus dem Software-Katalog auf dem Host zu installieren sowie bereits installierte Software zu konfigurieren und zu deinstallieren.
 Wenn der Benutzer eine Client-Hardware auswählt, muss das System ihm die Möglichkeit bieten, Dienste auf der Client-Hardware zu starten und zu stoppen.
-+Nach dem Klick auf einen entsprechenden Menüpunkt muss das System dem eingeloggten Benutzer die Möglichkeit bieten, neue Software-Pakete zum Katalog hinzuzufügen sowie bestehende zu aktualisieren und zu löschen.
+Nach dem Klick auf einen entsprechenden Menüpunkt muss das System dem eingeloggten Benutzer die Möglichkeit bieten, neue Software-Pakete zum Katalog hinzuzufügen sowie bestehende zu aktualisieren und zu löschen.
 Wenn der Benutzer neue Software-Pakete zum Katalog hinzufügen möchte, muss das System das übergebene Paket darauf überprüfen, ob es den Vorgaben zur Paketstruktur entspricht.
 
