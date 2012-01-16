@@ -1,8 +1,0 @@
-* Permanent als Hintergrunddienst laufen
-* Status-Abfragen vom Host beantworten
-* Installationsanfragen vom Host bearbeiten:
-** Software-Pakete vom Host laden
-** Pakete entpacken
-** Shell-Skripte ausführen
-* Aktionen protokollieren
-* Installierte Dienste speichern und verwalten
