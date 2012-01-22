@@ -39,8 +39,8 @@ bg=red</panel_attributes>
   <element>
     <type>com.umlet.element.custom.Systemborder</type>
     <coordinates>
-      <x>30</x>
-      <y>0</y>
+      <x>20</x>
+      <y>20</y>
       <w>230</w>
       <h>130</h>
     </coordinates>
@@ -50,8 +50,8 @@ bg=red</panel_attributes>
   <element>
     <type>com.umlet.element.custom.State</type>
     <coordinates>
-      <x>40</x>
-      <y>30</y>
+      <x>30</x>
+      <y>50</y>
       <w>100</w>
       <h>40</h>
     </coordinates>
@@ -62,8 +62,8 @@ bg=red</panel_attributes>
   <element>
     <type>com.umlet.element.custom.State</type>
     <coordinates>
-      <x>150</x>
-      <y>30</y>
+      <x>140</x>
+      <y>50</y>
       <w>100</w>
       <h>40</h>
     </coordinates>
@@ -492,8 +492,8 @@ bg=red</panel_attributes>
   <element>
     <type>com.umlet.element.custom.State</type>
     <coordinates>
-      <x>80</x>
-      <y>80</y>
+      <x>70</x>
+      <y>100</y>
       <w>120</w>
       <h>40</h>
     </coordinates>
