@@ -42,7 +42,7 @@ bg=red</panel_attributes>
       <x>30</x>
       <y>0</y>
       <w>230</w>
-      <h>140</h>
+      <h>130</h>
     </coordinates>
     <panel_attributes>topcenter:_Legende_</panel_attributes>
     <additional_attributes/>
@@ -487,6 +487,18 @@ bg=red</panel_attributes>
       <h>20</h>
     </coordinates>
     <panel_attributes>i</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.State</type>
+    <coordinates>
+      <x>80</x>
+      <y>80</y>
+      <w>120</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Clientdaemon
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
