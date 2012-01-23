@@ -11,6 +11,7 @@ I) Kommunikation der der Programme zkizzieren:
 	- Was soll mit der Uebermittlung erreicht werden
 
 Tobias Thieron(tt):
+VII) Anforderungsdiagramm erstellen, als Vorlage für Klassendiagramm
 
 Markus Wolff(mw):
 I) Kommunikation der der Programme zkizzieren:
