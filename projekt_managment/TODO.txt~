@@ -2,24 +2,45 @@ Dies ist die TODO-Liste des Teams. Hier werden alle Aufgaben der einzelnen Mitgl
 
 Tobias Gies(tg):
 
-Tobias Thieron(tt):
-
+III) Webfrontend:
+	- welches Framework
 I) Kommunikation der der Programme zkizzieren:
 	- Welche Befehle gehen an Wen/Wann/Wie
 	- Welche Informationen werden von Wem/Wann/Wie an Wen gesendet
 	- Wie ist die/das Syntax/Format/Datenkapsel um und in der Uebermittlung
 	- Was soll mit der Uebermittlung erreicht werden
 
+
+
+Tobias Thieron(tt):
+
 Markus Wolff(mw):
+I) Kommunikation der der Programme zkizzieren:
+	- Welche Befehle gehen an Wen/Wann/Wie
+	- Welche Informationen werden von Wem/Wann/Wie an Wen gesendet
+	- Wie ist die/das Syntax/Format/Datenkapsel um und in der Uebermittlung
+	- Was soll mit der Uebermittlung erreicht werden
+
+Felix Mooz(fm):
+
+II) SQL-Lite:
+	- was soll gespeichert werden (z.B. Benutzer/Passwort/email/Berechtigungen)
+	- wo kommen die Daten her?
+	- Implementierung in Java(testweise)
+
+II) Ausfuehern von Shellscripten aus Java:
+	- Syntax
+	- testweise Implementierung mit Java(es sollen mehere Parameter an das Shellscript uebergeben werden)
+
+Philipp Tendyra(pt):
 
 II) Wie wird ein Java-Deamon realisiert?
 	- reicht ein einfacher Start ueber init.d ?
 	- gibt es ein Framework, das Deamons realisiert ?
 
-Threading:
-	- erstellen eines Threads, der auf einem Port horcht
-	- erstellen eines Threads, der Text an einen Port sendet (Format des Textes zunaechst unwichtig)
+V) Installationspakete:
+	- Binaries bereitstellen -> Zu groß für Git
+	- Testscript entwickeln -> Done
+	- Testinstallationspaket erstellen
 
-Felix Mooz(fm):
-
-Philipp Tendyra(pt):
+IV) Besprechungsprotokoll

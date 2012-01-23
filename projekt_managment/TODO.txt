@@ -3,26 +3,22 @@ Dies ist die TODO-Liste des Teams. Hier werden alle Aufgaben der einzelnen Mitgl
 Tobias Gies(tg):
 
 III) Webfrontend:
-	- SOAP(oder doch nicht?) + Daten von einem Javathread holen
 	- welches Framework
-
-Tobias Thieron(tt):
-
 I) Kommunikation der der Programme zkizzieren:
 	- Welche Befehle gehen an Wen/Wann/Wie
 	- Welche Informationen werden von Wem/Wann/Wie an Wen gesendet
 	- Wie ist die/das Syntax/Format/Datenkapsel um und in der Uebermittlung
 	- Was soll mit der Uebermittlung erreicht werden
 
+Tobias Thieron(tt):
+VII) Anforderungsdiagramm erstellen, als Vorlage für Klassendiagramm
+
 Markus Wolff(mw):
-
-II) Wie wird ein Java-Deamon realisiert?
-	- reicht ein einfacher Start ueber init.d ?
-	- gibt es ein Framework, das Deamons realisiert ?
-
-Threading:
-	- erstellen eines Threads, der auf einem Port horcht
-	- erstellen eines Threads, der Text an einen Port sendet (Format des Textes zunaechst unwichtig)
+I) Kommunikation der der Programme zkizzieren:
+	- Welche Befehle gehen an Wen/Wann/Wie
+	- Welche Informationen werden von Wem/Wann/Wie an Wen gesendet
+	- Wie ist die/das Syntax/Format/Datenkapsel um und in der Uebermittlung
+	- Was soll mit der Uebermittlung erreicht werden
 
 Felix Mooz(fm):
 
@@ -41,18 +37,9 @@ II) Wie wird ein Java-Deamon realisiert?
 	- reicht ein einfacher Start ueber init.d ?
 	- gibt es ein Framework, das Deamons realisiert ?
 
-Threading:
-	- erstellen eines Threads, der auf einem Port horcht
-	- erstellen eines Threads, der Text an einen Port sendet (Format des Textes zunaechst unwichtig)
-
 V) Installationspakete:
 	- Binaries bereitstellen -> Zu groß für Git
 	- Testscript entwickeln -> Done
 	- Testinstallationspaket erstellen
 
 IV) Besprechungsprotokoll
-
-
-Alle:
-
-Kontaktdaten an Philipp schicken
