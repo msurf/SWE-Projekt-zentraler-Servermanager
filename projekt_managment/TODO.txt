@@ -46,8 +46,8 @@ Threading:
 	- erstellen eines Threads, der Text an einen Port sendet (Format des Textes zunaechst unwichtig)
 
 V) Installationspakete:
-	- Binaries bereitstellen
-	- Testscript entwickeln
+	- Binaries bereitstellen -> Zu groß für Git
+	- Testscript entwickeln -> Done
 	- Testinstallationspaket erstellen
 
 IV) Besprechungsprotokoll
