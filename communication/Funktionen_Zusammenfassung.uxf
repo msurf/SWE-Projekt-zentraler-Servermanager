@@ -37,6 +37,12 @@ Funktionen Datenbank:
     <panel_attributes>Webinterface
 --
 getStatus()
+addScriptOrConfig()
+addUser(Login, PW, Rights)
+changeUser()
+getLog()
+installScriptOrConfig()
+changeInstallScriptOrConfig()
 </panel_attributes>
     <additional_attributes/>
   </element>
