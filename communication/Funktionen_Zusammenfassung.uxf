@@ -7,23 +7,30 @@
       <x>270</x>
       <y>20</y>
       <w>210</w>
-      <h>190</h>
+      <h>310</h>
     </coordinates>
     <panel_attributes>Hostdaemon
 --
 Funktionen Webinterface:
  
-getStatus()
+refreshClientInformation()
+addScriptOrConfig()
+
 --
 Funktionen Clientdaemon:
  
+refreshClientInformation()
+installNewSoftware()
+getLog()
 --
 Funktionen Repostitory:
  
+addScriptOrConfig()
 --
 Funktionen Datenbank:
  
-</panel_attributes>
+writeLog()
+addScriptOrConfig()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -32,12 +39,29 @@ Funktionen Datenbank:
       <x>20</x>
       <y>20</y>
       <w>210</w>
-      <h>190</h>
+      <h>340</h>
     </coordinates>
     <panel_attributes>Webinterface
 --
 getStatus()
-</panel_attributes>
+addScriptOrConfig()
+addUser(Login, PW, Rights)
+changeUser()
+getLog()
+installScriptOrConfig()
+showClientInformation()
+showAllClients()
+login()
+checkLogin()
+addClient()
+addClientNoDaemon()
+addClientDaemon()
+changeInstallScriptOrConfig()
+deinstallInstallScriptOrConfig()
+stopService(id)
+startService()
+checkSoftware()
+bg=red</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
