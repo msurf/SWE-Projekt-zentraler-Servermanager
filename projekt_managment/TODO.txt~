@@ -1,0 +1,25 @@
+Dies ist die TODO-Liste des Teams. Hier werden alle Aufgaben der einzelnen Mitglieder festgehalten.
+
+Tobias Gies(tg):
+
+Tobias Thieron(tt):
+
+I) Kommunikation der der Programme zkizzieren:
+	- Welche Befehle gehen an Wen/Wann/Wie
+	- Welche Informationen werden von Wem/Wann/Wie an Wen gesendet
+	- Wie ist die/das Syntax/Format/Datenkapsel um und in der Uebermittlung
+	- Was soll mit der Uebermittlung erreicht werden
+
+Markus Wolff(mw):
+
+II) Wie wird ein Java-Deamon realisiert?
+	- reicht ein einfacher Start ueber init.d ?
+	- gibt es ein Framework, das Deamons realisiert ?
+
+Threading:
+	- erstellen eines Threads, der auf einem Port horcht
+	- erstellen eines Threads, der Text an einen Port sendet (Format des Textes zunaechst unwichtig)
+
+Felix Mooz(fm):
+
+Philipp Tendyra(pt):

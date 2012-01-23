@@ -1,0 +1,10 @@
+* Permanent als Hintergrundprozess laufen
+* Socket offenhalten für Kommunikation mit der Web-Oberfläche
+* Datenbank verwalten:
+** Benutzerdaten
+** Daten der Client-Hardware
+** Daten zum Software-Katalog
+* Client-Informationen alle n Sekunden abfragen und speichern
+* Client-Daemons dazu veranlassen, Software-Pakete vom Host zu holen und zu installieren
+* Aktionen protokollieren
+* Log-Daten von Client-Hardware aggregieren
