@@ -1,1 +1,5 @@
 Hier kÃ¶nnen alle spontane Ideen und Fragen gesammelt werden.
+
+- Die Kommunikation geht über xml/xsd
+- Sqlite
+- Jegliche Anfragen gehen über den Host
