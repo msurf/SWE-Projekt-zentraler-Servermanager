@@ -19,6 +19,8 @@ public class SkelMain {
 		ArrayList<String> task_list = new ArrayList<String>();
 		Communication com = new Communication(task_list);
 		com.start();
+		Worker work = new Worker(task_list);
+		work.start();
 	}
 	
 }

@@ -17,11 +17,13 @@ public class InputThread extends Thread {
 
 	InputThread(ArrayList<String> liste){
 		this._queue = liste;
+		setDaemon(true);
 	}
 	
 	InputThread(ArrayList<String> liste, int port) {
 		this._queue = liste;
 		this._port = port;
+		setDaemon(true);
 	};
 
 	public void run() {
