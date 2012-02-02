@@ -4,10 +4,10 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>270</x>
-      <y>20</y>
+      <x>420</x>
+      <y>50</y>
       <w>210</w>
-      <h>310</h>
+      <h>380</h>
     </coordinates>
     <panel_attributes>Hostdaemon
 --
@@ -15,31 +15,34 @@ Funktionen Webinterface:
  
 refreshClientInformation()
 addScriptOrConfig()
-
+protocolAction()
 --
 Funktionen Clientdaemon:
  
 refreshClientInformation()
 installNewSoftware()
 getLog()
+protocolAction()
 --
-Funktionen Repostitory:
+Funktionen Repository:
  
 addScriptOrConfig()
+protocolAction()
 --
 Funktionen Datenbank:
  
 writeLog()
-addScriptOrConfig()</panel_attributes>
+addScriptOrConfig()
+protocolAction()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>20</x>
-      <y>20</y>
+      <x>0</x>
+      <y>50</y>
       <w>210</w>
-      <h>340</h>
+      <h>350</h>
     </coordinates>
     <panel_attributes>Webinterface
 --
@@ -61,20 +64,36 @@ deinstallInstallScriptOrConfig()
 stopService(id)
 startService()
 checkSoftware()
+protocolAction()
 bg=red</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>520</x>
-      <y>20</y>
+      <x>210</x>
+      <y>50</y>
       <w>210</w>
-      <h>190</h>
+      <h>350</h>
     </coordinates>
     <panel_attributes>Clientdaemon
 --
+Funktionen Verwaltung:
+ 
+verwalteDienste()
+protocolAction()
+--
+Funktionen Hostdaemon:
+ 
 getStatus()
+getNewInstallPackage()
+openNewInstallPackage()
+runSH()
+protocolAction()
+
+
+
+
 </panel_attributes>
     <additional_attributes/>
   </element>
