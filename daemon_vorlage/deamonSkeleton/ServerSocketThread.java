@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.ArrayList;
 
 /**
  * This Thread handles the incoming requests and adds the message to the task-list
@@ -15,7 +14,7 @@ public class ServerSocketThread extends Thread {
 	/** temporarily stores the socket, given by the InputThread-class */
 	private Socket _socket = null;
 	/** references the task-list which is created in the Administration-Thread */
-	private ArrayList<String> _queue;
+	private TaskList<String> _queue;
 
 	/**
 	 * This is the constructor
@@ -25,7 +24,7 @@ public class ServerSocketThread extends Thread {
 	 * 
 	 * thread is marked as daemon-thread
 	 */
-	public ServerSocketThread(Socket s, ArrayList<String> list) {
+	public ServerSocketThread(Socket s, TaskList<String> list) {
 		this._socket = s;
 		this._queue = list;
 		setDaemon(true); // all daemon-threads are terminated, if there is no user-thread. the user-thread in this program is the Administration-thread!

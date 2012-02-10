@@ -1,6 +1,5 @@
 package deamonSkeleton;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 /**
@@ -11,12 +10,11 @@ import java.util.Scanner;
 public class Administration extends Thread {
 
 	/** The programs task-list */
-	private ArrayList<String> _task_list;
+	private TaskList<String> _task_list;
 	/** The programs communication-thread which is used to communicate with equivalent programs */
 	private Communication _com;
-	/** The programs worker-thread which is used to complete the tasks */
-	private Worker _work;
 	
+	private Dispatcher _dispatch;
 	
 	/**
 	 * initializes the task-list
@@ -26,11 +24,11 @@ public class Administration extends Thread {
 	 * starts the worker-thread
 	 */
 	protected void startProgram(){
-	 this._task_list = new ArrayList<String>();
-		this._com = new Communication(this._task_list);
-		this._com.start();
-		this._work = new Worker(this._task_list);
-		this._work.start();
+	 this._task_list = new TaskList<String>();
+	 this._dispatch = new Dispatcher(this._task_list);
+	 this._task_list.addListDataListener(this._dispatch);
+	 this._com = new Communication(this._task_list);
+	 this._com.start();
 	}//startProgram()
 	
 	
@@ -45,7 +43,7 @@ public class Administration extends Thread {
 		Scanner sc = new Scanner(System.in);
 		while (input != 0) {
 			System.out
-					.println(" 0 -> Stop \n 1 -> new Server \n 2 -> new Port \n 3 -> Send Message\n 4 -> Print Task-List");
+					.println(" 0 -> Stop \n 1 -> new Server \n 2 -> new Port \n 3 -> Send Message\n 4 -> Nothing");
 			try{
 			input = sc.nextInt();
 			}//try
@@ -56,7 +54,7 @@ public class Administration extends Thread {
 			switch (input) {
 			case 1:
 				this._com.changeServer();
-				break;
+				break; 
 			case 2:
 				this._com.changePort();
 				break;
@@ -64,8 +62,7 @@ public class Administration extends Thread {
 				this._com.send();
 				break;
 			case 4:
-				this._com.printTaskList();
-				break;
+				break; 
 			}//switch
 		}//while
 		

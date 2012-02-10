@@ -3,7 +3,6 @@ package deamonSkeleton;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 /**
  * This Thread opens up a Socket and permanently listens to it
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 public class InputThread extends Thread {
 
 	/** references the task-list which is created in the Administration-Thread */
-	private ArrayList<String> _task_list;
+	private TaskList<String> _task_list;
 	/** stores the port on which the thread is listening, the default is 5550 */
 	private int _port = 5550;
 	/** indicates if the port was changed, but not recognized by the listener */
@@ -27,7 +26,7 @@ public class InputThread extends Thread {
 	 * 
 	 * thread is marked as daemon-thread
 	 */
-	InputThread(ArrayList<String> liste) {
+	InputThread(TaskList<String> liste) {
 		this._task_list = liste;
 		setDaemon(true);// all daemon-threads are terminated, if there is no
 						// user-thread. the user-thread in this program is the
@@ -41,7 +40,7 @@ public class InputThread extends Thread {
 	 * 
 	 * thread is marked as daemon-thread
 	 */
-	InputThread(ArrayList<String> liste, int port) {
+	InputThread(TaskList<String> liste, int port) {
 		this._task_list = liste;
 		this._port = port;
 		setDaemon(true); // all daemon-threads are terminated, if there is no

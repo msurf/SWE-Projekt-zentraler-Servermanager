@@ -1,6 +1,5 @@
 package deamonSkeleton;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -13,7 +12,7 @@ public class Communication extends Thread {
 	/** stores the port which belongs to the serveradress*/
 	private int _port = 5550;
 	/** stores the reference to the task-list*/
-	private ArrayList<String> _task_list = new ArrayList<String>();
+	private TaskList<String> _task_list = new TaskList<String>();
 	
 	/**
 	 * constructor 
@@ -21,7 +20,7 @@ public class Communication extends Thread {
 	 * 
 	 * thread is marked as daemon-thread
 	 */
-	public Communication(ArrayList<String> tasks) {
+	public Communication(TaskList<String> tasks) {
 		this._task_list = tasks;
 		setDaemon(true);// all daemon-threads are terminated, if there is no user-thread. the user-thread in this program is the Administration-thread!
 	}//constructor
@@ -33,8 +32,8 @@ public class Communication extends Thread {
 	}//run()
 
 	/** prints all elements of the task-list*/
-	protected void printTaskList() {
-		if (this._task_list.size() > 0) {
+	/*protected void printTaskList() {
+		if (this._task_list.getsize() > 0) {
 			for (String s : this._task_list)
 				System.out.println(s);
 		}//if
