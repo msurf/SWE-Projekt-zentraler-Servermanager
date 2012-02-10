@@ -9,67 +9,39 @@ import java.util.ArrayList;
  */
 public class Worker extends Thread {
 	
-	/** references the task-list which is created in the Administration-Thread */
-	private ArrayList<String> _task_list;
-	/** points to the current task in the task-list */
-	private int _task_count;
+	private Communication _com;
+	private boolean daemon = true;
+	private String _message = "default";
+	/**
+	 * constructor
+	 * @param list sets the reference to the task-list
+	 * 
+	 * thread is marked as daemon-thread
+	 */
+	Worker() {
+		setDaemon(daemon); // all daemon-threads are terminated, if there is no user-thread. the user-thread in this program is the Administration-thread!
+	}//constructor
 	
-	/**
-	 * constructor
-	 * @param list sets the reference to the task-list
-	 * 
-	 * thread is marked as daemon-thread
-	 */
-	Worker(ArrayList<String> list) {
-		this._task_list = list;
-		this._task_count = 0;
-		setDaemon(true); // all daemon-threads are terminated, if there is no user-thread. the user-thread in this program is the Administration-thread!
-	}//constructor
-	/**
-	 * constructor
-	 * @param list sets the reference to the task-list
-	 * @param task_count sets the task_count
-	 * 
-	 * thread is marked as daemon-thread
-	 */
-	Worker(ArrayList<String> list, int task_count) {
-		this._task_list = list;
-		this._task_count = task_count;
-		setDaemon(true); // all daemon-threads are terminated, if there is no user-thread. the user-thread in this program is the Administration-thread!
-	}//constructor
+	Worker(String s){
+		this._message = s;
+		setDaemon(daemon);
+	}
+	
+	Worker(String s, Communication com){
+		this._com = com;
+		this._message = s;
+		setDaemon(daemon);
+	}
 
 	/**
-	 * endless loop with sleeptime 10 seconds.
-	 * runs the printTaskList-method
+	 * 
 	 */
 	public void run() {
-		while (true) {
-			try {
-				sleep(10000);
-			}//try
-			catch (Exception e) {
-				// TODO: handle exception
-			}//catch
-			printTaskList();
-			
-		}//while
+		print(this._message);
 	}//run()
 	
-	/**
-	 * prints all elements the task-list contains at this short moment
-	 * 
-	 * operation on the task-list is synchronized
-	 */
-	private void printTaskList(){
-		ArrayList<String> tmp = null;
-		synchronized (this._task_list) {
-			tmp = this._task_list;
-		}//synchronized
-		
-		int size = tmp.size();
-		System.out.println("The Queue contains " + size + " elements");
-		if (size > 0)
-			for (String s : tmp)
-				System.out.println(s);
-	}//printTaskList()
+	private void print(String s){
+		System.out.println("Worker ID: " +this.getId()+ " message: " + s);
+	}
+	
 }//class
