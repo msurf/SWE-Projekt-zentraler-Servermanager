@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Usage: createusr USERNAME PASSWORD
+## Usage: createuser USERNAME PASSWORD
 ## by Philipp Tendyra
 
 
