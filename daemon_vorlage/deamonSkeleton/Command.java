@@ -65,7 +65,7 @@ public class Command {
 			 boolean test = p.matcher(i.toLowerCase().trim()).matches();
 			if(test)
 			{
-				String[] tmp = i.split("=");
+				String[] tmp = i.trim().split("=");
 				if(tmp.length <= 1 )
 					return false;
 				
@@ -82,7 +82,7 @@ public class Command {
 			 boolean test = p.matcher(i.toLowerCase().trim()).matches();
 			if(test)
 			{
-				String[] tmp = i.split("=");
+				String[] tmp = i.trim().split("=");
 				if(tmp.length <= 1 )
 					return false;
 				
@@ -100,7 +100,7 @@ public class Command {
 			 boolean test = p.matcher(i).matches();
 			if(test)
 			{
-				String[] tmp = i.split("=");
+				String[] tmp = i.trim().split("=");
 				if(tmp.length <= 1 )
 					return false;
 				
