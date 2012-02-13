@@ -1,14 +1,18 @@
 package deamonSkeleton;
 
+import java.util.ArrayList;
+
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 public class Dispatcher implements ListDataListener{
 
-	private TaskList<String> _task_list = null;
+	private TaskList<Command> _task_list = null;
+	private Communication _com;
 	
-	Dispatcher(TaskList<String> t){
+	Dispatcher(TaskList<Command> t, Communication com){
 		this._task_list = t;
+		this._com = com;
 	}
 	
 	@Override
@@ -23,8 +27,15 @@ public class Dispatcher implements ListDataListener{
 		// Hier werden die Workerthreads implementiert
 		// arg0.getindex0 -> gibt die stelle des Befehls wieder
 		int pos = arg0.getIndex0();
-		String s = (String)this._task_list.getElementAt(pos);
-		Worker work = new Worker(s);
+		Command c = (Command) this._task_list.getElementAt(pos);
+		
+		String message = "CommandName:"+c.getName()+ " CommandFrom:"+c.getFrom();
+		ArrayList<String> tmp = c.getArguments();
+		for(String s : tmp)
+		{
+			message += " Argument:"+s;
+		}
+		Worker work = new Worker(message, this._com);
 		work.start();
 		
 	}

@@ -37,7 +37,7 @@ public class ShellRunner {
 		return result;
 	}
 	
-	public int excecute(String cmd, String[] parameters){
+	public int execute(String cmd, String[] parameters){
 		
 		String params = " ";
 		for(String i : parameters)

@@ -13,7 +13,7 @@ private static final long serialVersionUID = 1L;
 	
 	@Override
 	public Object getElementAt(int arg0) {
-		return this._delegate.get(arg0);
+		return (E)this._delegate.get(arg0);
 	}//getElementAt()
 
 	@Override

@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Administration extends Thread {
 
 	/** The programs task-list */
-	private TaskList<String> _task_list;
+	private TaskList<Command> _task_list;
 	/** The programs communication-thread which is used to communicate with equivalent programs */
 	private Communication _com;
 	
@@ -24,8 +24,8 @@ public class Administration extends Thread {
 	 * starts the worker-thread
 	 */
 	protected void startProgram(){
-	 this._task_list = new TaskList<String>();
-	 this._dispatch = new Dispatcher(this._task_list);
+	 this._task_list = new TaskList<Command>();
+	 this._dispatch = new Dispatcher(this._task_list, this._com);
 	 this._task_list.addListDataListener(this._dispatch);
 	 this._com = new Communication(this._task_list);
 	 this._com.start();
@@ -43,7 +43,7 @@ public class Administration extends Thread {
 		Scanner sc = new Scanner(System.in);
 		while (input != 0) {
 			System.out
-					.println(" 0 -> Stop \n 1 -> new Server \n 2 -> new Port \n 3 -> Send Message\n 4 -> Nothing");
+					.println(" 0 -> Stop \n 1 -> new SendServer \n 2 -> new SendPort \n 3 -> Send Message\n 4 -> Nothing");
 			try{
 			input = sc.nextInt();
 			}//try

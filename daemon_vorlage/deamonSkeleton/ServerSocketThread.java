@@ -14,7 +14,7 @@ public class ServerSocketThread extends Thread {
 	/** temporarily stores the socket, given by the InputThread-class */
 	private Socket _socket = null;
 	/** references the task-list which is created in the Administration-Thread */
-	private TaskList<String> _queue;
+	private TaskList<Command> _queue;
 
 	/**
 	 * This is the constructor
@@ -24,7 +24,7 @@ public class ServerSocketThread extends Thread {
 	 * 
 	 * thread is marked as daemon-thread
 	 */
-	public ServerSocketThread(Socket s, TaskList<String> list) {
+	public ServerSocketThread(Socket s, TaskList<Command> list) {
 		this._socket = s;
 		this._queue = list;
 		setDaemon(true); // all daemon-threads are terminated, if there is no user-thread. the user-thread in this program is the Administration-thread!
@@ -45,10 +45,12 @@ public class ServerSocketThread extends Thread {
 			in = new BufferedReader(new InputStreamReader(
 					_socket.getInputStream()));
 			String text = in.readLine();
+			Command command = new Command();
 			System.out.println("Message : " + text);
-
+			command.splitXML(text);
+			
 			synchronized (this._queue) {
-				this._queue.add(text);
+				this._queue.add(command);
 			}// synchronized
 
 			in.close();

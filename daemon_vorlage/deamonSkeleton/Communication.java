@@ -12,7 +12,7 @@ public class Communication extends Thread {
 	/** stores the port which belongs to the serveradress*/
 	private int _port = 5550;
 	/** stores the reference to the task-list*/
-	private TaskList<String> _task_list = new TaskList<String>();
+	private TaskList<Command> _task_list = new TaskList<Command>();
 	
 	/**
 	 * constructor 
@@ -20,7 +20,7 @@ public class Communication extends Thread {
 	 * 
 	 * thread is marked as daemon-thread
 	 */
-	public Communication(TaskList<String> tasks) {
+	public Communication(TaskList<Command> tasks) {
 		this._task_list = tasks;
 		setDaemon(true);// all daemon-threads are terminated, if there is no user-thread. the user-thread in this program is the Administration-thread!
 	}//constructor
