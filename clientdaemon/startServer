@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DAEMON=$0
+PATH=pwd
+
+su - $DAEMON -c "java -jar Server.jar"
