@@ -1,6 +1,5 @@
 package deamonSkeleton;
 
-import java.util.ArrayList;
 
 /**
  * This Thread coordinates the work which is given by the task-list 
@@ -12,6 +11,8 @@ public class Worker extends Thread {
 	private Communication _com;
 	private boolean daemon = true;
 	private String _message = "default";
+	private String _path = System.getProperty("user.dir");
+	
 	/**
 	 * constructor
 	 * @param list sets the reference to the task-list
@@ -38,10 +39,18 @@ public class Worker extends Thread {
 	 */
 	public void run() {
 		print(this._message);
+		store(this._message);
 	}//run()
 	
 	private void print(String s){
 		System.out.println("Worker ID: " +this.getId()+ " message: " + s);
 	}
+	private void store(String message){
+		String cmd = "echo "+message+">>"+this._path+"/output";
+		System.out.println(cmd);
+		ShellRunner shell = new ShellRunner();
+		shell.execute(cmd);
+	}
+	
 	
 }//class
