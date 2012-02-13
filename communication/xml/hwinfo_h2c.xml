@@ -1,0 +1,3 @@
+<command name="hwinfo" id="unique id" time="unixtimestamp" direction="h2c">
+    <attributes client="id" />
+</command>

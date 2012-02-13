@@ -1,0 +1,3 @@
+<command name="hwinfo" id="unique id" time="unixtimestamp" direction="h2w">
+    <attributes client="id"  ram="4gb" cpu="500hz" ... />
+</command>
