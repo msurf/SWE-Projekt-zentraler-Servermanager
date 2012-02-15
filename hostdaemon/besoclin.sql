@@ -19,4 +19,6 @@ create table installierte_software(ID integer not null unique,
                                    client_ID references client(client_ID)
                                    on delete restrict on update restrict,
                                    software_benutzer text,
-                                   passwort text);   
+                                   passwort text,
+                                   primary key (ID));   
+
