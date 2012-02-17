@@ -5,7 +5,7 @@
     <type>com.umlet.element.custom.Systemborder</type>
     <coordinates>
       <x>20</x>
-      <y>10</y>
+      <y>20</y>
       <w>230</w>
       <h>130</h>
     </coordinates>
@@ -16,7 +16,7 @@
     <type>com.umlet.element.custom.State</type>
     <coordinates>
       <x>70</x>
-      <y>90</y>
+      <y>100</y>
       <w>120</w>
       <h>40</h>
     </coordinates>
@@ -28,7 +28,7 @@ bg=green</panel_attributes>
     <type>com.umlet.element.custom.State</type>
     <coordinates>
       <x>30</x>
-      <y>40</y>
+      <y>50</y>
       <w>100</w>
       <h>40</h>
     </coordinates>
@@ -40,7 +40,7 @@ bg=red</panel_attributes>
     <type>com.umlet.element.custom.State</type>
     <coordinates>
       <x>140</x>
-      <y>40</y>
+      <y>50</y>
       <w>100</w>
       <h>40</h>
     </coordinates>
@@ -52,7 +52,7 @@ bg=blue</panel_attributes>
     <type>com.umlet.element.custom.InitialState</type>
     <coordinates>
       <x>400</x>
-      <y>10</y>
+      <y>20</y>
       <w>20</w>
       <h>20</h>
     </coordinates>
@@ -63,7 +63,7 @@ bg=blue</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>380</x>
-      <y>0</y>
+      <y>10</y>
       <w>50</w>
       <h>100</h>
     </coordinates>
@@ -74,7 +74,7 @@ bg=blue</panel_attributes>
     <type>com.umlet.element.custom.State</type>
     <coordinates>
       <x>300</x>
-      <y>80</y>
+      <y>90</y>
       <w>210</w>
       <h>60</h>
     </coordinates>
@@ -88,7 +88,7 @@ bg=red</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>380</x>
-      <y>110</y>
+      <y>120</y>
       <w>50</w>
       <h>110</h>
     </coordinates>
@@ -99,7 +99,7 @@ bg=red</panel_attributes>
     <type>com.umlet.element.custom.State</type>
     <coordinates>
       <x>310</x>
-      <y>200</y>
+      <y>210</y>
       <w>190</w>
       <h>40</h>
     </coordinates>
@@ -112,7 +112,7 @@ bg=red</panel_attributes>
     <type>com.umlet.element.custom.State</type>
     <coordinates>
       <x>310</x>
-      <y>290</y>
+      <y>300</y>
       <w>190</w>
       <h>40</h>
     </coordinates>
@@ -125,7 +125,7 @@ bg=red</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>380</x>
-      <y>210</y>
+      <y>220</y>
       <w>50</w>
       <h>100</h>
     </coordinates>
@@ -136,7 +136,7 @@ bg=red</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>380</x>
-      <y>300</y>
+      <y>310</y>
       <w>50</w>
       <h>100</h>
     </coordinates>
@@ -147,7 +147,7 @@ bg=red</panel_attributes>
     <type>com.umlet.element.custom.State</type>
     <coordinates>
       <x>350</x>
-      <y>380</y>
+      <y>390</y>
       <w>120</w>
       <h>40</h>
     </coordinates>
@@ -160,7 +160,7 @@ bg=blue</panel_attributes>
     <type>com.umlet.element.custom.State</type>
     <coordinates>
       <x>320</x>
-      <y>480</y>
+      <y>490</y>
       <w>170</w>
       <h>60</h>
     </coordinates>
@@ -174,7 +174,7 @@ bg=blue</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>380</x>
-      <y>390</y>
+      <y>400</y>
       <w>50</w>
       <h>110</h>
     </coordinates>
@@ -185,7 +185,7 @@ bg=blue</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>380</x>
-      <y>510</y>
+      <y>520</y>
       <w>50</w>
       <h>110</h>
     </coordinates>
@@ -196,7 +196,7 @@ bg=blue</panel_attributes>
     <type>com.umlet.element.custom.Systemborder</type>
     <coordinates>
       <x>330</x>
-      <y>600</y>
+      <y>610</y>
       <w>150</w>
       <h>60</h>
     </coordinates>
@@ -209,7 +209,7 @@ bg=blue</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>380</x>
-      <y>630</y>
+      <y>640</y>
       <w>50</w>
       <h>110</h>
     </coordinates>
@@ -220,7 +220,7 @@ bg=blue</panel_attributes>
     <type>com.umlet.element.custom.State</type>
     <coordinates>
       <x>300</x>
-      <y>720</y>
+      <y>730</y>
       <w>230</w>
       <h>50</h>
     </coordinates>
@@ -234,7 +234,7 @@ bg=blue</panel_attributes>
     <type>com.umlet.element.custom.State</type>
     <coordinates>
       <x>320</x>
-      <y>830</y>
+      <y>840</y>
       <w>170</w>
       <h>40</h>
     </coordinates>
@@ -246,7 +246,7 @@ bg=red</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>380</x>
-      <y>740</y>
+      <y>750</y>
       <w>50</w>
       <h>110</h>
     </coordinates>
@@ -257,7 +257,7 @@ bg=red</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>380</x>
-      <y>840</y>
+      <y>850</y>
       <w>50</w>
       <h>110</h>
     </coordinates>
@@ -268,7 +268,7 @@ bg=red</panel_attributes>
     <type>com.umlet.element.custom.FinalState</type>
     <coordinates>
       <x>400</x>
-      <y>930</y>
+      <y>940</y>
       <w>20</w>
       <h>20</h>
     </coordinates>
