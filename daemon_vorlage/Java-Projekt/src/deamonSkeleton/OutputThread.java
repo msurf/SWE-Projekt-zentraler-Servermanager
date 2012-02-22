@@ -1,8 +1,8 @@
 package deamonSkeleton;
 
-import java.io.BufferedWriter;
+import java.beans.XMLEncoder;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -16,8 +16,10 @@ public class OutputThread extends Thread {
 	private String _serveradress;
 	/** stores the port which belongs to the serveradress*/
 	private int _port;
-	/** stores the message*/
-	private String _message;
+	
+	private Config _conf;
+	
+	private Command _command;
 	
 	/**
 	 * constructor
@@ -25,10 +27,11 @@ public class OutputThread extends Thread {
 	 * @param port sets the serverport
 	 * @param message sets the message
 	 */
-	OutputThread(String server, int port, String message){
+	OutputThread(String server, int port, Command com, Config conf){
 		this._serveradress = server;
 		this._port = port;
-		this._message = message;
+		this._command = com;
+		this._conf = conf;
 		setDaemon(true); // all daemon-threads are terminated, if there is no user-thread. the user-thread in this program is the Administration-thread!
 	}//constructor
 	
@@ -43,14 +46,13 @@ public class OutputThread extends Thread {
 	 * closes the socket
 	 */
 	public void sendMessage(){
-		BufferedWriter out;
+		XMLEncoder enc = null;
 		try {
+			Command c = this._command.clone();
+			c.setFrom(this._conf.getIP_own());
 			Socket socket = new Socket(this._serveradress, this._port);
-			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			out.write(this._message);
-			out.newLine();
-			out.flush();
-			out.close();
+			enc = new XMLEncoder(new BufferedOutputStream(socket.getOutputStream()));
+			enc.writeObject(c);
 		}//try 
 		catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -61,5 +63,9 @@ public class OutputThread extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}//catch
+		finally{
+			if(enc != null)
+				enc.close();
+		}
 	}//sendMessage
 }

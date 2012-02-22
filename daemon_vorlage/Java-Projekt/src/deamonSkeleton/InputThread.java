@@ -18,7 +18,8 @@ public class InputThread extends Thread {
 	private int _port = 5550;
 	/** indicates if the port was changed, but not recognized by the listener */
 	private boolean _portchange = false;
-
+	/** stores the reference to the config*/
+	private Config _config;
 	/**
 	 * This is the constructor.
 	 * 
@@ -26,28 +27,17 @@ public class InputThread extends Thread {
 	 * 
 	 * thread is marked as daemon-thread
 	 */
-	InputThread(TaskList<Command> liste) {
+	InputThread(TaskList<Command> liste, Config conf) {
 		this._task_list = liste;
+		this._config = conf;
+		if(this._config != null)
+			this._port = this._config.getPort_own();
 		setDaemon(true);// all daemon-threads are terminated, if there is no
 						// user-thread. the user-thread in this program is the
 						// Administration-thread!
 	}//constructor
-	/**
-	 * This is the constructor.
-	 * 
-	 * @param liste sets the task-list
-	 * @param port sets the port
-	 * 
-	 * thread is marked as daemon-thread
-	 */
-	InputThread(TaskList<Command> liste, int port) {
-		this._task_list = liste;
-		this._port = port;
-		setDaemon(true); // all daemon-threads are terminated, if there is no
-							// user-thread. the user-thread in this program is
-							// the Administration-thread!
-	}//constructor
-
+	
+	
 	/** runs the listenUp-method */
 	public void run() {
 		listenUp();
@@ -76,18 +66,4 @@ public class InputThread extends Thread {
 		}// catch
 		}//while
 	}// listenUp()
-	
-	/**
-	 * changes the port on which the thread is listening
-	 * @param port sets the new port
-	 * 
-	 * sends a message to itself to initialize the use of the new port
-	 */
-	public void changePort(int port){
-		int tmp = this._port;
-		this._port = port;
-		this._portchange = true;
-		OutputThread change = new OutputThread("localhost", tmp, "port changed to " + this._port);
-		change.start();
-	}//changePort()
 }//class
