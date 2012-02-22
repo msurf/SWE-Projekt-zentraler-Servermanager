@@ -46,10 +46,8 @@ public class Worker extends Thread {
 	public void run(){;}
 	
 	public void log(Command c){
-		/*String cmd = "echo "+System.currentTimeMillis()+": "+s+">>"+this._conf.getLogpath()+"/worker_log";
-		//System.out.println(cmd);
-		ShellRunner shell = new ShellRunner();
-		shell.execute(cmd);
-		*/
+		Logger logger = new Logger(this._conf.getLogpath(), "Worker");
+		logger.write("");
+		
 	}
 }//class

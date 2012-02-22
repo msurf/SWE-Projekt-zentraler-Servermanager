@@ -1,6 +1,8 @@
 package deamonSkeleton;
 
+import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -47,12 +49,23 @@ public class OutputThread extends Thread {
 	 */
 	public void sendMessage(){
 		XMLEncoder enc = null;
+		XMLDecoder dec = null;
+		Socket socket = null;
+		Command send = this._command.clone();;
+		Command response = null;
 		try {
-			Command c = this._command.clone();
-			c.setFrom(this._conf.getIP_own());
-			Socket socket = new Socket(this._serveradress, this._port);
+			
+			send.setFrom(this._conf.getIP_own());
+			socket = new Socket(this._serveradress, this._port);
 			enc = new XMLEncoder(new BufferedOutputStream(socket.getOutputStream()));
-			enc.writeObject(c);
+			dec = new XMLDecoder(new BufferedInputStream(socket.getInputStream()));
+			enc.writeObject(send);
+			enc.flush();
+			socket.shutdownOutput(); // socket half opened -> make the input read the Object
+			//response
+			response = (Command) dec.readObject();
+			System.out.println(response.getStatus());
+			new ShellRunner().execute("echo 'Command_ID: " + response.getID() + " : " + response.getStatus()+"'>>"+this._conf.getLogpath()+"/swe.response");
 		}//try 
 		catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -64,6 +77,16 @@ public class OutputThread extends Thread {
 			e.printStackTrace();
 		}//catch
 		finally{
+			if(socket != null)
+			{	try {
+					socket.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(dec != null)
+				dec.close();
 			if(enc != null)
 				enc.close();
 		}

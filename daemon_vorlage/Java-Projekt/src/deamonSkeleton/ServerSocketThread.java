@@ -1,7 +1,9 @@
 package deamonSkeleton;
 
 import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -41,13 +43,18 @@ public class ServerSocketThread extends Thread {
 	 */
 	private void readIn(){
 		XMLDecoder dec = null;
+		XMLEncoder enc = null;
 		try {
+			enc = new XMLEncoder(new BufferedOutputStream(this._socket.getOutputStream()));
 			dec = new XMLDecoder(new BufferedInputStream(this._socket.getInputStream()));
 			Command command = (Command) dec.readObject();
+			command.setStatus(101);
+			enc.writeObject(command);
 			
 			synchronized (this._queue) {
 				this._queue.add(command);
 			}// synchronized
+			
 		}// try
 		catch (IOException e) {
 			// TODO store error on local device
@@ -55,7 +62,8 @@ public class ServerSocketThread extends Thread {
 			e.printStackTrace();
 		}// catch
 		finally{
-			
+			if(enc != null)
+				enc.close();
 			if(dec != null)
 				dec.close();
 		}

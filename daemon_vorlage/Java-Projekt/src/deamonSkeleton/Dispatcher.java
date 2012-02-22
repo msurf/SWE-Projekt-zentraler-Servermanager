@@ -44,11 +44,14 @@ public class Dispatcher implements ListDataListener{
 	}
 
 	private void callWorker_HardwareInfo(){
+		System.out.println("Worker Hardwareinfo");
 		Worker_HardwareInfo work = new Worker_HardwareInfo(this._com, this._conf);
 		work.start();
 	}
 	
 	private void callWorker_Print(Command c){
+		Worker_Print print = new Worker_Print(c, this._com, this._conf);
+		print.start();
 	}
 	
 }

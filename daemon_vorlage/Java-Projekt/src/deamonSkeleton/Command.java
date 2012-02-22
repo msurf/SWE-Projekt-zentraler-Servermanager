@@ -14,11 +14,13 @@ public class Command {
 	private String 	_time		= "default";
 	private int 	_id			= -1;
 	private String _client		= "default";
+	private int		_status		= -1;
+	private String 	_info		= "default";
 	
 	public void setName(String name){this._name = name;}
 	public void setFrom(String from){this._from = from;}
 	public void setFTP_URL(String ftp_url){this._ftp_url = ftp_url;}
-	public void setURl(String url){this._url = url;}
+	public void setURL(String url){this._url = url;}
 	public void setQuery(String query){this._query = query;}
 	public void setUser(String user){this._user = user;}
 	public void setParameter(String params){this._parameter = params;}
@@ -26,11 +28,13 @@ public class Command {
 	public void setTime(String time){this._time = time;}
 	public void setID(int id){this._id = id;}
 	public void setClient(String client){this._client = client;}
+	public void setInfo(String info){this._info = info;}
+	public void setStatus(int status){this._status = status;}
 	
 	public String 	getName(){return this._name;}
 	public String 	getFrom(){return this._from;}
 	public String 	getFTP_URL(){return this._ftp_url;}
-	public String 	getURl(){return this._url;}
+	public String 	getURL(){return this._url;}
 	public String 	getQuery(){return this._query;}
 	public String 	getUser(){return this._user;}
 	public String 	getParameter(){return this._parameter;}
@@ -38,6 +42,8 @@ public class Command {
 	public String 	getTime(){return this._time;}
 	public int 		getID(){return this._id;}
 	public String 	getClient(){return this._client;}
+	public String	getInfo(){return this._info;}
+	public int 		getStatus(){return this._status;}
 	
 	
 	public Command clone(){
@@ -45,7 +51,7 @@ public class Command {
 		c.setName(getName());
 		c.setFrom(getFrom());
 		c.setFTP_URL(getFTP_URL());
-		c.setURl(getURl());
+		c.setURL(getURL());
 		c.setQuery(getQuery());
 		c.setUser(getUser());
 		c.setParameter(getParameter());
@@ -68,6 +74,12 @@ public class Command {
 		System.out.println(_time);
 		System.out.println(_id);
 		System.out.println(_client);
+		System.out.println(_status);
+		System.out.println(_info);
+	}
+	public String toString(){
+		String s = "name:"+_name+";from:"+_from+";ftp_url:"+_ftp_url+";url:"+_url+";query:"+_query+";user:"+_user+";parameter:"+_parameter+";direction:"+_direction+";id"+_id+";time:"+_time+";client"+_client+";status:"+_status+";info:"+_info;       
+		return s;
 	}
 }
 
