@@ -1,0 +1,10 @@
+
+####### visudo ########
+cmd: visudo
+
+bei:
+# User privilege specification
+
+%javadaemon ALL=NOPASSWD: /usr/local/createuser.sh
+%javadaemon ALL=NOPASSWD: /usr/sbin/useradd
+####### visudo ########
