@@ -1,0 +1,41 @@
+#!/bin/bash
+
+apt-get install sudo lshw lscpu screen ssh openjdk-1.6-jdk
+if [ $? = 0 ]
+then 
+	echo everything installed
+else
+	echo bad things happen everywhere
+	echo try once again
+	exit 1
+fi
+
+echo start configuration
+
+user='javadaemon'
+
+adduser $user --shell /bin/bash --home /home/javadaemon
+
+cp createuser 	/usr/local/createuser
+cp ftpget 	/usr/local/ftpget
+cp startServer	/home/$user/startServer
+#cp swe-server /etc/init.d/swe-server
+#cp Server.jar /home/$user/Server.jar
+
+chmod +x /usr/local/createuser
+chmod +x /usr/local/ftpget
+chmod +x /home/$user/startServer
+#chmod +x /etc/init.d/swe-server
+#chmod +x /home/$user/Server.jar
+
+#update-rc.d /etc/init.d/swe-server defaults
+
+## the following lines should never be done like this. please dont try at home, or you might need to reinstall your computer
+echo '# the following lines are script-generated. please consider'>>/etc/sudoers
+echo '%javadaemon	ALL=NOPASSWD: /usr/local/createuser'>>/etc/sudoers
+echo '%javadaemon	ALL=NOPASSWD: /usr/local/useradd'>>/etc/sudoers
+echo '%javadaemon	ALL=NOPASSWD: /usr/local/ftpget'>>/etc/sudoers
+echo '# end of script-generated lines'>>/etc/sudoers
+echo >>/etc/sudoers
+
+echo 'installation done. this is no guarantee that all works proper'
