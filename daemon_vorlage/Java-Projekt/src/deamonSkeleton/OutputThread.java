@@ -1,8 +1,10 @@
 package deamonSkeleton;
 
-import java.io.BufferedWriter;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -16,8 +18,10 @@ public class OutputThread extends Thread {
 	private String _serveradress;
 	/** stores the port which belongs to the serveradress*/
 	private int _port;
-	/** stores the message*/
-	private String _message;
+	
+	private Config _conf;
+	
+	private Command _command;
 	
 	/**
 	 * constructor
@@ -25,10 +29,11 @@ public class OutputThread extends Thread {
 	 * @param port sets the serverport
 	 * @param message sets the message
 	 */
-	OutputThread(String server, int port, String message){
+	OutputThread(String server, int port, Command com, Config conf){
 		this._serveradress = server;
 		this._port = port;
-		this._message = message;
+		this._command = com;
+		this._conf = conf;
 		setDaemon(true); // all daemon-threads are terminated, if there is no user-thread. the user-thread in this program is the Administration-thread!
 	}//constructor
 	
@@ -43,14 +48,24 @@ public class OutputThread extends Thread {
 	 * closes the socket
 	 */
 	public void sendMessage(){
-		BufferedWriter out;
+		XMLEncoder enc = null;
+		XMLDecoder dec = null;
+		Socket socket = null;
+		Command send = this._command.clone();;
+		Command response = null;
 		try {
-			Socket socket = new Socket(this._serveradress, this._port);
-			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			out.write(this._message);
-			out.newLine();
-			out.flush();
-			out.close();
+			
+			send.setFrom(this._conf.getIP_own());
+			socket = new Socket(this._serveradress, this._port);
+			enc = new XMLEncoder(new BufferedOutputStream(socket.getOutputStream()));
+			dec = new XMLDecoder(new BufferedInputStream(socket.getInputStream()));
+			enc.writeObject(send);
+			enc.flush();
+			socket.shutdownOutput(); // socket half opened -> make the input read the Object
+			//response
+			response = (Command) dec.readObject();
+			System.out.println(response.getStatus());
+			new ShellRunner().execute("echo 'Command_ID: " + response.getID() + " : " + response.getStatus()+"'>>"+this._conf.getLogpath()+"/swe.response");
 		}//try 
 		catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -61,5 +76,19 @@ public class OutputThread extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}//catch
+		finally{
+			if(socket != null)
+			{	try {
+					socket.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(dec != null)
+				dec.close();
+			if(enc != null)
+				enc.close();
+		}
 	}//sendMessage
 }

@@ -8,10 +8,11 @@ package deamonSkeleton;
  */
 public class Worker extends Thread {
 	
-	private Communication _com;
-	private boolean daemon = true;
-	private String _message = "default";
-	private String _path = System.getProperty("user.dir");
+	protected Communication _com;
+	protected Config _conf;
+	protected boolean daemon = true;
+	protected Command _command = null;
+	protected String _path = System.getProperty("user.dir");
 	
 	/**
 	 * constructor
@@ -23,34 +24,30 @@ public class Worker extends Thread {
 		setDaemon(daemon); // all daemon-threads are terminated, if there is no user-thread. the user-thread in this program is the Administration-thread!
 	}//constructor
 	
-	Worker(String s){
-		this._message = s;
+	Worker(Command command){
+		this._command = command;
 		setDaemon(daemon);
 	}
 	
-	Worker(String s, Communication com){
+	Worker(Command command, Communication com){
 		this._com = com;
-		this._message = s;
+		this._command = command;
 		setDaemon(daemon);
 	}
-
-	/**
-	 * 
-	 */
-	public void run() {
-		print(this._message);
-		store(this._message);
-	}//run()
 	
-	private void print(String s){
-		System.out.println("Worker ID: " +this.getId()+ " message: " + s);
-	}
-	private void store(String message){
-		String cmd = "echo "+message+">>"+this._path+"/output";
-		System.out.println(cmd);
-		ShellRunner shell = new ShellRunner();
-		shell.execute(cmd);
+	Worker(Command command, Communication com, Config conf)
+	{
+		this._com = com;
+		this._command = command;
+		this._conf = conf;
+		setDaemon(daemon);
 	}
 	
+	public void run(){;}
 	
+	public void log(Command c){
+		Logger logger = new Logger(this._conf.getLogpath(), "Worker");
+		logger.write("");
+		
+	}
 }//class

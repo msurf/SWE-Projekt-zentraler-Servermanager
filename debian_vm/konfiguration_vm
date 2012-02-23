@@ -5,3 +5,5 @@ openjdk-1.6-jdk
 ssh
 sudo
 screen
+lscpu
+lshw

@@ -6,5 +6,6 @@ $this->breadcrumbs=array(
 ?>
 <h1>About</h1>
 
-<p>This is a "static" page. You may change the content of this page
-by updating the file <tt><?php echo __FILE__; ?></tt>.</p>
+<div> Manager für Serverdienste auf Debiansystemen im lokalen Netzwerk </div>
+<div>  Software Engineering Projekt im Rahmen der MATSE-Ausbildung mit parallelem BA-Studium Scientific Programming </div>
+<div> P.Tendyra, F. Mooz, T. Thieron, T. Gies, M.Wolff </div>

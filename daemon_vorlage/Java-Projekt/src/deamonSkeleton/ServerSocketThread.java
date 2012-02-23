@@ -1,8 +1,10 @@
 package deamonSkeleton;
 
-import java.io.BufferedReader;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Socket;
 
 /**
@@ -40,26 +42,30 @@ public class ServerSocketThread extends Thread {
 	 * The operation on the task-list is synchronized.
 	 */
 	private void readIn(){
-		BufferedReader in;
+		XMLDecoder dec = null;
+		XMLEncoder enc = null;
 		try {
-			in = new BufferedReader(new InputStreamReader(
-					_socket.getInputStream()));
-			String text = in.readLine();
-			Command command = new Command();
-			System.out.println("Message : " + text);
-			command.splitXML(text);
+			enc = new XMLEncoder(new BufferedOutputStream(this._socket.getOutputStream()));
+			dec = new XMLDecoder(new BufferedInputStream(this._socket.getInputStream()));
+			Command command = (Command) dec.readObject();
+			command.setStatus(101);
+			enc.writeObject(command);
 			
 			synchronized (this._queue) {
 				this._queue.add(command);
 			}// synchronized
-
-			in.close();
-			// TODO send success to host-server
+			
 		}// try
 		catch (IOException e) {
 			// TODO store error on local device
 			// send error-message to the host-server
 			e.printStackTrace();
 		}// catch
+		finally{
+			if(enc != null)
+				enc.close();
+			if(dec != null)
+				dec.close();
+		}
 	}//readIn
 }// class

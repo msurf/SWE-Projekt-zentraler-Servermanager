@@ -9,10 +9,12 @@ import java.util.Scanner;
  */
 public class Administration extends Thread {
 
-	/** The programs task-list */
+	/** The programs task-list , unique */
 	private TaskList<Command> _task_list;
 	/** The programs communication-thread which is used to communicate with equivalent programs */
 	private Communication _com;
+	/**The Programms Config - unique */
+	private Config _config;
 	
 	private Dispatcher _dispatch;
 	
@@ -24,11 +26,13 @@ public class Administration extends Thread {
 	 * starts the worker-thread
 	 */
 	protected void startProgram(){
+	 System.out.println("Program start");
+		this._config = new Config();
 	 this._task_list = new TaskList<Command>();
-	 this._dispatch = new Dispatcher(this._task_list, this._com);
-	 this._task_list.addListDataListener(this._dispatch);
-	 this._com = new Communication(this._task_list);
+	 this._com = new Communication(this._task_list, this._config);
+	 this._dispatch = new Dispatcher(this._task_list, this._com, this._config);
 	 this._com.start();
+	 this._task_list.addListDataListener(this._dispatch);
 	}//startProgram()
 	
 	
@@ -43,30 +47,65 @@ public class Administration extends Thread {
 		Scanner sc = new Scanner(System.in);
 		while (input != 0) {
 			System.out
-					.println(" 0 -> Stop \n 1 -> new SendServer \n 2 -> new SendPort \n 3 -> Send Message\n 4 -> Nothing");
+					.println(" 0 -> Stop \n 1 -> Build a Command an send it \n 3 -> reload SystemProperties \n 4 -> load the Configfile \n 5 -> write Configfile");
 			try{
 			input = sc.nextInt();
 			}//try
 			catch(InputMismatchException ime){
-				this._com.send(sc.nextLine());
+				System.out.println("Please use the menue");
 			}//catch
 			
 			switch (input) {
 			case 1:
-				this._com.changeServer();
+				send();
 				break; 
 			case 2:
-				this._com.changePort();
 				break;
 			case 3:
-				this._com.send();
+				this._config.getSys();
 				break;
 			case 4:
-				break; 
+				this._config.loadConfig();
+				break;
+			case 5:
+				this._config.writeConfig();
+				break;
+			case 0:
+				stopProgram();
+				break;
 			}//switch
 		}//while
 		
 	}//runDialog()
+	
+	private void stopProgram(){
+		this._config.writeConfig();
+	}
+	private void send(){
+		Command tmp = new Command();
+		tmp.setName(getText("name="));
+		tmp.setDirection(getText("direction="));
+		tmp.setFTP_URL(getText("ftp_url="));
+		tmp.setQuery(getText("query="));
+		tmp.setURL(getText("url="));
+		tmp.setParameter(getText("Parameters="));
+		this._com.send(tmp, this._config.getIP_send(), this._config.getPort_send());
+	}
+	
+	private String getText(String message){
+		Scanner sc = new Scanner(System.in);
+		try{
+			System.out.println(message);
+			String tmp = sc.nextLine();
+			if(tmp.length() > 0)
+				return tmp;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return "default";
+	}
 	
 	/**
 	 * runs the startProgram-method
