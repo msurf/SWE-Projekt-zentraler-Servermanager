@@ -10,7 +10,7 @@ swinfo -> holt software-infos vom Client (name, client)
 
 Page-Java
 authenticate -> user identifizieren (name, user, password) //nur von der Page
-install -> installiert angegebenes Paket (name, client, ftpURL)
+install -> installiert angegebenes Paket (name, client, program)
 start -> start dienst (name, client)
 stop -> stopt dienst (name, client)
 restart -> restarted dienst (name, client)
