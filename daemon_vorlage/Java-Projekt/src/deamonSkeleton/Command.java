@@ -13,9 +13,10 @@ public class Command {
 	private String 	_direction	= "default"; // w2h , h2c , c2h , self
 	private String 	_time		= "default";
 	private int 	_id			= -1;
-	private String _client		= "default";
+	private String 	_client		= "default";
 	private int		_status		= -1;
 	private String 	_info		= "default";
+	private String 	_program	= "default";
 	
 	public void setName(String name){this._name = name;}
 	public void setFrom(String from){this._from = from;}
@@ -30,6 +31,7 @@ public class Command {
 	public void setClient(String client){this._client = client;}
 	public void setInfo(String info){this._info = info;}
 	public void setStatus(int status){this._status = status;}
+	public void setProgram(String program){this._program = program;}
 	
 	public String 	getName(){return this._name;}
 	public String 	getFrom(){return this._from;}
@@ -44,6 +46,7 @@ public class Command {
 	public String 	getClient(){return this._client;}
 	public String	getInfo(){return this._info;}
 	public int 		getStatus(){return this._status;}
+	public String 	getProgram(){return this._program;}
 	
 	
 	public Command clone(){

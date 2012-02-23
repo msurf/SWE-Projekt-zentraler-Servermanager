@@ -56,7 +56,7 @@ public class InputThread extends Thread {
 					this._portchange = false;
 					Socket socket = server.accept();
 					ServerSocketThread sst = new ServerSocketThread(socket,
-							this._task_list);
+							this._task_list, this._config);
 					sst.start();
 				}// while
 		}// try
