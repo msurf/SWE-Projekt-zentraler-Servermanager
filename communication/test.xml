@@ -1,3 +1,0 @@
-<command id="unique id" time="unixtimestamp">
-    <install package="test.zip" client="id" />
-</command>
