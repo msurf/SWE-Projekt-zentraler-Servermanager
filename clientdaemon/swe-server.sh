@@ -2,7 +2,7 @@
 
 ## start/stop-script
 ## by Philipp Tendyra and Samuel Schueppen
-# /etc/init.d/installhelper
+# copy to /etc/init.d/swe-server
 
 ##DAEMON: User-Name for screen
 ##Params: start-parameters
