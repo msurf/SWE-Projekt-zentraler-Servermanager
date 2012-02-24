@@ -1,13 +1,100 @@
 #!/bin/bash
+## This Script is for the Host
+## by Philipp Tendyra
 
+proof=0
 apt-get install sudo lshw lscpu proftpd-basic screen ssh openjdk-1.6-jdk php5 apache2
-if [ $? = 0 ]
-then 
-	echo everything installed
+proof="$proof $?"
+
+echo 'start configuration'
+daemon='swedaemon'
+ftpu='sweftp'
+ftpg='ftpuser'
+
+# system config
+adduser $daemon -home /home/$daemon -shell /bin/bash
+proof="$proof $?"
+cp ftpget 	/usr/local/ftpget
+cp startServer	/home/$daemon/startServer
+#cp swe-server /etc/init.d/swe-server
+#cp Server.jar /home/$user/Server.jar
+
+chmod +x /usr/local/ftpget
+chmod +x /home/$daemon/startServer
+#chmod +x /etc/init.d/swe-server
+#chmod +x /home/$user/Server.jar
+#chown $daemon:$daemon /home/$daemon/Server.jar
+
+mkdir /home/$daemon/repository
+proof="$proof $?"
+chown $daemon:$daemon /home/$daemon/repository
+
+## the following lines are dirty administration. please consider!
+echo '# the following lines are script-generated. please consider'>>/etc/sudoers
+echo '%'$daemon	'ALL=NOPASSWD: /usr/local/ftpget'>>/etc/sudoers
+echo '# end of script-generated lines'>>/etc/sudoers
+echo >>/etc/sudoers
+
+
+
+# apache config
+# default should do for the moment
+
+# ftp config
+ftpconfig='/etc/proftpd/proftpd.conf'
+
+echo	>>$ftpconfig 
+echo	'# script-generated code'>>$ftpconfig 
+echo '<Global>'>>$ftpconfig 
+echo 'RequireValidShell off'>>$ftpconfig 
+echo '</Global>'>>$ftpconfig 
+echo	>>$ftpconfig 
+echo 'DefaultRoot ~ ftpuser'>>$ftpconfig 
+echo
+echo '<Limit LOGIN>'>>$ftpconfig 
+echo 'DenyGroup !ftpuser'>>$ftpconfig 
+echo '</Limit>'>>$ftpconfig
+echo '# end of script-generated code'>>$ftpconfig
+
+/etc/init.d/proftpd restart
+proof="$proof $?"
+
+addgroup $ftpg
+p1=$?
+proof="$proof $p1"
+
+if [ $p1 = 0]
+	adduser $daemon $ftpg
+	proof="$proof $?"
+	adduser $ftpu -shell /bin/false -home /home/$daemon/repository
+	proof="$proof $?"
+	adduser $ftpu $ftpg
+	proof="$proof $?"
 else
-	echo bad things happen everywhere
-	echo try once again
 	exit 1
 fi
+
+
+for i in $proof
+do
+	if [ $i != 0 ]
+	echo 'an error occured'	
+	echo $proof
+	exit 1
+done
+if [ $? = 0 ]
+then 
+	echo 'everything installed'
+else
+	echo 'bad things happen everywhere'
+	echo 'try once again'
+	exit 1
+fi
+
+
+
+
+
+
 
 
