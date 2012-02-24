@@ -1,0 +1,46 @@
+#!/bin/bash
+# usage ServerIP user password file
+# by Philipp Tendyra
+# this script will only be used by the Java-Prog to handle the ftp-requests
+
+
+serverip=$1
+user=$2
+password=$3
+file=$4
+
+
+
+wget -q -N ftp://$user:$password\@$serverip/.packagelist
+if [ $? != 0 ]
+then
+	echo no propper connection
+	exit 1
+fi
+
+
+grep  $file .packagelist
+if [ $? = 0 ]
+then
+	echo package available
+	echo starting download
+	wget -q -N ftp://$user:$password\@$serverip/$file
+	if [ $? != 0]
+	then
+		echo no propper connection
+		exit 1
+	fi
+
+	ls | grep $file
+	if [ $? = 0 ]
+	then 
+		echo $file downloaded
+		exit 0
+	else
+		echo $file could not be downloaded
+		exit 1
+	fi
+else
+	echo package not available
+exit 1
+fi

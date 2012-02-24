@@ -1,0 +1,30 @@
+befehl -> Beschreibung (unbedingt zu besetzende felder)
+immer besetzt sein muss: ID, direction
+
+
+
+Page-Java, Java-Java
+hwinfo -> holt hardware-infos vom Client (name, client)
+swinfo -> holt software-infos vom Client (name, client)
+
+
+Page-Java
+authenticate -> user identifizieren (name, user, password) //nur von der Page
+install -> installiert angegebenes Paket (name, client, program)
+start -> start dienst (name, client)
+stop -> stopt dienst (name, client)
+restart -> restarted dienst (name, client)
+updatehwinfo -> updated die DB mit hwinfo (name, client)
+updateswinfo -> updated die DB mit swinfo (name, client)
+!advanced! getconfig -> holt die Konfigurationsdatei eines Dienstes (name, client, programm
+!advanced! chconfig -> ändert die Konfiguration eines Dienstes(name, client, programm, parameter)
+
+Java-Java
+install -> installiert angegebenes Paket(ftpURL) (name, client, ftpURL)
+start -> startet dienst (name, D.user, D.password, program, client) //D.user der User aus der DB, der zu dem dienst gehört
+stop -> stopt dienst (name, D.user, D.password, program, client)
+restart -> restarted dienst (name, D.user, D.password, program, client)
+!advanced! getconfig -> holt die Konfigurationsdatei eines Dienstes (name, client, programm
+!advanced! chconfig -> ändert die Konfiguration eines Dienstes(name, client, programm, par$
+
+

@@ -1,8 +1,0 @@
-Hier werden die Änderungen und Anmerkungen zur Kommunikation gesammelt.
-
-Benutzer_hinzufuegen -> OK
-Binaries-Installationsskripte_Hinzufuegen -> OK
-
-Status -> bearbeiten
-1. Arrays sind immer eine denkar schlechte Lösung,
-Die Statusdaten sollen permanent von dem Hostdeamon im Hintergrund gepollt werden und in der Datenbank gespeichert werden.

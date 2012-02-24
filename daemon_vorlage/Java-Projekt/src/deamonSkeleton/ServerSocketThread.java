@@ -17,6 +17,10 @@ public class ServerSocketThread extends Thread {
 	private Socket _socket = null;
 	/** references the task-list which is created in the Administration-Thread */
 	private TaskList<Command> _queue;
+	
+	private Command _command = new Command();
+	
+	private Config _config = null;
 
 	/**
 	 * This is the constructor
@@ -26,7 +30,7 @@ public class ServerSocketThread extends Thread {
 	 * 
 	 * thread is marked as daemon-thread
 	 */
-	public ServerSocketThread(Socket s, TaskList<Command> list) {
+	public ServerSocketThread(Socket s, TaskList<Command> list, Config config) {
 		this._socket = s;
 		this._queue = list;
 		setDaemon(true); // all daemon-threads are terminated, if there is no user-thread. the user-thread in this program is the Administration-thread!
@@ -47,14 +51,15 @@ public class ServerSocketThread extends Thread {
 		try {
 			enc = new XMLEncoder(new BufferedOutputStream(this._socket.getOutputStream()));
 			dec = new XMLDecoder(new BufferedInputStream(this._socket.getInputStream()));
-			Command command = (Command) dec.readObject();
-			command.setStatus(101);
-			enc.writeObject(command);
+			this._command = (Command) dec.readObject();
+			
 			
 			synchronized (this._queue) {
-				this._queue.add(command);
+				this._queue.add(this._command);
 			}// synchronized
-			
+			this._command.setStatus(101);
+			work();
+			enc.writeObject(this._command);
 		}// try
 		catch (IOException e) {
 			// TODO store error on local device
@@ -68,4 +73,16 @@ public class ServerSocketThread extends Thread {
 				dec.close();
 		}
 	}//readIn
+	private void work(){
+		String name = this._command.getName();
+		boolean work_done = false;
+		if(name.equals("hwinfo"))
+		{
+			this._command.setInfo(this._config.hwinfo());
+			work_done = true;
+		}
+		
+		if(work_done)
+			this._command.setStatus(102);
+	}
 }// class
