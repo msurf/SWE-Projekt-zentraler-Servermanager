@@ -4,6 +4,8 @@ immer besetzt sein muss: ID, direction
 alles was ein :direct response enthält, wird direkt im ServerSocketThread erledigt und nicht in einem Worker!!
 Dies ist vor allem für die Page wichtig, denn dso werden die Daten über den selben Socket zurück geschickt.
 
+Nur für die nicht "direct response" werden Worker erstellt!
+
 die !advanced! machen wir noch nicht, der rest muss da sein. grundsätzlich wird in der Antwort, egal ob direkt oder auf einem anderen Socket, der status = 105(response) und die info mit der antwort gesetzt. Arrays werden in einem String dargestellt, Trennzeichen ist #.
 
 Page-Java
