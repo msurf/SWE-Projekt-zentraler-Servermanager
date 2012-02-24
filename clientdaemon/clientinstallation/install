@@ -1,0 +1,48 @@
+#!/bin/bash
+## This script is for the clients
+## by Philipp Tendyra
+
+proof=0
+
+apt-get install sudo lshw lscpu screen ssh openjdk-1.6-jdk
+proof="$proof $?"
+echo 'start configuration'
+
+daemon='swedaemon'
+
+adduser $daemon -shell /bin/bash -home /home/javadaemon
+proof="$proof $?"
+
+cp createuser 	/usr/local/createuser
+cp ftpget 	/usr/local/ftpget
+cp startServer	/home/$daemon/startServer
+#cp swe-server /etc/init.d/swe-server
+#cp Server.jar /home/$user/Server.jar
+
+chmod +x /usr/local/createuser
+chmod +x /usr/local/ftpget
+chmod +x /home/$daemon/startServer
+#chmod +x /etc/init.d/swe-server
+#chmod +x /home/$user/Server.jar
+#chown $daemon:$daemon /home/$daemon/Server.jar
+
+#update-rc.d /etc/init.d/swe-server defaults
+# proof="$proof $?"
+
+## the following lines are dirty administration. please consider!
+echo '# the following lines are script-generated. please consider'>>/etc/sudoers
+echo '%'$daemon	'ALL=NOPASSWD: /usr/local/createuser'>>/etc/sudoers
+echo '%'$daemon	'ALL=NOPASSWD: /usr/local/useradd'>>/etc/sudoers
+echo '%'$daemon	'ALL=NOPASSWD: /usr/local/ftpget'>>/etc/sudoers
+echo '# end of script-generated lines'>>/etc/sudoers
+echo >>/etc/sudoers
+
+echo 'installation done. this is no guarantee that all works proper'
+
+for i in $proof
+do
+	if [ $i != 0 ]
+	echo 'an error occured'	
+	echo $proof
+	exit 1
+done
