@@ -33,6 +33,7 @@ public class ServerSocketThread extends Thread {
 	public ServerSocketThread(Socket s, TaskList<Command> list, Config config) {
 		this._socket = s;
 		this._queue = list;
+		this._config = config;
 		setDaemon(true); // all daemon-threads are terminated, if there is no user-thread. the user-thread in this program is the Administration-thread!
 	}// constructor
 
@@ -79,6 +80,11 @@ public class ServerSocketThread extends Thread {
 		if(name.equals("hwinfo"))
 		{
 			this._command.setInfo(this._config.hwinfo());
+			work_done = true;
+		}
+		if(name.equals("swinfo"))
+		{
+			this._command.setInfo(this._config.swinfo());
 			work_done = true;
 		}
 		

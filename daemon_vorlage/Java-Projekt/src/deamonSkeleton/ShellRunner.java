@@ -1,6 +1,7 @@
 package deamonSkeleton;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -13,6 +14,17 @@ public class ShellRunner {
 		this._input = new ArrayList<String>();
 		this._output = new ArrayList<String>();
 	}//constructor
+	
+	public void executeScript(String script){
+		File file = new File(script);
+		if(!file.exists())
+			System.out.println("Problem with the Shellscript at:" + script);
+		else
+			if(script.matches("/.*"))
+				execute("."+script);
+			else
+				execute("./"+script);
+	}
 	
 	public int execute(String cmd){
 		int result = 1;
