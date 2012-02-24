@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# copy to the same directory as Server.jar
+
+DAEMON=$0
+PATH=pwd
+
+su - $DAEMON -c "java -jar Server.jar"

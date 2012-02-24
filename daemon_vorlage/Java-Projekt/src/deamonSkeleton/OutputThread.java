@@ -65,6 +65,7 @@ public class OutputThread extends Thread {
 			//response
 			response = (Command) dec.readObject();
 			System.out.println(response.getStatus());
+			System.out.println(response.getInfo());
 			new ShellRunner().execute("echo 'Command_ID: " + response.getID() + " : " + response.getStatus()+"'>>"+this._conf.getLogpath()+"/swe.response");
 		}//try 
 		catch (UnknownHostException e) {
