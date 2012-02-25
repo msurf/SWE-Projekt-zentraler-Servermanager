@@ -1,0 +1,7 @@
+status 		: nummer
+gesendet	: 100
+erhalten 	: 101
+verarbeitet	: 102
+information	: 103
+request		: 104
+response	: 105

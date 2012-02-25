@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.6.0_23" class="java.beans.XMLDecoder">
+ <object class="xml.Command">
+  <void property="direction">
+   <string>p2h</string>
+  </void>
+  <void property="from">
+   <string>Webpage</string>
+  </void>
+  <void property="info">
+   <string>Max Mustermann</string>
+  </void>
+  <void property="name">
+   <string>data_request</string>
+  </void>
+  <void property="query">
+   <string>SELECT name FROM studenten  WHERE matrnr = like 12345</string>
+  </void>
+  <void property="status">
+   <int>202</int>
+  </void>
+ </object>
+</java>
