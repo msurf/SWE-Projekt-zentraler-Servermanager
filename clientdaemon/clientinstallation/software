@@ -1,12 +1,3 @@
 #!/bin/bash
-## this script echos all users with a homepath
 
-hpath=$(ls /home)
-for i in $hpath
-do
-	grep -q $i /etc/passwd
-	if [ $? = 0 ]
-	then
-		echo $i
-	fi
-done
+ls services/

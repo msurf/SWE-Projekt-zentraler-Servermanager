@@ -1,0 +1,15 @@
+#!/bin/bash
+
+SERVICE=$1
+PACKAGE=$2
+
+ls services/ | grep $SERVICE
+if [ $? != 0]
+then
+	mkdir services/$SERVICE
+	cd services/$SERVICE
+	tar -xzf $PACKAGE
+	$(./install)
+else
+	exit 1
+fi

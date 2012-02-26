@@ -1,0 +1,20 @@
+root -> init.d/swe-server -> /home/swedaemon/startServer per su, screen for Server.jar owned by root 
+
+swedaemon
+
+/home/swedaemon/...
+		Server.jar
+		startServer	#redo
+		service		#redo
+		software 	#redo
+		ftpget
+		installservice	#todo
+		services/...
+			service1/startService	#todo
+			service2/startService	#todo
+			...
+
+/usr/local/...
+		createuser
+
+/etc/init.d/swe-server
