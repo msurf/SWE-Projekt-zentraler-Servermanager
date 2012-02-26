@@ -7,30 +7,30 @@
 ##DAEMON: User-Name for screen
 ##Params: start-parameters
 
-DAEMON="swedaemon"
-CMD="/home/$DAEMON/startServer $DAEMON"
+DAEMON=$1
+CMD="su - $DAEMON -c '/home/$DAEMON/startServer'"
 
 start() {
 
-if [ `whoami` != "root" ]; then
+if [ `whoami` != "swedaemon" ]; then
 	echo "Wrong User : "'whoami'
 	exit 1
 fi
 
-screen -AmdS $DAEMON $CMD
+screen -dmS $DAEMON $CMD
 }
 
 stop() {
 
 
-if [ `whoami` != "root" ]; then
+if [ `whoami` != "swedaemon" ]; then
 	echo "Wrong User : "'whoami'
 	exit 1
 fi
 
-screen -S $DAEMON -X stuff $'0\n'
+#screen -S $DAEMON -X stuff $'0\n'
 
-
+screen kill $DAEMON
 }
 
 restart() {
@@ -39,7 +39,7 @@ restart() {
 
 }
 
-case "$1" in
+case "$2" in
 start)
 	start
 	;;

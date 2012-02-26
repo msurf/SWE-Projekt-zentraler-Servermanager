@@ -35,6 +35,7 @@ Java-Java
 updateclientstatus -> holt status vom client (name, client) : direct response 	Host führt einen hwinfo und swinfo aus
 hwinfo -> holt hardware-infos vom Client (name, client) :direct response	Host/Client
 swinfo -> holt software-infos vom Client (name, client)	:direct response	Host/Client
+
 install -> installiert angegebenes Paket(ftpURL) (name, client, ftpURL)		Host/Client
 start -> startet dienst (name, D.user, D.password, program, client) //D.user der User aus der DB, der zu dem dienst gehört	Host/Client
 stop -> stopt dienst (name, D.user, D.password, program, client)		Host/Client
