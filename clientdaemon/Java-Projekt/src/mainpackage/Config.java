@@ -159,7 +159,7 @@ public class Config {
 		return true;
 	}
 	
-	protected void getSys(){
+	public void getSys(){
 		System.out.println("Checking for Hardware");
 		SystemProperties props = new SystemProperties();
 		//while(!props.done())
@@ -171,7 +171,7 @@ public class Config {
 		this._architectur = props.getArchitecture();
 		System.out.println("Hardware updated");
 	}
-	protected void getSof(){
+	public void getSof(){
 		System.out.println("Checking for Software");
 		SystemSoftware soft = new SystemSoftware();
 		ArrayList<String> tmp = soft.getSoftware();

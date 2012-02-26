@@ -30,13 +30,40 @@ public class Dispatcher implements ListDataListener{
 		int pos = arg0.getIndex0();
 		Command c = (Command) this._task_list.getElementAt(pos);
 		String name= c.getName();
-		
-		if(name.equals("hwinfo"))
+		boolean done = false;
+		if(name.equals("reloadconfig"))
+		{
+			callWorker_reloadconfig(c);
+			done = true;
+		}
+		if(name.equals("install"))
+		{
+			callWorker_install(c);
+			done = true;
+		}
+		if(name.equals("start"))
+		{
+			callWorker_start(c);
+			done = true;
+		}
+		if(name.equals("stop"))
+		{
+			callWorker_stop(c);
+			done = true;
+		}
+		if(name.equals("restart"))
+		{
+			callWorker_restart(c);
+			done = true;
+		}
+		/* Not in user because of direct response
+		 * if(name.equals("hwinfo"))
 			callWorker_HardwareInfo(c);
 		if(name.equals("swinfo"))
 			callWorker_SoftwareInfo(c);
-		else
-			callWorker_Print(c);
+		*/
+		if(!done)
+		callWorker_Print(c);
 	}
 
 	@Override
@@ -50,10 +77,24 @@ public class Dispatcher implements ListDataListener{
 		Worker_HardwareInfo work = new Worker_HardwareInfo(this._com, this._conf, command);
 		work.start();
 	}
-	private void callWorker_SoftwareInfo(Command command){
+		
+	private void callWorker_reloadconfig(Command command){
+		
+	}
+	private void callWorker_install(Command command){
+		
+	}
+	private void callWorker_start(Command command){
+		
+	}
+	private void callWorker_stop(Command command){
+		
+	}
+	private void callWorker_restart(Command command){
 		
 	}
 	
+
 	private void callWorker_Print(Command c){
 		Worker_Print print = new Worker_Print(c, this._com, this._conf);
 		print.start();
