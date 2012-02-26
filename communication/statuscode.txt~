@@ -2,11 +2,13 @@ status 		: nummer
 gesendet	: 100
 erhalten 	: 101	//client/host
 verarbeitet	: 102	//client/host -> worker
-information	: 103	//client/host  wird benutzt, wenn informationen im "anhang sind, die es zu verarbeiten gild"
+information	: 103	//client/host  wird benutzt, wenn informationen im "anhang sind, die es zu verarbeiten gilt"
+fehler		: 200
 
 request		: 104	//page
 response	: 105	//direct response
-refused		: 106
+refused		: 201
+
 
 es werden nicht alle benutzt
 

@@ -19,5 +19,12 @@ public class Worker_reloadconfig extends Worker{
 		this._command.setStatus(102);
 		this._command.setInfo("Config reloaded");
 	}
+	
+	public void run()
+	{
+		updateConfig();
+		updateCommand();
+		this._com.send(this._command, this._conf.getIP_send(), this._conf.getPort_send());
+	}
 
 }

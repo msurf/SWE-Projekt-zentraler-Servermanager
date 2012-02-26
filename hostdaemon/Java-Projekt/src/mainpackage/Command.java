@@ -5,15 +5,12 @@ public class Command {
 
 	private String 	_name		= "default";
 	private String 	_from		= "default";
-	private String 	_ftp_url	= "default";
+	private String 	_ftp_ip		= "default";
+	private String	_ftp_file	= "default";
 	private String 	_url 		= "default";
 	private String 	_query		= "default";
 	private String 	_user		= "default";
-<<<<<<< HEAD
-	private String _password = "default";
-=======
 	private String	_password	= "default";
->>>>>>> 50c1c235319e48d9f2de08d7fa09f38b668bc707
 	private String 	_parameter	= "default"; //all paramters are separated by a semicolon(;)
 	private String 	_direction	= "default"; // w2h , h2c , c2h , self
 	private String 	_time		= "default";
@@ -25,7 +22,8 @@ public class Command {
 	
 	public void setName(String name){this._name = name;}
 	public void setFrom(String from){this._from = from;}
-	public void setFTP_URL(String ftp_url){this._ftp_url = ftp_url;}
+	public void setFTP_IP(String ftp_ip){this._ftp_ip = ftp_ip;}
+	public void setFTP_File(String file){this._ftp_file = file;}
 	public void setURL(String url){this._url = url;}
 	public void setQuery(String query){this._query = query;}
 	public void setUser(String user){this._user = user;}
@@ -41,15 +39,12 @@ public class Command {
 	
 	public String 	getName(){return this._name;}
 	public String 	getFrom(){return this._from;}
-	public String 	getFTP_URL(){return this._ftp_url;}
+	public String 	getFTP_IP(){return this._ftp_ip;}
+	public String	getFTP_File(){return this._ftp_file;}
 	public String 	getURL(){return this._url;}
 	public String 	getQuery(){return this._query;}
 	public String 	getUser(){return this._user;}
-<<<<<<< HEAD
-	public String  	getPassword(){return this._password;}
-=======
 	public String	getPassword(){return this._password;}
->>>>>>> 50c1c235319e48d9f2de08d7fa09f38b668bc707
 	public String 	getParameter(){return this._parameter;}
 	public String 	getDirection(){return this._direction;}
 	public String 	getTime(){return this._time;}
@@ -64,10 +59,12 @@ public class Command {
 		Command c = new Command();
 		c.setName(getName());
 		c.setFrom(getFrom());
-		c.setFTP_URL(getFTP_URL());
+		c.setFTP_IP(getFTP_IP());
+		c.setFTP_File(getFTP_File());
 		c.setURL(getURL());
 		c.setQuery(getQuery());
 		c.setUser(getUser());
+		c.setPassword(getPassword());
 		c.setParameter(getParameter());
 		c.setDirection(getDirection());
 		c.setTime(getTime());
@@ -79,10 +76,12 @@ public class Command {
 	public void print(){
 		System.out.println(_name);
 		System.out.println(_from);
-		System.out.println(_ftp_url);
+		System.out.println(_ftp_ip);
+		System.out.println(_ftp_file);
 		System.out.println(_url);
 		System.out.println(_query);
 		System.out.println(_user);
+		System.out.println(_password);
 		System.out.println(_parameter);
 		System.out.println(_direction);
 		System.out.println(_time);
@@ -92,7 +91,7 @@ public class Command {
 		System.out.println(_info);
 	}
 	public String toString(){
-		String s = "name:"+_name+";from:"+_from+";ftp_url:"+_ftp_url+";url:"+_url+";query:"+_query+";user:"+_user+";parameter:"+_parameter+";direction:"+_direction+";id"+_id+";time:"+_time+";client"+_client+";status:"+_status+";info:"+_info;       
+		String s = "name:"+_name+";from:"+_from+";ftp_url:"+_ftp_ip+";ftp_file:"+_ftp_file+";url:"+_url+";query:"+_query+";user:"+_user+";parameter:"+_parameter+";direction:"+_direction+";id"+_id+";time:"+_time+";client"+_client+";status:"+_status+";info:"+_info;       
 		return s;
 	}
 }

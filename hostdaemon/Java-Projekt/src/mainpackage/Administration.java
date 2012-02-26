@@ -84,11 +84,6 @@ public class Administration extends Thread {
 	private void send(){
 		Command tmp = new Command();
 		tmp.setName(getText("name="));
-		tmp.setDirection(getText("direction="));
-		tmp.setFTP_URL(getText("ftp_url="));
-		tmp.setQuery(getText("query="));
-		tmp.setURL(getText("url="));
-		tmp.setParameter(getText("Parameters="));
 		this._com.send(tmp, this._config.getIP_send(), this._config.getPort_send());
 	}
 	

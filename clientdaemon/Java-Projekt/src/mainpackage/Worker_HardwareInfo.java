@@ -20,7 +20,7 @@ public class Worker_HardwareInfo extends Worker{
 		Command cnew = new Command();
 		cnew.setDirection("c2h");
 		cnew.setName("hwinfo-back");
-		cnew.setStatus(105);
+		cnew.setStatus(103);
 		cnew.setFrom(this._conf.getIP_own());
 		cnew.setInfo(this._conf.hwinfo());
 		this._com.send(cnew, this._conf.getIP_send(), this._conf.getPort_send());
