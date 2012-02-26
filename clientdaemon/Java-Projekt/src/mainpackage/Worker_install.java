@@ -42,8 +42,7 @@ public class Worker_install extends Worker{
 			String file = this._command.getFTP_File();
 			shell.execute("./ftpget "+ip+" "+"sweftp sweftp1234 "+file);
 			//installing package
-			String[] tmp = file.split("/");
-			String pack = tmp[tmp.length-1];
+			String pack = this._command.getProgram()+"tar.gz";
 			shell.execute("./installService "+service+" " + pack);
 			
 			this._command.setStatus(102);
