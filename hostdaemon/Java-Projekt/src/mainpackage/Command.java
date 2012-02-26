@@ -9,6 +9,7 @@ public class Command {
 	private String 	_url 		= "default";
 	private String 	_query		= "default";
 	private String 	_user		= "default";
+	private String _password = "default";
 	private String 	_parameter	= "default"; //all paramters are separated by a semicolon(;)
 	private String 	_direction	= "default"; // w2h , h2c , c2h , self
 	private String 	_time		= "default";
@@ -24,6 +25,7 @@ public class Command {
 	public void setURL(String url){this._url = url;}
 	public void setQuery(String query){this._query = query;}
 	public void setUser(String user){this._user = user;}
+	public void setPassword(String password){this._password = password;}
 	public void setParameter(String params){this._parameter = params;}
 	public void setDirection(String direction){this._direction = direction;}
 	public void setTime(String time){this._time = time;}
@@ -39,6 +41,7 @@ public class Command {
 	public String 	getURL(){return this._url;}
 	public String 	getQuery(){return this._query;}
 	public String 	getUser(){return this._user;}
+	public String  	getPassword(){return this._password;}
 	public String 	getParameter(){return this._parameter;}
 	public String 	getDirection(){return this._direction;}
 	public String 	getTime(){return this._time;}

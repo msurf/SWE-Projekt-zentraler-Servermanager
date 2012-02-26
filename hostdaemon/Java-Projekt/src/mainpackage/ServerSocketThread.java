@@ -6,6 +6,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.*;
 
 /**
  * This Thread handles the incoming requests and adds the message to the task-list
@@ -38,7 +39,7 @@ public class ServerSocketThread extends Thread {
 	}// constructor
 
 	/** runs the readIn-method */
-	public void run() {
+	public void run(){
 		readIn();
 	}// run()
 	
@@ -75,15 +76,26 @@ public class ServerSocketThread extends Thread {
 				dec.close();
 		}
 	}//readIn
-	private void work(){
+	private void work() {
 		String name = this._command.getName();
 		boolean work_done = false;
+		database base = new database();
 		if(name.equals("authenticate"))
 		{
-			//TODO
-			// Database request for the user and the password to proof
-			// setInfo(); <- here are the infos about the user(syntax: correct:admin or incorrect:none -> loginstatus:right)
-			work_done = true;
+			try {
+				String erg = base.getInfo_Authenticate(this._command.getUser(),this._command.getPassword());
+				this._command.setInfo(erg);
+				work_done = true;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
 		}
 		if(name.equals("getclients"))
 		{
