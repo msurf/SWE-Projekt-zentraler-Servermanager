@@ -3,6 +3,7 @@
 	<name>SWE_Projekt</name>
 	<comment></comment>
 	<projects>
+		<project>Hostdaemon</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

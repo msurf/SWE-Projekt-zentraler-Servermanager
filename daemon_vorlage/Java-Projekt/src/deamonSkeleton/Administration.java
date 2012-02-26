@@ -27,7 +27,7 @@ public class Administration extends Thread {
 	 */
 	protected void startProgram(){
 	 System.out.println("Program start");
-		this._config = new Config();
+	 this._config = new Config();
 	 this._task_list = new TaskList<Command>();
 	 this._com = new Communication(this._task_list, this._config);
 	 this._dispatch = new Dispatcher(this._task_list, this._com, this._config);
