@@ -76,6 +76,7 @@ public class ServerSocketThread extends Thread {
 		}
 	}//readIn
 	private void work(){
+		// direct response
 		String name = this._command.getName();
 		boolean work_done = false;
 		if(name.equals("hwinfo"))

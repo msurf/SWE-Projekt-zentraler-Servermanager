@@ -16,12 +16,14 @@ proof="$proof $?"
 cp createuser 	/usr/local/createuser
 cp ftpget 	/usr/local/ftpget
 cp startServer	/home/$daemon/startServer
+cp software	/home/$daemon/software
 #cp swe-server /etc/init.d/swe-server
 #cp Server.jar /home/$user/Server.jar
 
 chmod +x /usr/local/createuser
 chmod +x /usr/local/ftpget
 chmod +x /home/$daemon/startServer
+chmod +x /home/$daemon/software
 #chmod +x /etc/init.d/swe-server
 #chmod +x /home/$user/Server.jar
 #chown $daemon:$daemon /home/$daemon/Server.jar

@@ -1,6 +1,5 @@
 #!/bin/bash
 ## this script echos all users with a homepath
-
 hpath=$(ls /home)
 for i in $hpath
 do

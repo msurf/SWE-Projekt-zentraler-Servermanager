@@ -44,15 +44,17 @@ public class Administration extends Thread {
 	private void runDialog(){
 		
 		int input = -1;
-		Scanner sc = new Scanner(System.in);
+		Scanner sc = null;
 		while (input != 0) {
 			System.out
 					.println(" 0 -> Stop \n 1 -> Build a Command an send it \n 3 -> reload SystemProperties \n 4 -> load the Configfile \n 5 -> write Configfile");
+			sc = new Scanner(System.in);
 			try{
 			input = sc.nextInt();
 			}//try
 			catch(InputMismatchException ime){
 				System.out.println("Please use the menue");
+				input = -1;
 			}//catch
 			
 			switch (input) {

@@ -26,7 +26,7 @@ public class ShellRunner {
 				execute("./"+script);
 	}
 	
-	public int execute(String cmd){
+	public int execute(String cmd){ //TODO throws erstellen
 		int result = 1;
 				this._input.add("Time: " + System.currentTimeMillis() + " cmd: " + cmd);
 		try {
