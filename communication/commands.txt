@@ -26,7 +26,7 @@ restart -> restarted dienst (name, client, clientID)
 updatehwinfo -> updated die DB mit hwinfo (name, client, clientID)
 updateswinfo -> updated die DB mit swinfo (name, client, clientID)
 updateclientstatus -> updated clientstatus aller Clients in der DB (name)
-updaterepoliste -> updated die liste der verfügbaren software in der DB (name)
+updaterepolist -> updated die liste der verfügbaren software in der DB (name)
 
 !advanced! getconfig -> holt die Konfigurationsdatei eines Dienstes (name, client, clientID, programm
 !advanced! chconfig -> ändert die Konfiguration eines Dienstes(name, client, clientID, programm, parameter)
