@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.6.0_23" class="java.beans.XMLDecoder">
+ <object class="xml.Command">
+  <void property="FTP_File">
+   <string>_ftp_file</string>
+  </void>
+  <void property="FTP_IP">
+   <string>_ftp_ip</string>
+  </void>
+  <void property="ID">
+   <int>101</int>
+  </void>
+  <void property="URL">
+   <string>_url</string>
+  </void>
+  <void property="client">
+   <string>_client</string>
+  </void>
+  <void property="clientID">
+   <int>202</int>
+  </void>
+  <void property="direction">
+   <string>_direction</string>
+  </void>
+  <void property="from">
+   <string>_from</string>
+  </void>
+  <void property="info">
+   <string>_info</string>
+  </void>
+  <void property="name">
+   <string>_name</string>
+  </void>
+  <void property="parameter">
+   <string>_parameter</string>
+  </void>
+  <void property="password">
+   <string>_password</string>
+  </void>
+  <void property="program">
+   <string>_program</string>
+  </void>
+  <void property="query">
+   <string>_query</string>
+  </void>
+  <void property="status">
+   <int>303</int>
+  </void>
+  <void property="time">
+   <string>_time</string>
+  </void>
+  <void property="user">
+   <string>_user</string>
+  </void>
+ </object>
+</java>
