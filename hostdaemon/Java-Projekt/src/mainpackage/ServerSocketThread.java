@@ -82,7 +82,6 @@ public class ServerSocketThread extends Thread {
 		database base = new database();
 		if(name.equals("authenticate"))
 		{
-<<<<<<< HEAD
 			try {
 				String erg = base.getInfo_Authenticate(this._command.getUser(),this._command.getPassword());
 				this._command.setInfo(erg);
@@ -97,7 +96,6 @@ public class ServerSocketThread extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}		
-=======
 			//TODO
 			// Database request for the user and the password to proof
 			// setInfo(); <- here are the infos about the user(syntax: correct:admin or incorrect:none -> loginstatus:right)
@@ -105,7 +103,6 @@ public class ServerSocketThread extends Thread {
 			String dbresponse = "Das was die Datenbank ausgibt, in einer Sinnvollen Reihenfolge"; //hier wäre das nur correct:admin or incorrect:none -> loginstatus:right
 			this._command.setInfo(dbresponse); // hier wirds in das Objekt gespeichert
 			work_done = true;
->>>>>>> 50c1c235319e48d9f2de08d7fa09f38b668bc707
 		}
 		if(name.equals("getclients"))
 		{
