@@ -99,7 +99,7 @@ public class ServerSocketThread extends Thread {
 	private void work() throws SQLException, ClassNotFoundException, Exception {
 		String name = this._command.getName();
 		boolean work_done = false;
-		database base = new database();
+		Database base = new Database();
 		if(name.equals("authenticate"))
 		{		
 				String erg = base.getInfo_Authenticate(this._command.getUser(),this._command.getPassword());
