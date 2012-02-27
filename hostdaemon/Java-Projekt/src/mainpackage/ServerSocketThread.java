@@ -55,7 +55,18 @@ public class ServerSocketThread extends Thread {
 			dec = new XMLDecoder(new BufferedInputStream(this._socket.getInputStream()));
 			this._command = (Command) dec.readObject();
 			this._command.setStatus(101);
-			work();
+			try {
+				work();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if(this._command.getStatus() != 105)//105 is response, responding commands are allready done
 			{
 				synchronized (this._queue) {
@@ -76,47 +87,25 @@ public class ServerSocketThread extends Thread {
 				dec.close();
 		}
 	}//readIn
-	private void work() {
+	private void work() throws SQLException, ClassNotFoundException, Exception {
 		String name = this._command.getName();
 		boolean work_done = false;
 		database base = new database();
 		if(name.equals("authenticate"))
-		{
-<<<<<<< HEAD
-			try {
+		{		
 				String erg = base.getInfo_Authenticate(this._command.getUser(),this._command.getPassword());
 				this._command.setInfo(erg);
 				work_done = true;
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}		
-=======
-			//TODO
-			// Database request for the user and the password to proof
-			// setInfo(); <- here are the infos about the user(syntax: correct:admin or incorrect:none -> loginstatus:right)
-			String dbbefehl = this._command.getQuery(); // das ist der befehl der auf die db angewand wird
-			String dbresponse = "Das was die Datenbank ausgibt, in einer Sinnvollen Reihenfolge"; //hier wäre das nur correct:admin or incorrect:none -> loginstatus:right
-			this._command.setInfo(dbresponse); // hier wirds in das Objekt gespeichert
-			work_done = true;
->>>>>>> 50c1c235319e48d9f2de08d7fa09f38b668bc707
 		}
 		if(name.equals("getclients"))
-		{
-			//TODO
-			//holt die liste der verfügbaren clients aus der Datenbank
+		{			
+				String erg = base.getInfo_getClients();	
+				this._command.setInfo(erg);
 		}
 		if(name.equals("getclientstatus"))
 		{
 			//TODO
-			//holt den status vom Client
-			
+			//holt den status vom Client			
 		}
 		if(name.equals("getrepoliste"))
 		{
