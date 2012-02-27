@@ -30,11 +30,63 @@ public class Dispatcher implements ListDataListener{
 		int pos = arg0.getIndex0();
 		Command c = (Command) this._task_list.getElementAt(pos);
 		String name= c.getName();
-		
-		if(name.equals("hwinfo"))
-			callWorker_HardwareInfo();
-		else
+		boolean done = false;
+		if(c.getStatus() != 100 && c.getStatus() != 103)
+		{
 			callWorker_Print(c);
+			done = true;
+		}
+		//commands start
+		if(name.equals("addclient"))
+		{
+			callWorker_addclient(c);
+			done = true;
+		}
+		if(name.equals("install"))
+		{
+			callWorker_install(c);
+			done = true;
+		}
+		if(name.equals("start"))
+		{
+			callWorker_start(c);
+			done = true;
+		}
+		if(name.equals("stop"))
+		{
+			callWorker_stop(c);
+			done = true;
+		}
+		if(name.equals("restart"))
+		{
+			callWorker_restart(c);
+			done = true;
+		}
+		if(name.equals("updatehwinfo"))
+		{
+			callWorker_updatehwinfo(c);
+			done = true;
+		}
+		if(name.equals("updateswinfo"))
+		{
+			callWorker_updateswinfo(c);
+			done = true;
+		}
+		if(name.equals("updateclientstatus"))
+		{
+			callWorker_updateclientstatus(c);
+			done = true;
+		}
+		if(name.equals("updaterepolist"))
+		{
+			callWorker_updaterepolist(c);
+			done = true;
+		}
+		//commands end
+		
+		if(!done)
+			callWorker_Print(c);
+		
 	}
 
 	@Override
@@ -42,12 +94,41 @@ public class Dispatcher implements ListDataListener{
 		// TODO Auto-generated method stub
 		
 	}
-
-	private void callWorker_HardwareInfo(){
-		System.out.println("Worker Hardwareinfo");
-		Worker_HardwareInfo work = new Worker_HardwareInfo(this._com, this._conf);
-		work.start();
+	
+	// The Worker class has to decide if the status = 103 the the worker hast recived an answer to an former command
+	// in some case he has to update the db with that information e.g. install comes back, than he has to send an updateswinfo
+	
+	private void callWorker_addclient(Command c)
+	{
+		
 	}
+	private void callWorker_install(Command c)
+	{
+		
+	}
+	private void callWorker_start(Command c){
+		
+	}
+	private void callWorker_stop(Command c){
+		
+	}
+	private void callWorker_restart(Command c){
+		
+	}
+	private void callWorker_updatehwinfo(Command c){
+		
+	}
+	private void callWorker_updateswinfo(Command c){
+		
+	}
+	private void callWorker_updateclientstatus(Command c){
+		
+	}
+	private void callWorker_updaterepolist(Command c){
+		
+	}
+	
+	
 	
 	private void callWorker_Print(Command c){
 		Worker_Print print = new Worker_Print(c, this._com, this._conf);
