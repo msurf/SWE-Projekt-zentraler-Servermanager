@@ -55,7 +55,18 @@ public class ServerSocketThread extends Thread {
 			dec = new XMLDecoder(new BufferedInputStream(this._socket.getInputStream()));
 			this._command = (Command) dec.readObject();
 			this._command.setStatus(101);
-			work();
+			try {
+				work();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if(this._command.getStatus() != 105)//105 is response, responding commands are allready done
 			{
 				synchronized (this._queue) {
@@ -76,11 +87,12 @@ public class ServerSocketThread extends Thread {
 				dec.close();
 		}
 	}//readIn
-	private void work() {
+	private void work() throws SQLException, ClassNotFoundException, Exception {
 		String name = this._command.getName();
 		boolean work_done = false;
 		database base = new database();
 		if(name.equals("authenticate"))
+
 		{
 			try {
 				String erg = base.getInfo_Authenticate(this._command.getUser(),this._command.getPassword());
@@ -105,15 +117,14 @@ public class ServerSocketThread extends Thread {
 			work_done = true;
 		}
 		if(name.equals("getclients"))
-		{
-			//TODO
-			//holt die liste der verfügbaren clients aus der Datenbank
+		{			
+				String erg = base.getInfo_getClients();	
+				this._command.setInfo(erg);
 		}
 		if(name.equals("getclientstatus"))
 		{
 			//TODO
-			//holt den status vom Client
-			
+			//holt den status vom Client			
 		}
 		if(name.equals("getrepoliste"))
 		{

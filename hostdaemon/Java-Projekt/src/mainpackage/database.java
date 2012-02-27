@@ -28,13 +28,24 @@ public class database {
 		ResultSet rs = stat.executeQuery("select * from benutzer where name = "+user+" and pwd ="+password+";");
 		while(rs.next()) {
 			ergebnis = ergebnis+rs.getString(1)+rs.getString(2);
-			if(ergebnis.equals("")) {
+		}
+		if(ergebnis.equals("")) {
 				return "incorrect: none";
 			}
 			else {
 				return "correct: admin";
 			}
 		}
-		return "incorrect: none";
+	
+	protected String getInfo_getClients() throws SQLException, ClassNotFoundException, Exception {
+		String ergebnis = "";
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		ResultSet rs = stat.executeQuery("select name, client_id from client;");
+		while (rs.next()) {
+			ergebnis = ""+rs.getString(1)+":"+rs.getInt(2)+"#"; 
+		}
+		return ergebnis;
 	}
 }
