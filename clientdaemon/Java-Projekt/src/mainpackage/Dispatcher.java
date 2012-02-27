@@ -31,7 +31,6 @@ public class Dispatcher implements ListDataListener{
 		Command c = (Command) this._task_list.getElementAt(pos);
 		String name= c.getName();
 		boolean done = false;
-		System.out.println(c.getStatus());
 		if(c.getStatus() != 100)
 		{
 			callWorker_Print(c);

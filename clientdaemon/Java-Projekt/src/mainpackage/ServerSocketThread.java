@@ -60,7 +60,10 @@ public class ServerSocketThread extends Thread {
 					this._queue.add(this._command);
 				}// synchronized
 				if(this._command.getStatus() == 100)
-				this._command.setStatus(101);
+				{
+					this._command.setStatus(101);
+					this._command.setInfo("recived");
+				}
 			}
 			enc.writeObject(this._command);
 		}// try
