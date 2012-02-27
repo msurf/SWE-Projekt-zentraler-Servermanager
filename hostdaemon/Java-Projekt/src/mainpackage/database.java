@@ -48,4 +48,16 @@ public class database {
 		}
 		return ergebnis;
 	}
+	
+	protected String getInfo_getClientStatus(String clientName, int clientID) throws SQLException, ClassNotFoundException, Exception {
+		String ergebnis = "";
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		ResultSet rs = stat.executeQuery("select status from client where name = "+clientName+" and client_ID = "+clientID+";");
+		while(rs.next()) {
+			ergebnis = ""+rs.getString(1);
+		}
+		return ergebnis;
+	}
 }
