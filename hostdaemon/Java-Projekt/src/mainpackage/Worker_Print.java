@@ -19,7 +19,6 @@ public class Worker_Print extends Worker{
 		System.out.println("From -> " + c.getFrom());
 		System.out.println("Parameters -> " + c.getParameter());
 		System.out.println("Direction -> " + c.getDirection());
-		System.out.println("FTP URL -> " + c.getFTP_URL());
 		System.out.println("Query -> " + c.getQuery());
 	}//print()
 }

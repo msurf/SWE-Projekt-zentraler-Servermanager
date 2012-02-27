@@ -1,8 +1,8 @@
 package mainpackage;
 
-public class Worker_stop extends Worker{
+public class Worker_start extends Worker{
 	
-	Worker_stop(Command command, Config conf, Communication com) {
+	Worker_start(Command command, Config conf, Communication com) {
 		super();
 		this._com = com;
 		this._conf = conf;
@@ -10,19 +10,19 @@ public class Worker_stop extends Worker{
 	}
 	
 	public void run(){
-		stopService();
+		startService();
 		updateCommand();
 		this._com.send(this._command, this._conf.getIP_send(), this._conf.getPort_send());
 	}
 	
-	private void stopService(){
+	private void startService(){
 		String service = this._command.getProgram();
 		ShellRunner shell = new ShellRunner();
-		shell.execute("./stop "+service);
+		shell.execute("./start "+service);
 	}
 	private void updateCommand(){
 		this._command.setStatus(102);
-		this._command.setInfo("stopped");
+		this._command.setInfo("started");
 	}
 
 }
