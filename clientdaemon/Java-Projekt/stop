@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SERVICE=$1
+
+./services/$SERVICE/stop

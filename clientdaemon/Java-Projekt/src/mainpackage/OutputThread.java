@@ -54,7 +54,6 @@ public class OutputThread extends Thread {
 		Command send = this._command.clone();;
 		Command response = null;
 		try {
-			
 			send.setFrom(this._conf.getIP_own());
 			socket = new Socket(this._serveradress, this._port);
 			enc = new XMLEncoder(new BufferedOutputStream(socket.getOutputStream()));

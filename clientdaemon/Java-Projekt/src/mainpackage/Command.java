@@ -16,6 +16,7 @@ public class Command {
 	private String 	_time		= "default";
 	private int 	_id			= -1;
 	private String 	_client		= "default";
+	private int 	_client_id	= -1;
 	private int		_status		= -1;
 	private String 	_info		= "default";
 	private String 	_program	= "default";
@@ -33,6 +34,7 @@ public class Command {
 	public void setTime(String time){this._time = time;}
 	public void setID(int id){this._id = id;}
 	public void setClient(String client){this._client = client;}
+	public void setClientID(int id){this._client_id = id;}
 	public void setInfo(String info){this._info = info;}
 	public void setStatus(int status){this._status = status;}
 	public void setProgram(String program){this._program = program;}
@@ -50,6 +52,7 @@ public class Command {
 	public String 	getTime(){return this._time;}
 	public int 		getID(){return this._id;}
 	public String 	getClient(){return this._client;}
+	public int		getClientID(){return this._client_id;}
 	public String	getInfo(){return this._info;}
 	public int 		getStatus(){return this._status;}
 	public String 	getProgram(){return this._program;}
@@ -57,19 +60,25 @@ public class Command {
 	
 	public Command clone(){
 		Command c = new Command();
-		c.setName(getName());
-		c.setFrom(getFrom());
-		c.setFTP_IP(getFTP_IP());
-		c.setFTP_File(getFTP_File());
-		c.setURL(getURL());
-		c.setQuery(getQuery());
-		c.setUser(getUser());
-		c.setPassword(getPassword());
-		c.setParameter(getParameter());
-		c.setDirection(getDirection());
-		c.setTime(getTime());
-		c.setID(getID());
-		c.setClient(getClient());
+		c.setName(_name);
+		c.setFrom(_from);
+		c.setFTP_IP(_ftp_ip);
+		c.setFTP_File(_ftp_file);
+		c.setURL(_url);
+		c.setQuery(_query);
+		c.setUser(_user);
+		c.setPassword(_password);
+		c.setParameter(_parameter);
+		c.setDirection(_direction);
+		c.setTime(_time);
+		c.setID(_id);
+		c.setClient(_client);
+		c.setClientID(_client_id);
+		c.setInfo(_info);
+		c.setStatus(_status);
+		c.setProgram(_program);
+		
+		
 		return c;
 	}
 	

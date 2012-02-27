@@ -86,6 +86,7 @@ public class Administration extends Thread {
 	private void send(){
 		Command tmp = new Command();
 		tmp.setName(getText("name="));
+		tmp.setStatus(100);
 		this._com.send(tmp, this._config.getIP_send(), this._config.getPort_send());
 	}
 	

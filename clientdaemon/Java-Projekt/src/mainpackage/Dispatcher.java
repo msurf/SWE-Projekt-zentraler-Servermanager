@@ -31,27 +31,34 @@ public class Dispatcher implements ListDataListener{
 		Command c = (Command) this._task_list.getElementAt(pos);
 		String name= c.getName();
 		boolean done = false;
-		if(name.equals("reloadconfig"))
+		System.out.println(c.getStatus());
+		if(c.getStatus() != 100)
+		{
+			callWorker_Print(c);
+			done = true;
+		}
+		
+		if(!done && name.equals("reloadconfig"))
 		{
 			callWorker_reloadconfig(c);
 			done = true;
 		}
-		if(name.equals("install"))
+		if(!done && name.equals("install"))
 		{
 			callWorker_install(c);
 			done = true;
 		}
-		if(name.equals("start"))
+		if(!done && name.equals("start"))
 		{
 			callWorker_start(c);
 			done = true;
 		}
-		if(name.equals("stop"))
+		if(!done && name.equals("stop"))
 		{
 			callWorker_stop(c);
 			done = true;
 		}
-		if(name.equals("restart"))
+		if(!done && name.equals("restart"))
 		{
 			callWorker_restart(c);
 			done = true;
@@ -79,19 +86,24 @@ public class Dispatcher implements ListDataListener{
 	}*/
 		
 	private void callWorker_reloadconfig(Command command){
-		
+		Worker_reloadconfig reload = new Worker_reloadconfig(command, this._conf, this._com);
+		reload.start();
 	}
 	private void callWorker_install(Command command){
-		
+		Worker_install install = new Worker_install(command, this._conf, this._com);
+		install.start();
 	}
 	private void callWorker_start(Command command){
-		
+		Worker_start start = new Worker_start(command, this._conf, this._com);
+		start.start();
 	}
 	private void callWorker_stop(Command command){
-		
+		Worker_stop stop = new Worker_stop(command, this._conf, this._com);
+		stop.start();
 	}
 	private void callWorker_restart(Command command){
-		
+		Worker_restart restart = new Worker_restart(command, this._conf, this._com);
+		restart.start();
 	}
 	
 
