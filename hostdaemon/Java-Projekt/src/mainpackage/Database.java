@@ -20,6 +20,43 @@ public class Database {
 		this.info_swInfo = "";
 	}
 	
+	protected void create_DB() throws ClassNotFoundException, SQLException, Exception {
+			Class.forName("org.sqlite.JDBC");
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+			Statement stat = conn.createStatement();
+			stat.executeUpdate("create table Benutzer( Name text not null unique,"+
+										  										  "Pwd text primary key not null,"+
+										  										  "Rights text not null,"+
+										  										  "check (rights='admin' or 'read'));");
+			stat.executeUpdate("create table Client( Name text not null unique,"+
+																			 "IP text not null unique,"+
+																			 "Client_ID integer primary key autoincrement not null unique,"+
+																			 "user text not null default 'root',"+
+																			 "pw text not null default 'swe1234',"+
+																			 "status text not null default 'off',"+
+																			 "check (status='busy' or 'off' or 'on');");
+			stat.executeUpdate("create table Software( Software_ID integer primary key autoincrement not null unique,"+
+																				  "Name  text not null unique,"+
+																				  "Beschreibung text,"+
+																				  "FTP_Pfad text not null,"+
+																				  "FTP_IP text not null;");
+			stat.executeUpdate("create table Installierte_Software(ID integer primary key autoincrement not null unique,"+
+											 														 "Software_ID references Software(Software_ID) on delete restrict on update restrict not null,"+
+											 														 "Client_ID references Client(Client_ID) on delete restrict on update restrict not null,"+
+											 														 "Software_Benutzer text,"+
+											 														 "Passwort text,"+
+											 														 "Status text not null default 'install',"+
+											 														 "check (status='install' or 'on' or 'off'),"+
+											 														 "primary key (ID));");
+			stat.executeUpdate("create table Hardware( Client_ID references Software(Software_ID) on delete restrict on update restrict,"+
+																					"CPU text,"+
+																					"RAM text,"+
+																					"Architecture text"+
+																					"primary key (Client_ID");
+			stat.close();
+			conn.close();
+	}
+	
 	protected String getInfo_Authenticate(String user, String password) throws SQLException, ClassNotFoundException, Exception {
 		String ergebnis = "";
 		Class.forName("org.sqlite.JDBC");
