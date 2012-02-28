@@ -104,7 +104,7 @@ public class ServerSocketThread extends Thread {
 		}
 		if(name.equals("getclientstatus"))
 		{
-		String erg = base.getInfo_getClientStatus(this._command.getClient(), this._command.getClientID);
+		String erg = base.getInfo_getClientStatus(this._command.getClient(), this._command.getClientID());
 		this._command.setInfo(erg);
 		}
 		if(name.equals("getrepoliste"))
