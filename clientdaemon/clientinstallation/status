@@ -1,0 +1,11 @@
+#!/bin/bash
+
+SERVICE=$1
+
+screen -ls | grep $SERVICE
+if [ $? == 0]
+then
+	echo on
+else
+	echo off
+fi

@@ -19,7 +19,11 @@ cp createuser 	/usr/local/createuser
 cp ftpget 	/home/$daemon/ftpget
 cp startServer	/home/$daemon/startServer
 cp software	/home/$daemon/software
-cp installService /home/$daemon/installService
+cp status	/home/$daemon/status
+cp start	/home/$daemon/start
+cp stop		/home/$daemon/stop
+cp restart	/home/$daemon/restart
+##Old -> cp installService /home/$daemon/installService
 #cp swe-server /etc/init.d/swe-server
 #cp Server.jar /home/$user/Server.jar
 
@@ -42,7 +46,7 @@ echo '%'$daemon	'ALL=NOPASSWD: /usr/local/useradd'>>/etc/sudoers
 echo '# end of script-generated lines'>>/etc/sudoers
 echo >>/etc/sudoers
 
-echo 'installation done. this is no guarantee that all works proper'
+echo 'installation done. no guarantee at all'
 
 for i in $proof
 do
