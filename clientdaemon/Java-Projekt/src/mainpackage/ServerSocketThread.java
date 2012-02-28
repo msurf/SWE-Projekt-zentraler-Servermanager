@@ -52,20 +52,32 @@ public class ServerSocketThread extends Thread {
 		try {
 			enc = new XMLEncoder(new BufferedOutputStream(this._socket.getOutputStream()));
 			dec = new XMLDecoder(new BufferedInputStream(this._socket.getInputStream()));
-			this._command = (Command) dec.readObject();
+			int status = 0;
+			synchronized (_command) {
+				this._command = (Command) dec.readObject();
+			}
 			work();
-			if(this._command.getStatus() != 105)//105 is response, responding commands are allready done
+			synchronized (_command) {
+				status = this._command.getStatus();
+			}
+			if(status != 105 && status != 0)//105 is response, responding commands are allready done
 			{
-				synchronized (this._queue) {
-					this._queue.add(this._command);
-				}// synchronized
-				if(this._command.getStatus() == 100)
+				
+				if(status == 100)
 				{
+					synchronized (_command) {
 					this._command.setStatus(101);
 					this._command.setInfo("recived");
+					}
 				}
+				enc.writeObject(this._command);
+				synchronized (this._queue) {
+					this._queue.add(this._command.clone());
+				}// synchronized
 			}
-			enc.writeObject(this._command);
+			synchronized (_command) {
+				enc.writeObject(this._command);
+			}
 		}// try
 		catch (IOException e) {
 			// TODO store error on local device
@@ -81,20 +93,28 @@ public class ServerSocketThread extends Thread {
 	}//readIn
 	private void work(){
 		// direct response
-		String name = this._command.getName();
+		String name = "none";
+		synchronized (_command) {name = this._command.getName();} 
 		boolean work_done = false;
-		if(name.equals("hwinfo"))
-		{
-			this._command.setInfo(this._config.hwinfo());
+		if(name.equals("hwinfo")){
+			String info = "default";
+			synchronized (_config) {info = this._config.swinfo();}
+			synchronized (_command) {this._command.setInfo(info);}
 			work_done = true;
 		}
-		if(name.equals("swinfo"))
-		{
-			this._command.setInfo(this._config.swinfo());
+		if(name.equals("swinfo")){
+			String info = "default";
+			synchronized (_config) {info = this._config.swinfo();}
+			synchronized (_command) {this._command.setInfo(info);}
 			work_done = true;
 		}
-		
-		if(work_done)
-			this._command.setStatus(105);
+		if(name.equals("busy")){
+			String info = "on";
+			synchronized (_config) {info = this._config.isBusy();}
+			synchronized (_command) {this._command.setInfo(info);}
+			work_done = true;
+		}
+		if(work_done)			
+			synchronized (_command){this._command.setStatus(105);}
 	}
 }// class
