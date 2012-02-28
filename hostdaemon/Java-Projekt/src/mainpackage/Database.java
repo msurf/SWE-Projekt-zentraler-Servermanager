@@ -94,4 +94,16 @@ public class Database {
 		}
 		return ergebnis;
 	}
+	
+	protected void insertNewClient(String clientName, String clientIP, String user, String password) throws ClassNotFoundException, SQLException{
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		stat.executeUpdate("INSERT INTO client"+
+						   "VALUES ("+clientName+", "+
+									  clientIP+", "+
+									  user+", "+
+									  password+")");
+				
+	}
 }
