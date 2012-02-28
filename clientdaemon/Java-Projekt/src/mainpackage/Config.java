@@ -8,25 +8,32 @@ import java.util.Scanner;
 public class Config {
 
 	
-	/*lscpu | grep 'Architectur' ; lscpu | grep 'CPU(s)'; lscpu | grep 'MHz'*/
 	
 	/*Config*/
 	private String _config = System.getProperty("user.dir")+"/swe.conf";
 	
-	/* syntax of the conifg-file
-	 ## Comment
-	 own_ip= 127.0.0.1
-	 own_port= 5550
-	 send_ip=
-	 send_port=
-	 architectur=
-	 cpu= 
-	 ram=
-	 logpath= 
+	/* 
+	 * syntax of the conifg-file
+	 * ## Comment
+	 * own_ip= 127.0.0.1
+	 * own_port= 5550
+	 * send_ip=
+	 * send_port=
+	 * architectur=
+	 * cpu= 
+	 * ram=
+	 * logpath= 
+	 * software=
+	 * software=
+	 * ...
 	 */
 	
 	/*Software*/
 	private ArrayList<String> _software = new ArrayList<String>();
+	private ArrayList<String> _softwareStatus = new ArrayList<String>();
+	private int _busy = 0;
+	
+	
 	
 	private void addSoftware(String software){this._software.add(software);}
 	private void removeSoftware(String software){
@@ -34,6 +41,12 @@ public class Config {
 			this._software.remove(software);
 	}
 	public ArrayList<String> getSoftware(){return this._software;}
+	
+	public ArrayList<String> getSoftStatus(){return this._softwareStatus;}
+	
+	public void addBusy(){this._busy++;}
+	public void remBusy(){this._busy--;}
+	public String isBusy(){ return ((this._busy <= 0) ? "on":("busy:"+this._busy));}
 	
 	/*System*/
 	private String _logpath = System.getProperty("user.dir");
@@ -73,10 +86,13 @@ public class Config {
 	public String getIP_send(){return this._defSendIP;}
 	public int getPort_send(){return this._defSendPort;}
 	
+	/*constructor*/
 	Config(){
+		this._busy = 0;
 		loadConfig();
 	}//constructor
 	
+	/*getting values*/
 	public void loadConfig(){
 		System.out.println("Loading Config");
 		File test = new File(this._config);
@@ -136,23 +152,6 @@ public class Config {
 		System.out.println("Complete");
 	}
 	
-	public void writeConfig(){
-		System.out.println("Writing config...");
-		ShellRunner shell = new ShellRunner();
-		shell.execute("echo 'own_ip="+this._IP_own+"'>"+this._config);//old file will be overwritten
-		shell.execute("echo 'own_port="+this._Port_own+"'>>"+this._config);
-		shell.execute("echo 'send_ip="+this._defSendIP+"'>>"+this._config);
-		shell.execute("echo 'send_port="+this._defSendPort+"'>>"+this._config);
-		shell.execute("echo 'architecture="+this._architectur+"'>>"+this._config);
-		shell.execute("echo 'cpu="+this._CPU+"'>>"+this._config);
-		shell.execute("echo 'ram="+this._RAM+"'>>"+this._config);
-		shell.execute("echo 'logpath="+this._logpath+"'>>"+this._config);
-		for(String i : this._software)
-			shell.execute("echo 'software="+i+"'>>"+this._config);
-		System.out.println("Writing done!");
-	}
-	
-	
 	private boolean checkSys(){
 		if(this._CPU.equals("unknown") || this._RAM.equals("unknown") || this._architectur.equals("unknown"))
 			return false;
@@ -181,16 +180,39 @@ public class Config {
 		for(String i : this._software)
 			if(!tmp.contains(i))
 				removeSoftware(i);
+		
+		this._softwareStatus = soft.getSoftStatus();
 		System.out.println("Software updated");
+				
 	}
+	
+	/*safe config*/
+	public void writeConfig(){
+		System.out.println("Writing config...");
+		ShellRunner shell = new ShellRunner();
+		shell.execute("echo 'own_ip="+this._IP_own+"'>"+this._config);//old file will be overwritten
+		shell.execute("echo 'own_port="+this._Port_own+"'>>"+this._config);
+		shell.execute("echo 'send_ip="+this._defSendIP+"'>>"+this._config);
+		shell.execute("echo 'send_port="+this._defSendPort+"'>>"+this._config);
+		shell.execute("echo 'architecture="+this._architectur+"'>>"+this._config);
+		shell.execute("echo 'cpu="+this._CPU+"'>>"+this._config);
+		shell.execute("echo 'ram="+this._RAM+"'>>"+this._config);
+		shell.execute("echo 'logpath="+this._logpath+"'>>"+this._config);
+		for(String i : this._software)
+			shell.execute("echo 'software="+i+"'>>"+this._config);
+		System.out.println("Writing done!");
+	}
+	/*output*/
 	public String hwinfo(){
 		String tmp = "architecture:"+ this._architectur+"#cpu:"+ this._CPU +"#ram:"+ this._RAM;
 		return tmp;
 	}
 	public String swinfo(){
 		String tmp = "";
-		for (String i : this._software)
-			tmp += "software:"+i;
+		for (String i : this._softwareStatus)
+			tmp += "#" +i;
+		if(tmp.length() > 0)
+			tmp = tmp.substring(1);
 		return tmp;
 	}
 	

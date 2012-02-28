@@ -17,10 +17,18 @@ public class Worker_install extends Worker{
 	}
 	
 	private String getDirName(){
+		
 		String dirname = "none";
-		String in = this._command.getProgram();
+		String in = "";
+		synchronized (this._command) {
+		in = this._command.getProgram();
+		}
+		ArrayList<String> soft = new ArrayList<String>();
+		
+		synchronized (this._conf) {
 		this._conf.getSof();
-		ArrayList<String> soft = this._conf.getSoftware();
+		soft = this._conf.getSoftware();
+		}
 		
 		for(int i = 1; i <= 10; i++) // 10 times the same service on one machine
 		{
@@ -33,6 +41,9 @@ public class Worker_install extends Worker{
 		return dirname;
 	}
 	private void install(){
+		synchronized (this._conf) {
+			this._conf.addBusy();
+		}
 		String service = getDirName();
 		if(!service.equals("none"))
 		{
@@ -52,6 +63,9 @@ public class Worker_install extends Worker{
 		{
 			this._command.setStatus(200);
 			this._command.setInfo("Couldn't install Service.");
+		}
+		synchronized (this._conf) {
+			this._conf.remBusy();
 		}
 	}
 }
