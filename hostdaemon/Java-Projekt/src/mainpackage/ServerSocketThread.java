@@ -55,6 +55,8 @@ public class ServerSocketThread extends Thread {
 			dec = new XMLDecoder(new BufferedInputStream(this._socket.getInputStream()));
 			this._command = (Command) dec.readObject();
 			this._command.setStatus(101);
+			
+			//work()start
 			try {
 				work();
 			} catch (SQLException e) {
@@ -67,11 +69,18 @@ public class ServerSocketThread extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			//work()end
+			
 			if(this._command.getStatus() != 105)//105 is response, responding commands are allready done
 			{
 				synchronized (this._queue) {
 					this._queue.add(this._command);
 				}// synchronized
+				if(this._command.getStatus() == 100)
+				{
+					this._command.setStatus(101);
+					this._command.setInfo("recived");
+				}
 			}
 			enc.writeObject(this._command);
 		}// try
@@ -90,7 +99,7 @@ public class ServerSocketThread extends Thread {
 	private void work() throws SQLException, ClassNotFoundException, Exception {
 		String name = this._command.getName();
 		boolean work_done = false;
-		database base = new database();
+		Database base = new Database();
 		if(name.equals("authenticate"))
 		{		
 				String erg = base.getInfo_Authenticate(this._command.getUser(),this._command.getPassword());

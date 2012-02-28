@@ -2,7 +2,7 @@ package mainpackage;
 
 import java.sql.*;
 
-public class database {
+public class Database {
 
 	private String info_authenticate;
 	private String info_getclients;
@@ -11,7 +11,7 @@ public class database {
 	private String info_hwInfo;
 	private String info_swInfo;
 	
-	public database () {
+	public Database () {
 		this.info_authenticate = "";
 		this.info_getclients = "";
 		this.info_getClientsStatus = "";

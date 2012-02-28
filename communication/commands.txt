@@ -13,39 +13,40 @@ Page-Java
 authenticate -> user identifizieren (name, user, password)aus der Datenbank :direct response
 getclients -> holt die liste der verfügbaren clients aus der Datenbank :direct response
 getclientstatus -> holt den status vom Client :direct response
-hwinfo -> holt hardware-infos vom Client (name, client) aus der Datenbank :direct response
-swinfo -> holt software-infos vom Client (name, client)	aus der Datenbank :direct response
+hwinfo -> holt hardware-infos vom Client (name, client, clientID) aus der Datenbank :direct response
+swinfo -> holt software-infos vom Client (name, client, clientID)	aus der Datenbank :direct response
 getrepoliste -> holt die liste der verfügbaren Software(name) aus der DB :direct response
 
 
-install -> installiert angegebenes Paket (name, client, program)
-start -> start dienst (name, client)
-stop -> stopt dienst (name, client)
-restart -> restarted dienst (name, client)
-updatehwinfo -> updated die DB mit hwinfo (name, client)
-updateswinfo -> updated die DB mit swinfo (name, client)
+addclient -> fügt einen Client der DB hinzu(auf dem muss das Server.jar manuell istalliert werden) (name,client, clientID, parameter <-IP, user, password )
+install -> installiert angegebenes Paket (name, client, clientID program)
+start -> start dienst (name, client, clientID)
+stop -> stopt dienst (name, client, clientID)
+restart -> restarted dienst (name, client, clientID)
+updatehwinfo -> updated die DB mit hwinfo (name, client, clientID)
+updateswinfo -> updated die DB mit swinfo (name, client, clientID)
 updateclientstatus -> updated clientstatus aller Clients in der DB (name)
-updaterepoliste -> updated die liste der verfügbaren software in der DB (name)
+updaterepolist -> updated die liste der verfügbaren software in der DB (name)
 
-!advanced! getconfig -> holt die Konfigurationsdatei eines Dienstes (name, client, programm
-!advanced! chconfig -> ändert die Konfiguration eines Dienstes(name, client, programm, parameter)
+!advanced! getconfig -> holt die Konfigurationsdatei eines Dienstes (name, client, clientID, programm
+!advanced! chconfig -> ändert die Konfiguration eines Dienstes(name, client, clientID, programm, parameter)
 
 Java-Java
 
-updateclientstatus -> holt status vom client (name, client)	Host führt einen hwinfo und swinfo aus und schreibt die daten in die DB
 
-hwinfo -> holt hardware-infos vom Client (name, client) :direct response	Host/Client
-swinfo -> holt software-infos vom Client (name, client)	:direct response	Host/Client
 
-reloadconfig -> läd die config im client neu(name , client)			Host/Client
-install -> installiert angegebenes Paket(ftpURL) (name, client, ftpURL)		Host/Client
+hwinfo -> holt hardware-infos vom Client (name, client, clientID) :direct response	Host/Client
+swinfo -> holt software-infos vom Client (name, client, clientID)	:direct response	Host/Client
+
+reloadconfig -> läd die config im client neu(name , client, clientID)			Host/Client
+install -> installiert angegebenes Paket(ftpURL) (name, client, clientID, ftpURL)		Host/Client
 start -> startet dienst (name, D.user, D.password, program, client) //D.user der User aus der DB, der zu dem dienst gehört	Host/Client
-stop -> stopt dienst (name, D.user, D.password, program, client)		Host/Client
-restart -> restarted dienst (name, D.user, D.password, program, client)		Host/Client
+stop -> stopt dienst (name, D.user, D.password, program, client, clientID)		Host/Client
+restart -> restarted dienst (name, D.user, D.password, program, client, clientID)		Host/Client
 
 
-!advanced! getconfig -> holt die Konfigurationsdatei eines Dienstes (name, client, programm
-!advanced! chconfig -> ändert die Konfiguration eines Dienstes(name, client, programm, par$
+!advanced! getconfig -> holt die Konfigurationsdatei eines Dienstes (name, client, clientID, programm
+!advanced! chconfig -> ändert die Konfiguration eines Dienstes(name, client, clientID, programm, par$
 
 
 Achtung bei der prüfung auf response(105)!
