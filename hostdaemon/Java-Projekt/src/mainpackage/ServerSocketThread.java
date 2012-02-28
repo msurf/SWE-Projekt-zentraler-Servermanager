@@ -102,35 +102,69 @@ public class ServerSocketThread extends Thread {
 		Database base = new Database();
 		if(name.equals("authenticate"))
 		{		
-				String erg = base.getInfo_Authenticate(this._command.getUser(),this._command.getPassword());
-				this._command.setInfo(erg);
+				String info = base.getInfo_Authenticate(this._command.getUser(),this._command.getPassword());
+				this._command.setInfo(info);
+				this._command.setPassword("default");
 				work_done = true;
 		}
 		if(name.equals("getclients"))
 		{			
-				String erg = base.getInfo_getClients();	
-				this._command.setInfo(erg);
+				String info = base.getInfo_getClients();	
+				this._command.setInfo(info);
+				work_done = true;
 		}
 		if(name.equals("getclientstatus"))
 		{
-		String erg = base.getInfo_getClientStatus(this._command.getClient(), this._command.getClientID());
-		this._command.setInfo(erg);
+			Command commandnew = new Command();
+			commandnew.setName("updateclientstatus");
+			commandnew.setStatus(100);
+			commandnew.setClient(this._command.getClient());
+			commandnew.setClientID(this._command.getClientID());
+			synchronized (this._queue) {
+				this._queue.add(commandnew);
+			}
+			String info = base.getInfo_getClientStatus(this._command.getClientID());
+			this._command.setInfo(info);
+			work_done = true;
 		}
 		if(name.equals("getrepoliste"))
 		{
-			//TODO
-			//holt die liste der verfügbaren Software(name) aus der DB
+			Command commandnew = new Command();
+			commandnew.setName("updaterepolist");
+			commandnew.setStatus(100);
+			synchronized (this._queue) {
+				this._queue.add(commandnew);
+			}
+			String info = base.getInfo_getRepoList();
+			this._command.setInfo(info);
+			work_done = true;
 		}
 		if(name.equals("hwinfo"))
 		{
-			//TODO
-			//this._command.setInfo(Database request for the this._config.getClient());
+			Command commandnew = new Command();
+			commandnew.setName("updatehwinfo");
+			commandnew.setStatus(100);
+			commandnew.setClient(this._command.getClient());
+			commandnew.setClientID(this._command.getClientID());
+			synchronized (this._queue) {
+				this._queue.add(commandnew);
+			}
+			String info = base.getInfo_hwInfo(this._command.getClientID());
+			this._command.setInfo(info);
 			work_done = true;
 		}
 		if(name.equals("swinfo"))
 		{
-			//TODO
-			//this._command.setInfo(Database request for the this._config.getClient());
+			Command commandnew = new Command();
+			commandnew.setName("updateswinfo");
+			commandnew.setStatus(100);
+			commandnew.setClient(this._command.getClient());
+			commandnew.setClientID(this._command.getClientID());
+			synchronized (this._queue) {
+				this._queue.add(commandnew);
+			}
+			String info = base.getInfo_swInfo(this._command.getClientID());
+			this._command.setInfo(info);
 			work_done = true;
 		}
 		

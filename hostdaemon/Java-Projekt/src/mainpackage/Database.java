@@ -51,6 +51,7 @@ public class Database {
 																					"CPU text,"+
 																					"RAM text,"+
 																					"Architecture text);");
+			stat.close();
 			conn.close();
 	}
 	
@@ -59,15 +60,18 @@ public class Database {
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
-		ResultSet rs = stat.executeQuery("select * from benutzer where name = "+user+" and pwd ="+password+";");
+		ResultSet rs = stat.executeQuery("select Rights from Benutzer where Name = "+user+" and Pwd ="+password+";");
 		while(rs.next()) {
-			ergebnis = ergebnis+rs.getString(1)+rs.getString(2);
+			ergebnis = rs.getString(1);
 		}
+		rs.close();
+		stat.close();
+		conn.close();
 		if(ergebnis.equals("")) {
-				return "incorrect: none";
+				return "incorrect:none";
 			}
 			else {
-				return "correct: admin";
+				return "correct:"+ergebnis;
 			}
 		}
 	
@@ -76,22 +80,73 @@ public class Database {
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
-		ResultSet rs = stat.executeQuery("select name, client_id from client;");
+		ResultSet rs = stat.executeQuery("select distinct Name, Client_ID from Client;");
 		while (rs.next()) {
-			ergebnis = ""+rs.getString(1)+":"+rs.getInt(2)+"#"; 
+			ergebnis += rs.getString(1)+":"+rs.getInt(2)+"#"; 
 		}
+		rs.close();
+		stat.close();
+		conn.close();
 		return ergebnis;
 	}
 	
-	protected String getInfo_getClientStatus(String clientName, int clientID) throws SQLException, ClassNotFoundException, Exception {
+	protected String getInfo_getClientStatus(int clientID) throws SQLException, ClassNotFoundException, Exception {
 		String ergebnis = "";
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
-		ResultSet rs = stat.executeQuery("select status from client where name = "+clientName+" and client_ID = "+clientID+";");
+		ResultSet rs = stat.executeQuery("select status from Client where Client_ID = "+clientID+";");
 		while(rs.next()) {
-			ergebnis = ""+rs.getString(1);
+			ergebnis = rs.getString(1);
 		}
+		rs.close();
+		stat.close();
+		conn.close();
+		return ergebnis;
+	}
+	
+	protected String getInfo_getRepoList() throws SQLException, ClassNotFoundException, Exception {
+		String ergebnis = "";
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		ResultSet rs = stat.executeQuery("select distinct Name from Software;");
+		while(rs.next()) {
+			ergebnis += rs.getString(1)+"#";
+		}
+		rs.close();
+		stat.close();
+		conn.close();
+		return ergebnis;
+	}
+	
+	protected String getInfo_hwInfo(int clientID) throws SQLException, ClassNotFoundException, Exception {
+		String ergebnis = "";
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		ResultSet rs = stat.executeQuery("select CPU, RAM, Architecture from Hardware where Client_ID = "+clientID+";");
+		while (rs.next()) {
+			ergebnis = "cpu:"+rs.getString(1)+"#ram:"+rs.getString(2)+"#architecture:"+rs.getString(3);
+		}
+		rs.close();
+		stat.close();
+		conn.close();
+		return ergebnis;
+	}
+	
+	protected String getInfo_swInfo(int clientID) throws SQLException, ClassNotFoundException, Exception {
+		String ergebnis = "";
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		ResultSet rs = stat.executeQuery("select Status, Software_Benutzer from Installierte_Software where Client_ID = "+clientID+";");
+		while (rs.next()) {
+			ergebnis = rs.getString(2)+":"+rs.getString(1);
+		}
+		rs.close();
+		stat.close();
+		conn.close();
 		return ergebnis;
 	}
 	
