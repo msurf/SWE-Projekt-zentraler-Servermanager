@@ -21,41 +21,41 @@ public class Command {
 	private String 	_info		= "default";
 	private String 	_program	= "default";
 	
-	public void setName(String name){this._name = name;}
-	public void setFrom(String from){this._from = from;}
-	public void setFTP_IP(String ftp_ip){this._ftp_ip = ftp_ip;}
-	public void setFTP_File(String file){this._ftp_file = file;}
-	public void setURL(String url){this._url = url;}
-	public void setQuery(String query){this._query = query;}
-	public void setUser(String user){this._user = user;}
-	public void setPassword(String password){this._password = password;}
-	public void setParameter(String params){this._parameter = params;}
-	public void setDirection(String direction){this._direction = direction;}
-	public void setTime(String time){this._time = time;}
-	public void setID(int id){this._id = id;}
-	public void setClient(String client){this._client = client;}
-	public void setClientID(int id){this._client_id = id;}
-	public void setInfo(String info){this._info = info;}
-	public void setStatus(int status){this._status = status;}
-	public void setProgram(String program){this._program = program;}
+	public synchronized void setName(String name){this._name = name;}
+	public synchronized void setFrom(String from){this._from = from;}
+	public synchronized void setFTP_IP(String ftp_ip){this._ftp_ip = ftp_ip;}
+	public synchronized void setFTP_File(String file){this._ftp_file = file;}
+	public synchronized void setURL(String url){this._url = url;}
+	public synchronized void setQuery(String query){this._query = query;}
+	public synchronized void setUser(String user){this._user = user;}
+	public synchronized void setPassword(String password){this._password = password;}
+	public synchronized void setParameter(String params){this._parameter = params;}
+	public synchronized void setDirection(String direction){this._direction = direction;}
+	public synchronized void setTime(String time){this._time = time;}
+	public synchronized void setID(int id){this._id = id;}
+	public synchronized void setClient(String client){this._client = client;}
+	public synchronized void setClientID(int id){this._client_id = id;}
+	public synchronized void setInfo(String info){this._info = info;}
+	public synchronized void setStatus(int status){this._status = status;}
+	public synchronized void setProgram(String program){this._program = program;}
 	
-	public String 	getName(){return this._name;}
-	public String 	getFrom(){return this._from;}
-	public String 	getFTP_IP(){return this._ftp_ip;}
-	public String	getFTP_File(){return this._ftp_file;}
-	public String 	getURL(){return this._url;}
-	public String 	getQuery(){return this._query;}
-	public String 	getUser(){return this._user;}
-	public String	getPassword(){return this._password;}
-	public String 	getParameter(){return this._parameter;}
-	public String 	getDirection(){return this._direction;}
-	public String 	getTime(){return this._time;}
-	public int 		getID(){return this._id;}
-	public String 	getClient(){return this._client;}
-	public int		getClientID(){return this._client_id;}
-	public String	getInfo(){return this._info;}
-	public int 		getStatus(){return this._status;}
-	public String 	getProgram(){return this._program;}
+	public  String 	getName(){return this._name;}
+	public  String 	getFrom(){return this._from;}
+	public  String 	getFTP_IP(){return this._ftp_ip;}
+	public  String	getFTP_File(){return this._ftp_file;}
+	public  String 	getURL(){return this._url;}
+	public  String 	getQuery(){return this._query;}
+	public  String 	getUser(){return this._user;}
+	public  String	getPassword(){return this._password;}
+	public  String 	getParameter(){return this._parameter;}
+	public  String 	getDirection(){return this._direction;}
+	public  String 	getTime(){return this._time;}
+	public  int 	getID(){return this._id;}
+	public  String 	getClient(){return this._client;}
+	public  int		getClientID(){return this._client_id;}
+	public  String	getInfo(){return this._info;}
+	public  int 		getStatus(){return this._status;}
+	public  String 	getProgram(){return this._program;}
 	
 	
 	public Command clone(){

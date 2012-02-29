@@ -44,8 +44,8 @@ public class Config {
 	
 	public ArrayList<String> getSoftStatus(){return this._softwareStatus;}
 	
-	public void addBusy(){this._busy++;}
-	public void remBusy(){this._busy--;}
+	public synchronized void addBusy(){this._busy++;}
+	public synchronized void remBusy(){this._busy--;}
 	public String isBusy(){ return ((this._busy <= 0) ? "on":("busy:"+this._busy));}
 	
 	/*System*/
@@ -93,7 +93,7 @@ public class Config {
 	}//constructor
 	
 	/*getting values*/
-	public void loadConfig(){
+	public synchronized void loadConfig(){
 		System.out.println("Loading Config");
 		File test = new File(this._config);
 		if(test.exists())
@@ -158,7 +158,7 @@ public class Config {
 		return true;
 	}
 	
-	public void getSys(){
+	public synchronized void getSys(){
 		System.out.println("Checking for Hardware");
 		SystemProperties props = new SystemProperties();
 		//while(!props.done())
@@ -170,7 +170,7 @@ public class Config {
 		this._architectur = props.getArchitecture();
 		System.out.println("Hardware updated");
 	}
-	public void getSof(){
+	public synchronized void getSof(){
 		System.out.println("Checking for Software");
 		SystemSoftware soft = new SystemSoftware();
 		ArrayList<String> tmp = soft.getSoftware();
@@ -183,11 +183,14 @@ public class Config {
 		
 		this._softwareStatus = soft.getSoftStatus();
 		System.out.println("Software updated");
-				
+	}
+	
+	public synchronized void update(){
+		
 	}
 	
 	/*safe config*/
-	public void writeConfig(){
+	public synchronized void writeConfig(){
 		System.out.println("Writing config...");
 		ShellRunner shell = new ShellRunner();
 		shell.execute("echo 'own_ip="+this._IP_own+"'>"+this._config);//old file will be overwritten
