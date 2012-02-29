@@ -84,8 +84,10 @@ public class Administration extends Thread {
 	}
 	private void send(){
 		Command tmp = new Command();
-		tmp.setName(getText("name=?"));
-		this._com.send(tmp, this._config.getIP_send(), this._config.getPort_send());
+		tmp.setStatus(100);
+		tmp.setName(getText("name="));
+		String to = getText("To IP=");
+		this._com.send(tmp, to, this._config.getPort_send());
 	}
 	
 	private String getText(String message){

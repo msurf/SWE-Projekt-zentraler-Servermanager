@@ -21,7 +21,8 @@ public class ServerSocketThread extends Thread {
 	
 	private Command _command = new Command();
 	
-	private Config _config = null;
+	@SuppressWarnings("unused")
+	private Config _config;
 
 	/**
 	 * This is the constructor
@@ -54,7 +55,7 @@ public class ServerSocketThread extends Thread {
 			enc = new XMLEncoder(new BufferedOutputStream(this._socket.getOutputStream()));
 			dec = new XMLDecoder(new BufferedInputStream(this._socket.getInputStream()));
 			this._command = (Command) dec.readObject();
-			this._command.setStatus(101);
+			//this._command.setStatus(101);
 			
 			//work()start
 			try {

@@ -4,11 +4,17 @@ import java.sql.*;
 
 public class Database {
 
+	@SuppressWarnings("unused")
 	private String info_authenticate;
+	@SuppressWarnings("unused")
 	private String info_getclients;
+	@SuppressWarnings("unused")
 	private String info_getClientsStatus;
+	@SuppressWarnings("unused")
 	private String info_getRepoListe;
+	@SuppressWarnings("unused")
 	private String info_hwInfo;
+	@SuppressWarnings("unused")
 	private String info_swInfo;
 	
 	public Database () {
