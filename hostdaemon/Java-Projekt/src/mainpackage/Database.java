@@ -154,7 +154,7 @@ public class Database {
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
-		stat.executeUpdate("INSERT INTO client"+
+		stat.executeUpdate("INSERT INTO Client"+
 						   "VALUES ("+clientName+", "+
 									  clientIP+", "+
 									  user+", "+
