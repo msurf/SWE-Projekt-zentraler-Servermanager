@@ -161,4 +161,41 @@ public class Database {
 									  password+")");
 				
 	}
+	
+	protected String getClientIP(int clientID) throws SQLException, ClassNotFoundException, Exception {
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		ResultSet rs = stat.executeQuery("SELECT ip" +
+										 "FROM client" +
+										 "WHERE client_id="+clientID+";");
+		String ergebnis = "";
+		while (rs.next()) {
+			ergebnis = rs.getString(0);
+		}
+		rs.close();
+		stat.close();
+		conn.close();
+		return ergebnis;
+	}
+	
+	protected String[] getFTP_IP_FILE(int parameter) throws SQLException, ClassNotFoundException, Exception {
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		ResultSet rs = stat.executeQuery("SELECT ftp_id, ftp_file" +
+										 "FROM software" +
+										 "WHERE software_id="+parameter+";");
+		String []ergebnis = new String[2];
+	
+		//ergebnis[0] beinhaltet die ip und ergebnis[1] den filenamen
+		while (rs.next()) {
+			ergebnis[0] = rs.getString(0);
+			ergebnis[1] = rs.getString(1);
+		}
+		rs.close();
+		stat.close();
+		conn.close();
+		return ergebnis;
+	}
 }

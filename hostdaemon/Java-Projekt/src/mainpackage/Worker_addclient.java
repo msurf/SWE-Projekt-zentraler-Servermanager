@@ -32,14 +32,7 @@ public class Worker_addclient extends Worker{
 	}
 	
 	private void sendResponse() {
-		Command cnew = new Command();
-		cnew.setDirection("h2w");
-		cnew.setName("addClient-back");
-		cnew.setStatus(101);
-		cnew.setFrom(this._command.getURL());
-		cnew.setInfo("received");
-		this._com.send(cnew, this._conf.getIP_send(), this._conf.getPort_send());
-		
+		this._command.setStatus(101);		
 	}
 
 }
