@@ -15,36 +15,35 @@ proof="$proof $?"
 
 mkdir /home/$daemon/services
 
-cp createuser 	/usr/local/createuser
+##cp createuser 	/usr/local/createuser
 cp ftpget 	/home/$daemon/ftpget
-cp startServer	/home/$daemon/startServer
+##cp startServer	/home/$daemon/startServer
 cp software	/home/$daemon/software
 cp status	/home/$daemon/status
 cp start	/home/$daemon/start
 cp stop		/home/$daemon/stop
 cp restart	/home/$daemon/restart
-##Old -> cp installService /home/$daemon/installService
-#cp swe-server /etc/init.d/swe-server
-#cp Server.jar /home/$user/Server.jar
+cp installService /home/$daemon/installService
+cp swe-server /etc/init.d/swe-server
+cp Server.jar /home/$daemon/Server.jar
 
-chmod +x /usr/local/createuser
+#chmod +x /usr/local/createuser
 chmod +x /home/$daemon/ftpget
 chmod +x /home/$daemon/startServer
 chmod +x /home/$daemon/software
 chmod +x /home/$daemon/installService
-#chmod +x /etc/init.d/swe-server
-#chmod +x /home/$user/Server.jar
-#chown $daemon:$daemon /home/$daemon/Server.jar
+chmod +x /home/$daemon/status
+chmod +x /home/$daemon/start
+chmod +x /home/$daemon/stop
+chmod +x /home/$daemon/restart
+chmod +x /etc/init.d/swe-server
+chmod +x /home/$daemon/Server.jar
+chown $daemon:$daemon /home/$daemon/Server.jar
 
-#update-rc.d /etc/init.d/swe-server defaults
-# proof="$proof $?"
+update-rc.d /etc/init.d/swe-server defaults
+proof="$proof $?"
 
-## the following lines are dirty administration. please consider!
-echo '# the following lines are script-generated. please consider'>>/etc/sudoers
-echo '%'$daemon	'ALL=NOPASSWD: /usr/local/createuser'>>/etc/sudoers
-echo '%'$daemon	'ALL=NOPASSWD: /usr/local/useradd'>>/etc/sudoers
-echo '# end of script-generated lines'>>/etc/sudoers
-echo >>/etc/sudoers
+
 
 echo 'installation done. no guarantee at all'
 
