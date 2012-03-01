@@ -12,22 +12,22 @@ private static final long serialVersionUID = 1L;
 	private ArrayList<E> _delegate = new ArrayList<E>();
 	
 	@Override
-	public Object getElementAt(int arg0) {
+	public synchronized Object getElementAt(int arg0) {
 		return (E)this._delegate.get(arg0);
 	}//getElementAt()
 
 	@Override
-	public int getSize() {
+	public synchronized int getSize() {
 		return this._delegate.size();
 	}//getSize
 	
-	public void add(E e){
+	public synchronized void add(E e){
 		 int index = this._delegate.size();
 	        this._delegate.add(e);
 	        fireIntervalAdded(this, index, index);
 	}//add()
 	
-	public void delete(int index){
+	public synchronized void delete(int index){
 		if(index < 0 || index >= this._delegate.size())
 		{
 			//throw new IndexOutOfBoundsException("Index out of Bounds!");
@@ -38,7 +38,7 @@ private static final long serialVersionUID = 1L;
 		}//else
 	}//delete()
 	
-	public void delete(){
+	public synchronized void delete(){
 		this._delegate.remove(0);
 		fireIntervalRemoved(this, 0, 0);
 	}//delete()

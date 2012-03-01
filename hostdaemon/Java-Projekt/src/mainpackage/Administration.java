@@ -1,5 +1,6 @@
 package mainpackage;
 
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 /**
@@ -102,22 +103,23 @@ public class Administration extends Thread {
 	private void clientList(Scanner sc){
 		Database base = new Database();
 		int input = -1;
-		String[][] clients = new String[0][0];
-		try {
-			String tm = base.getInfo_getClients();
-			if(tm.length() != 0)
-			{
-				String[] tmp = tm.split("#");
-				clients = new String [tmp.length][];
-				for(int i = 0; i < tmp.length; i++)
-				clients[i] = tmp[i].split(":");
-			}
-		} catch (Exception e) {
-			System.out.println("Cannot access Database!");
-			input = -1;
-		}
+		
 		
 		while (input != 0) {
+			String[][] clients = new String[0][0];
+			try {
+				String tm = base.getInfo_getClients();
+				if(tm.length() != 0)
+				{
+					String[] tmp = tm.split("#");
+					clients = new String [tmp.length][];
+					for(int i = 0; i < tmp.length; i++)
+					clients[i] = tmp[i].split(":");
+				}
+			} catch (Exception e) {
+				System.out.println("Cannot access Database!");
+				input = -1;
+			}
 			String output = "+-------------------->" +
 							"\n| Client-List" +
 							"\n| 0 -> Back" +
@@ -189,6 +191,7 @@ public class Administration extends Thread {
 			if(tmp.toLowerCase().equals("yes") || tmp.toLowerCase().equals("y"))
 					confirm = true;
 			} 
+		confirm = false;
 		/* Client-Password*/
 		while(!confirm){
 			java.io.Console console = System.console();
@@ -213,7 +216,7 @@ public class Administration extends Thread {
 			{
 				System.out.println("Console could not be referred. Insecure Insert:");
 				pwd = getText("Please enter the Password: ");
-				String tmp = getText("Name = "+ name + " -> correct? (yes/no)");
+				String tmp = getText("Password = "+ pwd + " -> correct? (yes/no)");
 				if(tmp.toLowerCase().equals("yes") || tmp.toLowerCase().equals("y"))
 						confirm = true;
 			}
@@ -233,7 +236,7 @@ public class Administration extends Thread {
 					"\n| 0 -> back " +
 					"\n| 1 -> Get ClientStatus " +
 					"\n| 2 -> Get HardwareInfo " +
-					"\n| 3 -> Get SoftwareINfo " +
+					"\n| 3 -> Get SoftwareInfo " +
 					"\n| 4 -> Install new Software " +
 					"\n+-------------------->");
 			sc = new Scanner(System.in);
@@ -262,11 +265,61 @@ public class Administration extends Thread {
 				clientsoftware(sc, base, client, clientid);
 				break;
 			case 4:
+				installsoft(sc, client, clientid, base);
 				break;
 			case 0:
 				break;
 			}//switch
 		}//while
+	}
+	private void installsoft(Scanner sc, String client, int clientid, Database base){
+		int input = -1;
+		while(input != 0){
+			int size = 0;
+			String[] soft = new String[0];
+			String output = "+-------------------->" +
+							"\n| Client: " + client + " ID: " + clientid +
+							"\n| possible Software:" +
+							"\n| 0 -> back";
+							
+			String tmp = "";
+			try {
+				tmp = base.getInfo_getRepoList();
+			} catch (Exception e) {System.out.println("Could not get Software from Database!");}
+			if(tmp.length() != 0){
+				soft = tmp.split("#");
+				size = soft.length;
+				for(int i = 1; i < soft.length +1 ; i++)
+					output += "\n| "+i+ " -> "+soft[i-1];
+			}
+			output += "+-------------------->";
+			
+			System.out.println(output);
+			try{
+				input = sc.nextInt();
+			}catch(Exception e)
+			{}
+			if(input > 0 && input <= size)
+			{
+				String[] ftptmp = new String[0];
+				String ip = "";
+				int port = 5550;
+				try {
+					ftptmp = base.getFTP_IP_FILE(soft[input -1]);
+					String iptmp = base.getClientIP(clientid);
+					ip = iptmp.split(":")[0];
+					port = Integer.parseInt(iptmp.split(":")[1]);
+					Command c = new Command();
+					c.setName("install");
+					c.setStatus(100);
+					c.setFTP_File(ftptmp[1]);
+					c.setFTP_IP(ftptmp[0]);
+					c.setProgram(soft[input-1]);
+					this._com.send(c, ip, port);
+				} catch (Exception e) {System.out.println("Could not access Database!");}
+				
+			}
+		}
 	}
 	
 	private void clientsoftware(Scanner sc, Database base, String client, int clientid){
@@ -379,10 +432,12 @@ public class Administration extends Thread {
 		int input = -1;
 		while(input != 0)
 		{
-		System.out.println(	"+-------------------->" +
+		
+			System.out.println(	"+-------------------->" +
 							"\n| 0 -> back" +
 							"\n| 1 -> list Software" +
-							"\n| 2 -> update Repository");
+							"\n| 2 -> update Repository" +
+							"\n+-------------------->");
 		try{
 			input = sc.nextInt();
 			switch(input)
@@ -391,12 +446,17 @@ public class Administration extends Thread {
 				break;
 			case 1:
 				try{
-					String[] soft = base.getInfo_getRepoList().split("#");
+					String tmp = base.getInfo_getRepoList();
+					if(tmp.length() != 0){
+					String[] soft = tmp.split("#");
 					System.out.println("The Repository contains following software:");
 					for(String i : soft)
 						System.out.println("|| " + i);
-					System.out.println(	"++--------------------------" +
+					System.out.println(	"++--------------------------\n" +
 										"++--------------------------");
+					}else{
+						
+					}		
 				}catch(Exception e){
 					System.out.println("Cannot get Softwarelist from Database!");
 				}

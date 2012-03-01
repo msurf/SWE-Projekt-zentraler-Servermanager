@@ -34,7 +34,7 @@ public class Communication extends Thread {
 	 * sends a message to the serveradress
 	 * @param s sets the message
 	 */
-	protected void send(Command com, String to_IP, int on_Port){
+	protected synchronized void send(Command com, String to_IP, int on_Port){
 		OutputThread out = new OutputThread(to_IP, on_Port, com, this._config);
 		out.start();
 	}//send(String s)

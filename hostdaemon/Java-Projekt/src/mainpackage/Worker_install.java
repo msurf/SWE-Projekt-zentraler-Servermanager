@@ -31,7 +31,7 @@ public class Worker_install extends Worker{
 	}
 	private void insertIntoDB() {
 		Database db = new Database();
-		db.insertInstalledSofware(this._command.getFTP_File(), this._command.getFTP_IP());
+		db.insertInstalledSofware(this._command.getParameter(), this._command.getClientID()+"", this._command.getFTP_File(), this._command.getFTP_IP());
 		
 	}
 	public void sendToClient(){

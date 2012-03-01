@@ -4,6 +4,23 @@ import java.sql.*;
 
 public class Database {
 	
+	// table: 			users
+	// 3 columns:	name, pw, rigths
+	//
+	// table:			client
+	// 6 columns:	name, ip, clientid, user, pw, status
+	//
+	// table:			software
+	// 5 columns:	softid, name, description, file, frpip
+	//
+	// table:			insoftware
+	// 6 columns:	id, softid, clientid, user, pw, status
+	//
+	// table:			hardware
+	// 5 columns:	id, clientid, cpu, ram, architecture
+	//
+	// table:			messages
+	// 5 columns:	id, clientid, time, status, message
 	public Database () {
 	}
 	
@@ -48,7 +65,7 @@ public class Database {
 																				                      "name  text not null unique,"+
 																				                      "description text,"+
 																				                      "file text not null,"+
-																				                      "ftpip text not null;");
+																				                      "ftpip text not null);");
 			// table:			insoftware
 			// 6 columns:	id, softid, clientid, user, pw, status
 			stat.executeUpdate("create table if not exists insoftware( id integer primary key autoincrement not null unique,"+
@@ -59,11 +76,12 @@ public class Database {
 											 														     "status text not null default 'install',"+
 											 														     "check (status='install' or status = 'on' or status = 'off'));");
 			// table:			hardware
-			// 4 columns:	clientid, cpu, ram, architecture
-			stat.executeUpdate("create table if not exists hardware( clientid references client(clientid) on delete restrict on update restrict primary key,"+
-																								       "cpu text,"+
-																								       "ram text,"+
-																								       "architecture text);");
+			// 5 columns:	id, clientid, cpu, ram, architecture
+			stat.executeUpdate("create table if not exists hardware( id integer primary key not null unique, " +
+																										"clientid integer not null ,"+
+																										"cpu text,"+
+																										"ram text,"+
+																								       	"architecture text);");
 			// table:			messages
 			// 5 columns:	id, clientid, time, status, message
 			stat.executeUpdate("create table if not exists messages( id integer primary key autoincrement not null unique,"+
@@ -93,11 +111,10 @@ public class Database {
 		stat.executeUpdate("insert into software(name,description,file,ftpip) values ('css','Installiert CounterStrike:Source','css.tar.gz','192.168.1.21')");
 		
 		/* installierte Software*/
-		 	
 			rs = stat.executeQuery("select softid from software where name='css';");
 			while(rs.next())
 			softid = rs.getString("softid");
-			rs = stat.executeQuery("select clientid from client where name='debian1';");
+			rs = stat.executeQuery("select clientid from client where name='debian2';");
 			while(rs.next())
 				clientid = rs.getString("clientid");
 		
@@ -105,18 +122,23 @@ public class Database {
 			stat.executeUpdate("insert into insoftware(softid,clientid,user,pw) values ('"+softid+"','"+clientid+"','css2','none')");
 			stat.executeUpdate("insert into insoftware(softid,clientid,user,pw) values ('"+softid+"','"+clientid+"','css3','none')");
 		
-			rs = stat.executeQuery("select client_id from client where name='debian3'");
+			rs = stat.executeQuery("select clientid from client where name='debian3'");
 			while(rs.next())
-				clientid = rs.getString("client_id");	
-			stat.executeUpdate("insert into installierte_software(software_id,client_id,software_benutzer,passwort) values ('"+softid+"','"+clientid+"','css1','none')");
-			stat.executeUpdate("insert into installierte_software(software_id,client_id,software_benutzer,passwort) values ('"+softid+"','"+clientid+"','css2','none')");
+				clientid = rs.getString("clientid");	
+			stat.executeUpdate("insert into insoftware(softid,clientid,user,pw) values ('"+softid+"','"+clientid+"','css1','none')");
+			stat.executeUpdate("insert into insoftware(softid,clientid,user,pw) values ('"+softid+"','"+clientid+"','css2','none')");
 
 		/* Hardware */
-		rs = stat.executeQuery("select client_id from client where name='debian2'");
+		rs = stat.executeQuery("select clientid from client where name='debian2'");
 		while(rs.next())
 			clientid = rs.getString("clientid");
 		
 		stat.executeUpdate("insert into hardware(clientid,cpu,ram,architecture) values ('"+clientid+"','C2D@2.667Ghz','2024Mb','i386');");
+		
+		rs = stat.executeQuery("select clientid from client where name='debian3'");
+		while(rs.next())
+			clientid = rs.getString("clientid");
+		
 		stat.executeUpdate("insert into hardware(clientid,cpu,ram,architecture) values ('"+clientid+"','AMD@1.8Ghz','4096Mb','amd64');");
 		
 		System.out.println("<- All Tables updated");
@@ -153,7 +175,7 @@ public class Database {
 		while (rs.next()) {
 			result += "#"+rs.getString("name")+":"+rs.getInt("clientid");																				
 		}
-		result += result.replace("none#", "");
+		result = result.replace("none#", "");
 		rs.close();
 		stat.close();
 		conn.close();
@@ -186,7 +208,7 @@ public class Database {
 		while(rs.next()) {
 			result += "#"+rs.getString("name");
 		}
-		result += result.replace("none#", "");
+		result = result.replace("none#", "");
 		rs.close();
 		stat.close();
 		conn.close();
@@ -263,7 +285,7 @@ public class Database {
 		Statement stat = conn.createStatement();
 		ResultSet rs = stat.executeQuery("select ftpip, file" +
 										    				  "from software" +
-										    				  "where softid="+parameter+";");
+										    				  "where softid='"+parameter+"';");
 		String []result = new String[2];
 	
 		//result[0] beinhaltet die ip und result[1] den filenamen
@@ -276,8 +298,28 @@ public class Database {
 		conn.close();
 		return result;
 	}
-
-	public void insertInstalledSofware(String ftp_File, String ftp_IP) {
+	
+	protected String[] getFTP_IP_FILE(String parameter) throws SQLException, ClassNotFoundException, Exception {
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		 ResultSet rs = stat.executeQuery("select ftpip, file" +
+				  "from software" +
+				  "where name='"+parameter+"';");
+		String []result = new String[2];
+	
+		//result[0] beinhaltet die ip und result[1] den filenamen
+		while (rs.next()) {
+			result[0] = rs.getString("ftpip");
+			result[1] = rs.getString("file");
+		}
+		rs.close();
+		stat.close();
+		conn.close();
+		return result;
+	}
+	
+	public void insertInstalledSofware(String softid, String clientid, String ftp_File, String ftp_IP) {
 		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e1) {
@@ -289,8 +331,10 @@ public class Database {
 		try{
 			conn=DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 			stat = conn.createStatement();
-			stat.executeUpdate("insert into software(ftp_ip, ftp_file)"+
-							   "values ('"+ftp_IP+"', '"+
+			stat.executeUpdate("insert into insoftware(softid,clientid,ftp_ip, ftp_file)"+
+							   "values ('" +softid+"',"+
+							   			"'" +clientid+"',"+
+							   			"'"+ftp_IP+"', '"+
 								           ftp_File+"');");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
