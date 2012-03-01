@@ -285,7 +285,7 @@ public class Database {
 		Statement stat = conn.createStatement();
 		ResultSet rs = stat.executeQuery("select ftpip, file" +
 										    				  "from software" +
-										    				  "where softid="+parameter+";");
+										    				  "where softid='"+parameter+"';");
 		String []result = new String[2];
 	
 		//result[0] beinhaltet die ip und result[1] den filenamen
@@ -298,7 +298,27 @@ public class Database {
 		conn.close();
 		return result;
 	}
-
+	
+	protected String[] getFTP_IP_FILE(String parameter) throws SQLException, ClassNotFoundException, Exception {
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		 ResultSet rs = stat.executeQuery("select ftpip, file" +
+				  "from software" +
+				  "where name='"+parameter+"';");
+		String []result = new String[2];
+	
+		//result[0] beinhaltet die ip und result[1] den filenamen
+		while (rs.next()) {
+			result[0] = rs.getString("ftpip");
+			result[1] = rs.getString("file");
+		}
+		rs.close();
+		stat.close();
+		conn.close();
+		return result;
+	}
+	
 	public void insertInstalledSofware(String softid, String clientid, String ftp_File, String ftp_IP) {
 		try {
 			Class.forName("org.sqlite.JDBC");

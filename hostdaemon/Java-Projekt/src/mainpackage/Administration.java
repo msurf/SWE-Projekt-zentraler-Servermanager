@@ -276,6 +276,7 @@ public class Administration extends Thread {
 		int input = -1;
 		while(input != 0){
 			int size = 0;
+			String[] soft = new String[0];
 			String output = "+-------------------->" +
 							"\n| Client: " + client + " ID: " + clientid +
 							"\n| possible Software:" +
@@ -286,7 +287,7 @@ public class Administration extends Thread {
 				tmp = base.getInfo_getRepoList();
 			} catch (Exception e) {System.out.println("Could not get Software from Database!");}
 			if(tmp.length() != 0){
-				String[] soft = tmp.split("#");
+				soft = tmp.split("#");
 				size = soft.length;
 				for(int i = 1; i < soft.length +1 ; i++)
 					output += "\n| "+i+ " -> "+soft[i-1];
@@ -298,8 +299,24 @@ public class Administration extends Thread {
 				input = sc.nextInt();
 			}catch(Exception e)
 			{}
-			if(input >= 0 && input <= size)
+			if(input > 0 && input <= size)
 			{
+				String[] ftptmp = new String[0];
+				String ip = "";
+				int port = 5550;
+				try {
+					ftptmp = base.getFTP_IP_FILE(soft[input -1]);
+					String iptmp = base.getClientIP(clientid);
+					ip = iptmp.split(":")[0];
+					port = Integer.parseInt(iptmp.split(":")[1]);
+					Command c = new Command();
+					c.setName("install");
+					c.setStatus(100);
+					c.setFTP_File(ftptmp[1]);
+					c.setFTP_IP(ftptmp[0]);
+					c.setProgram(soft[input-1]);
+					this._com.send(c, ip, port);
+				} catch (Exception e) {System.out.println("Could not access Database!");}
 				
 			}
 		}
