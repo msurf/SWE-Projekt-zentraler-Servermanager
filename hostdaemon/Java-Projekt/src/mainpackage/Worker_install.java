@@ -11,9 +11,31 @@ public class Worker_install extends Worker{
 		this._com = com;
 	}
 	public void run(){
-		sendToClient();
+		checkStatus();
 	}
 	
+	private void checkStatus() {
+		int status = this._command.getStatus();
+		switch (status) {
+		case 100:
+			directResponse();
+			sendToClient();
+			break;
+		case 103:
+			insertIntoDB();
+		}
+
+	}
+	private void insertIntoDB() {
+		Database db = new Database();
+		db.insertInstalledSofware(this._command.getFTP_File(), this._command.getFTP_IP());
+		
+	}
+	private void directResponse() {
+		this._command.setStatus(105);
+		this._com.send(this._command, this._conf.getIP_send(), this._conf.getPort_send());
+		
+	}
 	public void sendToClient(){
 		Database data = new Database();
 		String url="";
