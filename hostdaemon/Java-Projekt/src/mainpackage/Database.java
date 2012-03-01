@@ -299,7 +299,7 @@ public class Database {
 		return result;
 	}
 
-	public void insertInstalledSofware(String ftp_File, String ftp_IP) {
+	public void insertInstalledSofware(String softid, String clientid, String ftp_File, String ftp_IP) {
 		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e1) {
@@ -311,8 +311,10 @@ public class Database {
 		try{
 			conn=DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 			stat = conn.createStatement();
-			stat.executeUpdate("insert into software(ftp_ip, ftp_file)"+
-							   "values ('"+ftp_IP+"', '"+
+			stat.executeUpdate("insert into insoftware(softid,clientid,ftp_ip, ftp_file)"+
+							   "values ('" +softid+"',"+
+							   			"'" +clientid+"',"+
+							   			"'"+ftp_IP+"', '"+
 								           ftp_File+"');");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

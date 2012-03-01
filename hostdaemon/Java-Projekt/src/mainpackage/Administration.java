@@ -1,5 +1,6 @@
 package mainpackage;
 
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 /**
@@ -235,7 +236,7 @@ public class Administration extends Thread {
 					"\n| 0 -> back " +
 					"\n| 1 -> Get ClientStatus " +
 					"\n| 2 -> Get HardwareInfo " +
-					"\n| 3 -> Get SoftwareINfo " +
+					"\n| 3 -> Get SoftwareInfo " +
 					"\n| 4 -> Install new Software " +
 					"\n+-------------------->");
 			sc = new Scanner(System.in);
@@ -264,11 +265,44 @@ public class Administration extends Thread {
 				clientsoftware(sc, base, client, clientid);
 				break;
 			case 4:
+				installsoft(sc, client, clientid, base);
 				break;
 			case 0:
 				break;
 			}//switch
 		}//while
+	}
+	private void installsoft(Scanner sc, String client, int clientid, Database base){
+		int input = -1;
+		while(input != 0){
+			int size = 0;
+			String output = "+-------------------->" +
+							"\n| Client: " + client + " ID: " + clientid +
+							"\n| possible Software:" +
+							"\n| 0 -> back";
+							
+			String tmp = "";
+			try {
+				tmp = base.getInfo_getRepoList();
+			} catch (Exception e) {System.out.println("Could not get Software from Database!");}
+			if(tmp.length() != 0){
+				String[] soft = tmp.split("#");
+				size = soft.length;
+				for(int i = 1; i < soft.length +1 ; i++)
+					output += "\n| "+i+ " -> "+soft[i-1];
+			}
+			output += "+-------------------->";
+			
+			System.out.println(output);
+			try{
+				input = sc.nextInt();
+			}catch(Exception e)
+			{}
+			if(input >= 0 && input <= size)
+			{
+				
+			}
+		}
 	}
 	
 	private void clientsoftware(Scanner sc, Database base, String client, int clientid){
