@@ -60,6 +60,11 @@ class LoginForm extends CFormModel
 	 */
 	public function login()
 	{
+
+		// $command->setName("authenticate")...->setFrom("website")...->setUser("username")...->setPassword($password);
+		// $result = $connection->sendCommand($command);
+		// if ($result->getStatus() == 105 && $result->getInfo()["correct"] == "rights") { // authenticated }
+
 		if($this->_identity===null)
 		{
 			$this->_identity=new UserIdentity($this->username,$this->password);
