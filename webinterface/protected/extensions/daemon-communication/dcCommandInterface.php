@@ -172,4 +172,8 @@ interface dcCommandInterface {
      * @return string 
      */
     public function getUser();
+    /**
+     * @return string 
+     */
+    public function toXml();
 }
