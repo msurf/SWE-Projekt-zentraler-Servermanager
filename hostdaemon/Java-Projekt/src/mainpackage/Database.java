@@ -31,16 +31,16 @@ public class Database {
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 			Statement stat = conn.createStatement();
 			stat.executeUpdate("create table Benutzer( Name text primary key not null unique,"+
-										  										  "Pwd text primary key not null,"+
+										  										  "Pwd text not null,"+
 										  										  "Rights text not null,"+
-										  										  "check (Rights='admin' or 'read'));");
+										  										  "check (Rights = 'admin' or Rights = 'read'));");
 			stat.executeUpdate("create table Client( Name text not null unique,"+
 																			 "IP text not null unique,"+
 																			 "Client_ID integer primary key autoincrement not null unique,"+
 																			 "user text not null default 'root',"+
 																			 "pw text not null default 'swe1234',"+
 																			 "status text not null default 'off',"+
-																			 "check (status='busy' or 'off' or 'on'));");
+																			 "check (status = 'busy' or status = 'off' or status = 'on'));");
 			stat.executeUpdate("create table Software( Software_ID integer primary key autoincrement not null unique,"+
 																				  "Name  text not null unique,"+
 																				  "Beschreibung text,"+
@@ -52,7 +52,7 @@ public class Database {
 											 														 "Software_Benutzer text,"+
 											 														 "Passwort text,"+
 											 														 "Status text not null default 'install',"+
-											 														 "check (status='install' or 'on' or 'off'));");
+											 														 "check (status='install' or status = 'on' or status = 'off'));");
 			stat.executeUpdate("create table Hardware( Client_ID references Software(Software_ID) on delete restrict on update restrict primary key,"+
 																					"CPU text,"+
 																					"RAM text,"+
