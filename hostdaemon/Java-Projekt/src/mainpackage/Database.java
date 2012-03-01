@@ -112,14 +112,15 @@ public class Database {
 	}
 	
 	protected String getInfo_getRepoList() throws SQLException, ClassNotFoundException, Exception {
-		String ergebnis = "";
+		String ergebnis = "none";
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
 		ResultSet rs = stat.executeQuery("select distinct Name from Software;");
 		while(rs.next()) {
-			ergebnis += rs.getString(1)+"#";
+			ergebnis += "#"+rs.getString(1);
 		}
+		ergebnis += ergebnis.replace("none#", "");
 		rs.close();
 		stat.close();
 		conn.close();
