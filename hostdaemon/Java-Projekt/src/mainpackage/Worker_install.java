@@ -18,22 +18,20 @@ public class Worker_install extends Worker{
 		int status = this._command.getStatus();
 		switch (status) {
 		case 100:
-			directResponse();
 			sendToClient();
+			break;
+		case 102:
+			insertIntoDB();
 			break;
 		case 103:
 			insertIntoDB();
+			break;
 		}
 
 	}
 	private void insertIntoDB() {
 		Database db = new Database();
-		db.insertInstalledSofware(this._command.getFTP_File(), this._command.getFTP_IP());
-		
-	}
-	private void directResponse() {
-		this._command.setStatus(105);
-		this._com.send(this._command, this._conf.getIP_send(), this._conf.getPort_send());
+		db.insertInstalledSofware(this._command.getParameter(), this._command.getClientID()+"", this._command.getFTP_File(), this._command.getFTP_IP());
 		
 	}
 	public void sendToClient(){
