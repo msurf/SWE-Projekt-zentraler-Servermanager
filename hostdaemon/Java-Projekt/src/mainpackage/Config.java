@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Config {
 
 	
-	/*lscpu | grep 'Architectur' ; lscpu | grep 'CPU(s)'; lscpu | grep 'MHz'*/
 	
 	/*Config*/
 	private String _config = System.getProperty("user.dir")+"/swe.conf";
@@ -33,7 +32,7 @@ public class Config {
 		if(this._software.contains(software))
 			this._software.remove(software);
 	}
-	public ArrayList<String> getSoftware(){return this._software;}
+	public synchronized ArrayList<String> getSoftware(){return this._software;}
 	
 	/*System*/
 	private String _logpath = System.getProperty("user.dir");
@@ -47,10 +46,10 @@ public class Config {
 	private void setArchitecture(String s){this._architectur = s;}
 	
 	
-	public String getLogpath(){return this._logpath;}
-	public String getCpu(){return this._CPU;}
-	public String getRam(){return this._RAM;}
-	public String getArchitecture(){return this._architectur;}
+	public synchronized String getLogpath(){return this._logpath;}
+	public synchronized String getCpu(){return this._CPU;}
+	public synchronized String getRam(){return this._RAM;}
+	public synchronized String getArchitecture(){return this._architectur;}
 	
 	/*listening*/
 	private String _IP_own = "localhost";
@@ -59,8 +58,8 @@ public class Config {
 	private void setIP_own(String s){this._IP_own = s;}
 	private void setPort_own(int i){this._Port_own = i;}
 	
-	public String getIP_own(){return this._IP_own;}
-	public int getPort_own(){return this._Port_own;}
+	public synchronized String getIP_own(){return this._IP_own;}
+	public synchronized int getPort_own(){return this._Port_own;}
 	
 	
 	/*sending*/
@@ -70,14 +69,14 @@ public class Config {
 	private void setDefaultSendingIP(String s){this._defSendIP = s;}
 	private void setDefaultSendingPort(int i){this._defSendPort = i;}
 	
-	public String getIP_send(){return this._defSendIP;}
-	public int getPort_send(){return this._defSendPort;}
+	public synchronized String getIP_send(){return this._defSendIP;}
+	public synchronized int getPort_send(){return this._defSendPort;}
 	
 	Config(){
 		loadConfig();
 	}//constructor
 	
-	public void loadConfig(){
+	public synchronized void loadConfig(){
 		System.out.println("Loading Config");
 		File test = new File(this._config);
 		if(test.exists())
@@ -136,7 +135,7 @@ public class Config {
 		System.out.println("Complete");
 	}
 	
-	public void writeConfig(){
+	public synchronized void writeConfig(){
 		System.out.println("Writing config...");
 		ShellRunner shell = new ShellRunner();
 		shell.execute("echo 'own_ip="+this._IP_own+"'>"+this._config);//old file will be overwritten
@@ -183,11 +182,11 @@ public class Config {
 				removeSoftware(i);
 		System.out.println("Software updated");
 	}
-	public String hwinfo(){
+	public synchronized String hwinfo(){
 		String tmp = "architecture:"+ this._architectur+"#cpu:"+ this._CPU +"#ram:"+ this._RAM;
 		return tmp;
 	}
-	public String swinfo(){
+	public synchronized String swinfo(){
 		String tmp = "";
 		for (String i : this._software)
 			tmp += "software:"+i;

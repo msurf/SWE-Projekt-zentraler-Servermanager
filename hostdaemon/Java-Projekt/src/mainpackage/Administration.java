@@ -102,22 +102,23 @@ public class Administration extends Thread {
 	private void clientList(Scanner sc){
 		Database base = new Database();
 		int input = -1;
-		String[][] clients = new String[0][0];
-		try {
-			String tm = base.getInfo_getClients();
-			if(tm.length() != 0)
-			{
-				String[] tmp = tm.split("#");
-				clients = new String [tmp.length][];
-				for(int i = 0; i < tmp.length; i++)
-				clients[i] = tmp[i].split(":");
-			}
-		} catch (Exception e) {
-			System.out.println("Cannot access Database!");
-			input = -1;
-		}
+		
 		
 		while (input != 0) {
+			String[][] clients = new String[0][0];
+			try {
+				String tm = base.getInfo_getClients();
+				if(tm.length() != 0)
+				{
+					String[] tmp = tm.split("#");
+					clients = new String [tmp.length][];
+					for(int i = 0; i < tmp.length; i++)
+					clients[i] = tmp[i].split(":");
+				}
+			} catch (Exception e) {
+				System.out.println("Cannot access Database!");
+				input = -1;
+			}
 			String output = "+-------------------->" +
 							"\n| Client-List" +
 							"\n| 0 -> Back" +
@@ -189,6 +190,7 @@ public class Administration extends Thread {
 			if(tmp.toLowerCase().equals("yes") || tmp.toLowerCase().equals("y"))
 					confirm = true;
 			} 
+		confirm = false;
 		/* Client-Password*/
 		while(!confirm){
 			java.io.Console console = System.console();
@@ -213,7 +215,7 @@ public class Administration extends Thread {
 			{
 				System.out.println("Console could not be referred. Insecure Insert:");
 				pwd = getText("Please enter the Password: ");
-				String tmp = getText("Name = "+ name + " -> correct? (yes/no)");
+				String tmp = getText("Password = "+ pwd + " -> correct? (yes/no)");
 				if(tmp.toLowerCase().equals("yes") || tmp.toLowerCase().equals("y"))
 						confirm = true;
 			}
@@ -379,10 +381,12 @@ public class Administration extends Thread {
 		int input = -1;
 		while(input != 0)
 		{
-		System.out.println(	"+-------------------->" +
+		
+			System.out.println(	"+-------------------->" +
 							"\n| 0 -> back" +
 							"\n| 1 -> list Software" +
-							"\n| 2 -> update Repository");
+							"\n| 2 -> update Repository" +
+							"\n+-------------------->");
 		try{
 			input = sc.nextInt();
 			switch(input)
@@ -391,12 +395,17 @@ public class Administration extends Thread {
 				break;
 			case 1:
 				try{
-					String[] soft = base.getInfo_getRepoList().split("#");
+					String tmp = base.getInfo_getRepoList();
+					if(tmp.length() != 0){
+					String[] soft = tmp.split("#");
 					System.out.println("The Repository contains following software:");
 					for(String i : soft)
 						System.out.println("|| " + i);
-					System.out.println(	"++--------------------------" +
+					System.out.println(	"++--------------------------\n" +
 										"++--------------------------");
+					}else{
+						
+					}		
 				}catch(Exception e){
 					System.out.println("Cannot get Softwarelist from Database!");
 				}
