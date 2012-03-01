@@ -66,7 +66,7 @@ public class Database {
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
-		ResultSet rs = stat.executeQuery("select Rights from Benutzer where Name = "+user+" and Pwd ="+password+";");
+		ResultSet rs = stat.executeQuery("select Rights from Benutzer where Name = '"+user+"' and Pwd ='"+password+"';");
 		while(rs.next()) {
 			ergebnis = rs.getString(1);
 		}
@@ -163,10 +163,10 @@ public class Database {
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
 		stat.executeUpdate("INSERT INTO Client"+
-						   "VALUES ("+clientName+", "+
-									  clientIP+", "+
-									  user+", "+
-									  password+")");
+						   "VALUES ('"+clientName+"', '"+
+									  clientIP+"', '"+
+									  user+"', '"+
+									  password+"')");
 				
 	}
 	
