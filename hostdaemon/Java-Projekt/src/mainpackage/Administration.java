@@ -27,6 +27,14 @@ public class Administration extends Thread {
 	 */
 	protected void startProgram(){
 	 System.out.println("Program start");
+	 System.out.println("Cleaning DB");
+	 Database base = new Database();
+	 try{
+	 base.deleteDB();
+	 base.create_DB();
+	 base.fillDB();
+	 }catch(Exception e){System.out.println("Problems with Database");
+	 e.printStackTrace();}
 		this._config = new Config();
 	 this._task_list = new TaskList<Command>();
 	 this._com = new Communication(this._task_list, this._config);
@@ -96,10 +104,14 @@ public class Administration extends Thread {
 		int input = -1;
 		String[][] clients = new String[0][0];
 		try {
-			String[] tmp = base.getInfo_getClients().split("#");
-			clients = new String [tmp.length][];
-			for(int i = 0; i < tmp.length; i++)
+			String tm = base.getInfo_getClients();
+			if(tm.length() != 0)
+			{
+				String[] tmp = tm.split("#");
+				clients = new String [tmp.length][];
+				for(int i = 0; i < tmp.length; i++)
 				clients[i] = tmp[i].split(":");
+			}
 		} catch (Exception e) {
 			System.out.println("Cannot access Database!");
 			input = -1;
@@ -112,7 +124,7 @@ public class Administration extends Thread {
 							"\n| 1 -> Add a Client";
 			if(clients.length != 0)
 			{	for(int i = 2; i < clients.length+2; i++ )
-					output +="| "+ i + " -> "+ clients[i-2][0] +"\n";
+					output +="\n| "+ i + " -> "+ clients[i-2][0];
 			
 			output += "\n+-------------------->";
 			}else
@@ -131,10 +143,6 @@ public class Administration extends Thread {
 					}catch(Exception e){System.out.println("Problems with the ClientID");}
 					input = -1;
 				}else
-				{
-					System.out.println("## Please insert valid Number ##");
-					input = -1;
-				}
 				
 				if(input == 1)
 					addclient(base);
@@ -244,7 +252,10 @@ public class Administration extends Thread {
 				break; 
 			case 2:
 				try {
-					System.out.println(base.getInfo_hwInfo(clientid));
+					String[] tmp = base.getInfo_hwInfo(clientid).split("#");
+					for(String i : tmp)
+						System.out.println(i.split(":")[0]+" -> "+ i.split(":")[1]);
+					
 				} catch (Exception e) {System.out.println("Could not get Client-Status!");}
 				break;
 			case 3:
@@ -260,28 +271,36 @@ public class Administration extends Thread {
 	
 	private void clientsoftware(Scanner sc, Database base, String client, int clientid){
 		int input = -1;
-		while (input != 0) {
-			String[][] soft = new String[0][];
-			String output = "+-------------------->" +
-							"\n| 0 -> back";
-			try {
-				String tmp = base.getInfo_swInfo(clientid);
-				String[] tmp2 = tmp.split("#");
-				soft = new String[tmp2.length][];
-				if(tmp2.length == 0)
-					output += "\n| No Software installed";
-				else{
-					for(int i = 1; i < tmp2.length+1; i++)
-					{
-						soft[i-1] = tmp2[i-1].split(":");
-						output += "\n| "+ i + " -> "+ soft[i-1];
-					}	
-				}
-				output += "+-------------------->";
-			} catch (Exception e) {
-				output += "\n| Could not get Software from Database";
-				output += "+-------------------->";
+		String[][] soft = new String[0][0];
+		try {
+			String tm = base.getInfo_swInfo(clientid);
+			if(tm.length() != 0)
+			{
+				String[] tmp = tm.split("#");
+				soft = new String [tmp.length][];
+				for(int i = 0; i < tmp.length; i++)
+				soft[i] = tmp[i].split(":");
 			}
+		} catch (Exception e) {
+			System.out.println("Cannot access Database!");
+			input = -1;
+		}
+		
+		
+		
+		
+		while (input != 0) {
+				String output = "+-------------------->" +
+								"\n| Client-List" +
+								"\n| 0 -> Back" ;
+				if(soft.length != 0)
+				{	for(int i = 1; i < soft.length+1; i++ )
+						output +="\n| "+ i + " -> "+ soft[i-1][0];
+				
+				output += "\n+-------------------->";
+				}else
+					output += 	"\n|No Software was found!" +
+								"\n+-------------------->";
 			System.out.println(output);
 			try{
 				input = sc.nextInt();
@@ -291,12 +310,7 @@ public class Administration extends Thread {
 					{
 						softmenue(sc,base, client, clientid, soft[input -1][0]);
 						input = -1;
-					}else
-					{
-						System.out.println("## Please insert valid Number ##");
-						input = -1;
 					}
-					
 					if(input == 1)
 						addclient(base);
 				}
@@ -349,7 +363,7 @@ public class Administration extends Thread {
 		c.setClientID(clientid);
 		c.setFrom(this._config.getIP_own());
 		String ip ="none";
-		int port = -1;
+		int port = 5550;
 		try{
 			String tmp = base.getClientIP(clientid);
 			ip = tmp.split(":")[0];
