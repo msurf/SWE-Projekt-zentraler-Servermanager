@@ -86,6 +86,11 @@ public class ServerSocketThread extends Thread {
 			String name = "none";
 			name = this._command.getName();
 			boolean work_done = false;
+		if(name.equals("busy")){
+			String info = this._config.isBusy();
+			this._command.setInfo(info);
+			work_done = true;
+		}
 		if(name.equals("hwinfo")){
 				String info = this._config.hwinfo();
 				this._command.setInfo(info);
