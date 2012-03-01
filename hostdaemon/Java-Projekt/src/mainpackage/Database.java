@@ -276,4 +276,25 @@ public class Database {
 		conn.close();
 		return result;
 	}
+
+	public void insertInstalledSofware(String ftp_File, String ftp_IP) {
+		try {
+			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Connection conn = null;
+		Statement stat=null;
+		try{
+			conn=DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+			stat = conn.createStatement();
+			stat.executeUpdate("insert into software(ftp_ip, ftp_file)"+
+							   "values ('"+ftp_IP+"', '"+
+								           ftp_File+"');");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
