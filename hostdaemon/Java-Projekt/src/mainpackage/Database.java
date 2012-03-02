@@ -2,7 +2,6 @@ package mainpackage;
 
 import java.sql.*;
 
-
 public class Database {
 	
 	// table: 			users
@@ -24,8 +23,10 @@ public class Database {
 	// 5 columns:	id, clientid, time, status, message
 	public Database(){}
 	
+	
+	
 	// delete all tables
-	public void deleteDB() throws ClassNotFoundException, SQLException{
+	public void deleteDB() throws Exception{
 		System.out.println("Start deleting Tables ->");
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
@@ -37,71 +38,75 @@ public class Database {
 		stat.executeUpdate("drop table if exists hardware;");
 		stat.executeUpdate("drop table if exists messages;");
 		System.out.println("<- All Tables deleted");
+		stat.close();
+		conn.close();
 	}
 	// create important tables
-	protected void create_DB() throws ClassNotFoundException, SQLException, Exception {
+	protected void create_DB() throws Exception {
 			System.out.println("Start creating Tables ->");
 			Class.forName("org.sqlite.JDBC");
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 			Statement stat = conn.createStatement();
-			// table: 			users
-			// 3 columns:	name, pw, rigths
-			stat.executeUpdate("create table if not exists users( name text primary key not null unique,"+
-										  										                 "pw text not null,"+
-										  										                 "rights text not null,"+
-										  										                 "check (rights = 'admin' or rights = 'read'));");
-			// table:			client
-			// 6 columns:	name, ip, clientid, user, pw, status
-			stat.executeUpdate("create table if not exists client( name text not null unique,"+
-																			                     "ip text not null unique,"+
-																			                     "clientid integer primary key autoincrement not null unique,"+
-																			                     "user text not null default 'root',"+
-																			                     "pw text not null default 'swe1234',"+
-																			                     "status text not null default 'off',"+
-																			                     "check (status = 'busy' or status = 'off' or status = 'on'));");
-			// table:			software
-			// 5 columns:	softid, name, description, file, frpip
-			stat.executeUpdate("create table if not exists software( softid integer primary key autoincrement not null unique,"+
-																				                      "name  text not null unique,"+
-																				                      "description text,"+
-																				                      "file text not null,"+
-																				                      "ftpip text not null);");
-			// table:			insoftware
-			// 6 columns:	id, softid, clientid, user, pw, status
-			stat.executeUpdate("create table if not exists insoftware( id integer primary key autoincrement not null unique,"+
-											 														     "softid integer not null,"+
-											 														     "clientid references client(clientid) on delete restrict on update restrict not null,"+
-											 														     "user text,"+
-											 														     "pw text,"+
-											 														     "status text not null default 'install',"+
-											 														     "check (status='install' or status = 'on' or status = 'off'));");
-			// table:			hardware
-			// 5 columns:	id, clientid, cpu, ram, architecture
-			stat.executeUpdate("create table if not exists hardware( id integer primary key not null unique, " +
-																										"clientid integer not null ,"+
-																										"cpu text,"+
-																										"ram text,"+
-																								       	"architecture text);");
-			// table:			messages
-			// 5 columns:	id, clientid, time, status, message
-			stat.executeUpdate("create table if not exists messages( id integer primary key autoincrement not null unique,"+
-																										"clientid references client(clientid) on delete restrict on update restrict,"+
-																										"time text,"+
-																										"status text not null,"+
-																										"message text);");
+			/* users */
+			stat.executeUpdate("create table if not exists users( " +
+					"name text primary key not null unique,"+
+					"pw text not null,"+
+					"rights text not null,"+
+					"check (rights = 'admin' or rights = 'read'));");
+			/* client */
+			stat.executeUpdate("create table if not exists client( " +
+					"name text not null unique,"+
+					"ip text not null unique,"+
+					"clientid integer primary key autoincrement not null unique,"+
+					"user text not null default 'root',"+
+					"pw text not null default 'swe1234',"+
+					"status text not null default 'off',"+
+					"check (status = 'busy' or status = 'off' or status = 'on'));");
+			/* software */
+			stat.executeUpdate("create table if not exists software( " +
+					"softid integer primary key autoincrement not null unique,"+
+					"name  text not null unique,"+
+					"description text,"+
+					"file text not null,"+
+					"ftpip text not null);");
+			/* insoftware */
+			stat.executeUpdate("create table if not exists insoftware( " +
+					"id integer primary key autoincrement not null unique,"+
+					"softid integer not null,"+
+					"clientid references client(clientid) on delete restrict on update restrict not null,"+
+					"user text,"+
+					"pw text,"+
+					"status text not null default 'install',"+
+					"check (status='install' or status = 'on' or status = 'off'));");
+			/* hardware */
+			stat.executeUpdate("create table if not exists hardware( " +
+					"id integer primary key not null unique, " +
+					"clientid integer not null ,"+
+					"cpu text,"+
+					"ram text,"+
+					"architecture text);");
+			/* messages */
+			stat.executeUpdate("create table if not exists messages( " +
+					"id integer primary key autoincrement not null unique,"+
+					"clientid references client(clientid) on delete restrict on update restrict,"+
+					"time text,"+
+					"status text not null,"+
+					"message text);");
 			stat.close();
 			conn.close();
 			System.out.println("<- All Tables created");
 	}
+
+	
 	
 	//fill the tables with some information
-	public void fillDB() throws ClassNotFoundException, SQLException{
+	public void fillDB() throws Exception{
 		System.out.println("Start creating Entries ->");
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
 		String clientid = "";
-		String softid = "";
+		int softid = getSoftID("css");
 		ResultSet rs;
 		
 		/* Clients */
@@ -111,9 +116,6 @@ public class Database {
 		stat.executeUpdate("insert into software(name,description,file,ftpip) values ('css','Installiert CounterStrike:Source','css.tar.gz','192.168.1.21')");
 		
 		/* installierte Software*/
-			rs = stat.executeQuery("select softid from software where name='css';");
-			while(rs.next())
-			softid = rs.getString("softid");
 			rs = stat.executeQuery("select clientid from client where name='debian2';");
 			while(rs.next())
 				clientid = rs.getString("clientid");
@@ -144,7 +146,9 @@ public class Database {
 		System.out.println("<- All Tables updated");
 	}
 	
-	// identify the user 
+	
+	/* ***********************************
+	 * users */
 	protected String getInfo_Authenticate(String user, String password) throws SQLException, ClassNotFoundException, Exception {
 		String result = "";
 		Class.forName("org.sqlite.JDBC");
@@ -165,8 +169,51 @@ public class Database {
 			}
 		}
 	
-	// get the names and clientid of all available clients
-	protected String getInfo_getClients() throws SQLException, ClassNotFoundException, Exception {
+	
+	
+	/* ***********************************
+	 * client */
+	protected int getClientID(String name)throws Exception
+	{
+		int clientid = -1;
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		ResultSet rs = stat.executeQuery("select clientid from client where name='"+name+"';");
+		while(rs.next())
+			clientid = Integer.parseInt(rs.getString("clientid"));
+		
+		stat.close();
+		conn.close();
+		return clientid;
+	}
+	
+	protected void delClient(int clientid)throws Exception
+	 {
+		 Class.forName("org.sqlite.JDBC");
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+			Statement stat = conn.createStatement();
+			stat.executeUpdate("delete from insoftware where clientid='"+clientid+"'");
+			stat.executeUpdate("delete from hardware where clientid='"+clientid+"'");
+			stat.executeUpdate("delete from client where clientid='"+clientid+"'");
+			stat.close();
+			conn.close();
+	 }
+
+	protected void insertNewClient(String clientName, String clientIP, String user, String password) throws ClassNotFoundException, SQLException{
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		stat.executeUpdate("insert into client(name, ip, user, pw)"+
+						                 "values ('"+clientName+"', '"+
+									                   clientIP+"', '"+
+									                   user+"', '"+
+									                   password+"');");
+		stat.close();
+		conn.close();
+	}
+
+	protected String getInfo_getClients() throws Exception {
 		String result = "none";
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
@@ -182,107 +229,54 @@ public class Database {
 		return result;
 	}
 	
-	// get the status of a choosen client
-	protected String getInfo_getClientStatus(int clientID) throws SQLException, ClassNotFoundException, Exception {
-		String result = "";
-		Class.forName("org.sqlite.JDBC");
-		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
-		Statement stat = conn.createStatement();
-		ResultSet rs = stat.executeQuery("select status from client where clientid = "+clientID+";");
-		while(rs.next()) {
-			result = rs.getString("status");
-		}
-		rs.close();
-		stat.close();
-		conn.close();
-		return result;
-	}
-	protected void update_ClientStatus(int clientid, String status)throws SQLException, ClassNotFoundException, Exception
+	protected void update_swinfo(String soft, int clientid, String status)throws Exception
 	{
-		System.out.println("Updateing Clientstatus");
-		Class.forName("org.sqlite.JDBC");
-		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
-		Statement stat = conn.createStatement();
-	int success = stat.executeUpdate(	"update client set status='"+status+"' where clientid='"+clientid+"';");
-	if(success == 0)
-		System.out.println("Successfully updated Clientstatus");
-	else
-		System.out.println("Problems while updating Clientstatus");
-	}
-	
-	protected void update_ClientStatus(String ip, String status)throws SQLException, ClassNotFoundException, Exception
-	{
-		System.out.println("Updateing Clientstatus");
-		Class.forName("org.sqlite.JDBC");
-		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
-		Statement stat = conn.createStatement();
-		int clientid = -1;
-		int success = -1;
-		ResultSet rs = stat.executeQuery("select clientid from client where ip='"+ip+"'");
-		while(rs.next())
-			clientid = Integer.parseInt("clientid");
-		if(clientid != -1)
-			success = stat.executeUpdate(	"update client set status='"+status+"' where clientid='"+clientid+"';");
-	if(success == 0)
-		System.out.println("Successfully updated Clientstatus");
-	else
-		System.out.println("Problems while updating Clientstatus");
-	}
-	
-	// get the repolist of all available software
-	protected String getInfo_getRepoList() throws SQLException, ClassNotFoundException, Exception {
-		String result = "none";
-		Class.forName("org.sqlite.JDBC");
-		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
-		Statement stat = conn.createStatement();
-		ResultSet rs = stat.executeQuery("select distinct name from software;");
-		while(rs.next()) {
-			result += "#"+rs.getString("name");
-		}
-		result = result.replace("none#", "");
-		rs.close();
-		stat.close();
-		conn.close();
-		return result;
-	}
-	
-	// get information about CPU, RAM and architecture of a choosen client
-	protected String getInfo_hwInfo(int clientID) throws SQLException, ClassNotFoundException, Exception {
-		String result = "";
-		Class.forName("org.sqlite.JDBC");
-		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
-		Statement stat = conn.createStatement();
-		ResultSet rs = stat.executeQuery("select cpu, ram, architecture from hardware where clientid = '"+clientID+"';");
-		while (rs.next()) {
-			result = "cpu:"+rs.getString("cpu")+"#ram:"+rs.getString("ram")+"#architecture:"+rs.getString("architecture");
-		}
-		rs.close();
-		stat.close();
-		conn.close();
-		return result;
-	}
-	
-	protected void update_hwinfo(int clientid, String cpu, String ram, String architecture)throws SQLException, ClassNotFoundException, Exception
-	{
-		System.out.println("Updateing HardwareInfo");
+		System.out.println("Updateing SoftwareInfo");
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
 		int success = -1;
-		ResultSet rs  = stat.executeQuery("select clientid from hardware where clientid='"+clientid+"';");
+		int softid = getSoftID(soft);
+		ResultSet rs  = stat.executeQuery("select clientid from insoftware where clientid='"+clientid+"';");
 		String tmp = "";
-		while(rs.next()){tmp += rs.getString("name");};
-		if(tmp.length() != 0)
-		success = stat.executeUpdate(	"update hardware set cpu='"+cpu+"',ram='"+ram+"',architecture='"+architecture+"' where clientid='"+clientid+"';");
-		else
-			success = stat.executeUpdate(	"insert into hardware values cpu='"+cpu+"',ram='"+ram+"',architecture='"+architecture+"',clientid='"+clientid+"';");
+		
+		while(rs.next()){tmp += rs.getString("clientid");}
+		
+		if(tmp.length() != 0 )
+		success = stat.executeUpdate("update software set status='"+status+"'where clientid='"+clientid+"' and softid='"+softid+"';");
 		if(success == 0)
-		System.out.println("Successfully updated HardwareInfo");
+		System.out.println("Successfully updated SoftwareInfo");
 		else
-		System.out.println("Problems while updating HardwareInfo");
+		System.out.println("Problems while updating SoftwareInfo");
+		
+		stat.close();
+		conn.close();
+	}
+
+	protected void update_swinfo(int softid, int clientid, String user, String status)throws Exception
+	{
+		System.out.println("Updateing SoftwareInfo");
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		int success = -1;
+		ResultSet rs  = stat.executeQuery("select clientid from insoftware where clientid='"+clientid+"';");
+		String tmp = "";
+		while(rs.next()){tmp += rs.getString("clientid");}
+		rs = stat.executeQuery("select user from insoftware where user='"+user+"'");
+		String tmp2 = "";
+		while(rs.next()){tmp2 += rs.getString("user");}
+		
+		if(tmp.length() != 0 && tmp2.length() != 0)
+		success = stat.executeUpdate(	"update hardware set status='"+status+"'where clientid='"+clientid+"';");
+		else
+			success = stat.executeUpdate(	"insert into insoftware(softid,clientid,user,status) values ('"+softid+"','"+clientid+"','"+user+"','"+status+"');");
+		if(success == 0)
+		System.out.println("Successfully updated SoftwareInfo");
+		else
+		System.out.println("Problems while updating SoftwareInfo");
 	}
 	
-	// get information about status and user of a choosen software
 	protected String getInfo_swInfo(int clientID) throws SQLException, ClassNotFoundException, Exception {
 		String result = "none";
 		Class.forName("org.sqlite.JDBC");
@@ -298,76 +292,53 @@ public class Database {
 		conn.close();
 		return result;
 	}
-	protected void update_swinfo(int softid, int clientid, String user, String status)throws Exception
+	
+	protected void update_ClientStatus(String ip, String status)throws SQLException, ClassNotFoundException, Exception
 	{
-		System.out.println("Updateing SoftwareInfo");
+		System.out.println("Updateing Clientstatus");
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
-		int success = -1;
-		ResultSet rs  = stat.executeQuery("select clientid from insoftware where clientid='"+clientid+"';");
-		String tmp = "";
-		while(rs.next()){tmp += rs.getString("name");}
-		rs = stat.executeQuery("select user from insoftware where user='"+user+"'");
-		String tmp2 = "";
-		while(rs.next()){tmp2 += rs.getString("name");}
-		
-		if(tmp.length() != 0 && tmp2.length() != 0)
-		success = stat.executeUpdate(	"update hardware set status='"+status+"'where clientid='"+clientid+"';");
-		else
-			success = stat.executeUpdate(	"insert into insoftware values softid='"+softid+"', clientid='"+clientid+"', user='"+user+"',status='"+status+"';");
-		if(success == 0)
-		System.out.println("Successfully updated SoftwareInfo");
-		else
-		System.out.println("Problems while updating SoftwareInfo");
-	}
-	protected void update_swinfo(String soft, int clientid, String status)throws Exception
-	{
-		System.out.println("Updateing SoftwareInfo");
-		Class.forName("org.sqlite.JDBC");
-		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
-		Statement stat = conn.createStatement();
-		int success = -1;
-		int softid = -1;
-		ResultSet rs = stat.executeQuery("select softid from software where name='"+soft+"';");
+		int clientid = -1;
+		ResultSet rs = stat.executeQuery("select clientid from client where ip='"+ip+"'");
 		while(rs.next())
-			softid=Integer.parseInt(rs.getString("softid"));
-		rs  = stat.executeQuery("select clientid from insoftware where clientid='"+clientid+"';");
-		String tmp = "";
-		
-		while(rs.next()){tmp += rs.getString("name");}
-		
-		
-		if(tmp.length() != 0 )
-		success = stat.executeUpdate("update software set status='"+status+"'where clientid='"+clientid+"' and softid='"+softid+"';");
-		if(success == 0)
-		System.out.println("Successfully updated SoftwareInfo");
-		else
-		System.out.println("Problems while updating SoftwareInfo");
+			clientid = Integer.parseInt("clientid");
+		if(clientid != -1)
+			update_ClientStatus(clientid, status);
+	stat.close();
+	conn.close();
 	}
 	
-	// insert a new client
-	protected void insertNewClient(String clientName, String clientIP, String user, String password) throws ClassNotFoundException, SQLException{
+	protected void update_ClientStatus(int clientid, String status)throws SQLException, ClassNotFoundException, Exception
+	{
+		System.out.println("Updateing Clientstatus");
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
-		stat.executeUpdate("insert into client(name, ip, user, pw)"+
-						                 "values ('"+clientName+"', '"+
-									                   clientIP+"', '"+
-									                   user+"', '"+
-									                   password+"');");
+	int success = stat.executeUpdate(	"update client set status='"+status+"' where clientid='"+clientid+"';");
+	if(success == 0)
+		System.out.println("Successfully updated Clientstatus");
+	else
+		System.out.println("Problems while updating Clientstatus");
+	stat.close();
+	conn.close();
 	}
 	
-	 protected void delClient(int clientid)throws Exception
-	 {
-		 Class.forName("org.sqlite.JDBC");
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
-			Statement stat = conn.createStatement();
-			stat.executeUpdate("delete from insoftware where clientid='"+clientid+"'");
-			stat.executeUpdate("delete from hardware where clientid='"+clientid+"'");
-			stat.executeUpdate("delete from client where clientid='"+clientid+"'");
-	 }
-	// get the IP of a choosen client
+	protected String getInfo_getClientStatus(int clientID) throws SQLException, ClassNotFoundException, Exception {
+		String result = "";
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		ResultSet rs = stat.executeQuery("select status from client where clientid = "+clientID+";");
+		while(rs.next()) {
+			result = rs.getString("status");
+		}
+		rs.close();
+		stat.close();
+		conn.close();
+		return result;
+	}
+	
 	protected String getClientIP(int clientID) throws SQLException, ClassNotFoundException, Exception {
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
@@ -384,26 +355,54 @@ public class Database {
 		conn.close();
 		return result;
 	}
-	
-	// get the FTP_IP and file of a choosen software
-	protected String[] getFTP_IP_FILE(int parameter) throws SQLException, ClassNotFoundException, Exception {
+	/* ***********************************
+	 * software */
+	protected int getSoftID(String soft)throws Exception{
+		int softid = -1;
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
-		ResultSet rs = stat.executeQuery("select ftpip, file" +
-										    				  "from software" +
-										    				  "where softid='"+parameter+"';");
-		String []result = new String[2];
-	
-		//result[0] beinhaltet die ip und result[1] den filenamen
-		while (rs.next()) {
-			result[0] = rs.getString("ftpip");
-			result[1] = rs.getString("file");
-		}
-		rs.close();
+		ResultSet rs = stat.executeQuery("select softid from software where name='"+soft+"';");
+		while(rs.next())
+			softid = Integer.parseInt(rs.getString("softid"));
 		stat.close();
 		conn.close();
-		return result;
+		return softid;
+	}
+	
+	protected void delSoftware(String name)throws Exception
+	{
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		
+		int success = stat.executeUpdate("delete from software where name='"+name+"'");
+		if(success == 0)
+			System.out.println("Software successfully deleted");
+		else
+			System.out.println("Could not delet Software");
+		stat.close();
+		conn.close();
+	}
+	
+	protected void insertSoftware(String name, String file, String ftpip)throws Exception{
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		
+		int success = -1;
+		ResultSet rs  = stat.executeQuery("select name from software where name='"+name+"';");
+		String tmp = "";
+		while(rs.next()){tmp += rs.getString("name");}
+		
+		if(tmp.length() != 0)
+			success = stat.executeUpdate("insert into software(name,ftpip,file) values ('"+name+"','"+ftpip+"','"+file+"');");
+		if(success == 0)
+		System.out.println("Successfully updated Software");
+		else
+		System.out.println("Problems while updating Software");
+		stat.close();
+		conn.close();
 	}
 	
 	protected String[] getFTP_IP_FILE(String parameter) throws SQLException, ClassNotFoundException, Exception {
@@ -425,7 +424,44 @@ public class Database {
 		conn.close();
 		return result;
 	}
+
+	protected String[] getFTP_IP_FILE(int parameter) throws SQLException, ClassNotFoundException, Exception {
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		ResultSet rs = stat.executeQuery("select ftpip, file" +
+										    				  "from software" +
+										    				  "where softid='"+parameter+"';");
+		String []result = new String[2];
 	
+		//result[0] beinhaltet die ip und result[1] den filenamen
+		while (rs.next()) {
+			result[0] = rs.getString("ftpip");
+			result[1] = rs.getString("file");
+		}
+		rs.close();
+		stat.close();
+		conn.close();
+		return result;
+	}
+	
+	protected String getInfo_getRepoList() throws SQLException, ClassNotFoundException, Exception {
+		String result = "none";
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
+		Statement stat = conn.createStatement();
+		ResultSet rs = stat.executeQuery("select distinct name from software;");
+		while(rs.next()) {
+			result += "#"+rs.getString("name");
+		}
+		result = result.replace("none#", "");
+		rs.close();
+		stat.close();
+		conn.close();
+		return result;
+	}
+	/* ***********************************
+	 * insoftware */
 	protected void insertInstalledSofware(int softid, int clientid, String user, String status)throws Exception {
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
@@ -436,66 +472,63 @@ public class Database {
 		while(rs.next()){tmp += rs.getString("clientid");}
 		rs = stat.executeQuery("select user from insoftware where user='"+user+"'");
 		String tmp2 = "";
-		while(rs.next()){tmp2 += rs.getString("name");}
+		while(rs.next()){tmp2 += rs.getString("user");}
 		if(tmp.length() != 0 && tmp2.length() != 0)
-			success = stat.executeUpdate("insert into insoftware values softid='"+softid+"', clientid='"+clientid+"', user='"+user+"', status='"+status+"';");
+			success = stat.executeUpdate("insert into insoftware(softid,clientid,user,status) values ('"+softid+"','"+clientid+"','"+user+"','"+status+"');");
 		if(success == 0)
 		System.out.println("Successfully updated SoftwareInfo");
 		else
 		System.out.println("Problems while updating SoftwareInfo");
-		
+		stat.close();
+		conn.close();
 	}
-
-	protected void insertSoftware(String name, String file, String ftpip)throws Exception{
-		Class.forName("org.sqlite.JDBC");
-		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
-		Statement stat = conn.createStatement();
-		
-		int success = -1;
-		ResultSet rs  = stat.executeQuery("select name from software where name='"+name+"';");
-		String tmp = "";
-		while(rs.next()){tmp += rs.getString("name");}
-		
-		if(tmp.length() != 0)
-			success = stat.executeUpdate("insert into software values name='"+name+"', ftpid='"+ftpip+"', file='"+file+"';");
-		if(success == 0)
-		System.out.println("Successfully updated Software");
-		else
-		System.out.println("Problems while updating Software");
-	}
-
-	protected void delSoftware(String name)throws Exception
+	
+	
+	
+	
+	/* ***********************************
+	 * hardware */
+	protected void update_hwinfo(int clientid, String cpu, String ram, String architecture)throws SQLException, ClassNotFoundException, Exception
 	{
+		System.out.println("Updateing HardwareInfo");
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
-		
-		int success = stat.executeUpdate("delete from software where name='"+name+"'");
-		if(success == 0)
-			System.out.println("Software successfully deleted");
+		int success = -1;
+		ResultSet rs  = stat.executeQuery("select clientid from hardware where clientid='"+clientid+"';");
+		String tmp = "";
+		while(rs.next()){tmp += rs.getString("clientid");};
+		if(tmp.length() != 0)
+		success = stat.executeUpdate(	"update hardware set cpu='"+cpu+"',ram='"+ram+"',architecture='"+architecture+"' where clientid='"+clientid+"';");
 		else
-			System.out.println("Could not delet Software");
+			success = stat.executeUpdate(	"insert into hardware(cpu,ram,architecture,clientid) values ('"+cpu+"','"+ram+"','"+architecture+"','"+clientid+"');");
+		if(success == 0)
+		System.out.println("Successfully updated HardwareInfo");
+		else
+		System.out.println("Problems while updating HardwareInfo");
+		stat.close();
+		conn.close();
 	}
 	
-	
-	protected int getSoftID(String soft)throws Exception{
-		int softid = -1;
+	protected String getInfo_hwInfo(int clientID) throws SQLException, ClassNotFoundException, Exception {
+		String result = "";
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
-		ResultSet rs = stat.executeQuery("select softid from software where name='"+soft+"';");
-		while(rs.next())
-			softid = Integer.parseInt(rs.getString("softid"));
-		return softid;
+		ResultSet rs = stat.executeQuery("select cpu, ram, architecture from hardware where clientid = '"+clientID+"';");
+		while (rs.next()) {
+			result = "cpu:"+rs.getString("cpu")+"#ram:"+rs.getString("ram")+"#architecture:"+rs.getString("architecture");
+		}
+		rs.close();
+		stat.close();
+		conn.close();
+		return result;
 	}
+	
+	
+	/* ***********************************
+	 * messages */
+	
+	
+	
 }
-
-
-
-
-
-
-
-
-
-
