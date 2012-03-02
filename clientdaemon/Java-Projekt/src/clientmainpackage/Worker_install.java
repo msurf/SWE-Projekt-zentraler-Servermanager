@@ -52,6 +52,7 @@ public class Worker_install extends Worker{
 			shell.execute("./installService "+service+" " + pack);
 			
 			this._command.setStatus(102);
+			this._command.setUser(service);
 			this._command.setInfo("installed");
 			}catch(Malfunction m)
 			{
