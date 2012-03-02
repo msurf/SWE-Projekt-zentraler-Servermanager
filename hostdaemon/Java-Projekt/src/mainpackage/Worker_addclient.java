@@ -1,6 +1,5 @@
 package mainpackage;
 
-import java.sql.SQLException;
 
 public class Worker_addclient extends Worker{
 	
@@ -12,27 +11,28 @@ public class Worker_addclient extends Worker{
 	}
 	public void run(){
 		addClient();
-		sendResponse();
 	}
 	
 	
-	public void addClient(){
-		Database data = new Database();
-		try {
-			data.insertNewClient(this._command.getClient(), this._command.getURL(), this._command.getUser(), this._command.getPassword());
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	private void addClient(){
+		Database base = new Database();
+		String name = "default";
+		String ip 	= "default:default";
+		String user = "default";
+		String pwd	= "default";
+		name = this._command.getClient();
+		ip = this._command.getURL();// xxx.xxx.xxx.xxx:port
+		user = this._command.getUser();
+		pwd = this._command.getPassword();
+		this._command.setStatus(103);
+		
+		try{
+		base.insertNewClient(name, ip, user, pwd);
+		}catch(Exception e)
+		{
+			System.out.println("Could not add Client. Problems with the Database");
 		}
-		
-		
 	}
 	
-	private void sendResponse() {
-		this._command.setStatus(101);		
-	}
 
 }

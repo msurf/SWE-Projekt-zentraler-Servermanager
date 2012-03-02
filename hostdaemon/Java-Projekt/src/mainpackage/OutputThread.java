@@ -64,20 +64,22 @@ public class OutputThread extends Thread {
 			socket.shutdownOutput(); // socket half opened -> make the input read the Object
 			//response
 			response = (Command) dec.readObject();
-			// watch out no 105 add to the queue
-			System.out.println(response.getStatus());
-			System.out.println(response.getInfo());
+			if(response.getStatus() == 105)
+				work(response);
 			
 			new ShellRunner().execute("echo 'Command_ID: " + response.getID() + " : " + response.getStatus()+"'>>"+this._conf.getLogpath()+"/swe.response");
 		}//try 
 		catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Can't resolve Host!");
-			e.printStackTrace();
+			Database base = new Database();
+			try{
+				base.update_ClientStatus(this._serveradress, "off");
+			}catch(Exception db){System.out.println("Cannot update ClientStatus!");}
+			
 		}//catch
 		catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}//catch
 		finally{
 			if(socket != null)
@@ -94,4 +96,68 @@ public class OutputThread extends Thread {
 				enc.close();
 		}
 	}//sendMessage
+	private void work(Command c){
+		String name =c.getName();
+		Database base = new Database();
+		
+		
+		if(name.equals("hwinfo"))
+		{
+			int clientid = c.getClientID();
+			String cpu = "default";
+			String ram = "default";
+			String architecture = "default";
+			try{
+				String[] tmp1 = c.getInfo().split("#");
+				for(String i : tmp1)
+				{
+					if(i.contains("cpu"))
+						cpu=i.split(":")[1];
+					if(i.contains("ram"))
+						ram=i.split(":")[1];
+					if(i.contains("architecture"))
+						architecture=i.split(":")[1];
+				}
+			}catch(Exception e){System.out.println("Cannot handle Infos from: "+c.getClient());}
+			
+			try{
+			base.update_hwinfo(clientid, cpu, ram, architecture);
+			}catch(Exception e){System.out.println("Cannot update HardwareInfo from: "+ c.getClient());}
+		}
+		if(name.equals("swinfo"))
+		{
+			String[][] soft = new String[0][];
+			try{
+				String in = c.getInfo();
+				if(in.length() != 0){
+					String[] tmp = in.split("#");
+					soft = new String[tmp.length][];
+					for(int i = 0; i < tmp.length; i++)
+						soft[i]=tmp[i].split(":");
+				}
+			}catch(Exception e){System.out.println("Cannot handle Infos from: "+c.getClient());}
+			
+			try{
+				for(String[] i: soft)
+					base.update_swinfo(i[0], c.getClientID(), i[1]);
+			}catch(Exception e){System.out.println("Cannot update SoftwareInfo from: "+c.getClient());}
+			
+			
+		}
+		if(name.equals("busy"))
+		{
+			try{
+				base.update_ClientStatus(c.getClientID(), c.getInfo());
+			}catch(Exception e){System.out.println("Cannot update ClientStatus from: "+c.getClient());}
+		}
+		
+	}
+	
 }
+
+
+
+
+
+
+

@@ -1,6 +1,5 @@
 package mainpackage;
 
-import java.sql.SQLException;
 
 public class Worker_install extends Worker{
 
@@ -11,62 +10,50 @@ public class Worker_install extends Worker{
 		this._com = com;
 	}
 	public void run(){
-		checkStatus();
+		decide();
+	}
+	private void decide(){
+		if(this._command.getStatus() == 102 || this._command.getStatus() == 103)
+			workOnData();
+		else
+			buildCommand();
+	}
+	private void workOnData(){
+		Database base = new Database();
+		try{
+			int softid = base.getSoftID(this._command.getProgram());
+			int cid = this._command.getClientID();
+			String user =  this._command.getUser();
+			String status = "off";
+			base.insertInstalledSofware(softid, cid, user, status);
+		}catch(Exception e){System.out.println("Cannot write SoftwareInfo from: "+this._command.getClient());}
 	}
 	
-	private void checkStatus() {
-		int status = this._command.getStatus();
-		switch (status) {
-		case 100:
-			sendToClient();
-			break;
-		case 102:
-			insertIntoDB();
-			break;
-		case 103:
-			insertIntoDB();
-			break;
-		}
-
-	}
-	private void insertIntoDB() {
-		Database db = new Database();
-		db.insertInstalledSofware(this._command.getParameter(), this._command.getClientID()+"", this._command.getFTP_File(), this._command.getFTP_IP());
+	
+	private void buildCommand(){
+		Database base = new Database();
+		String ip = "";
+		int port = 5550;
+		String file = "";
+		String ftpip = "";
+		try{
+			String[] tmp = base.getClientIP(this._command.getClientID()).split(":");
+			ip = tmp[0];
+			port = Integer.parseInt(tmp[1]);
+			base.update_ClientStatus(this._command.getClientID(), "busy");
+			
+			 tmp = base.getFTP_IP_FILE(this._command.getProgram());
+			 ftpip = tmp[0];
+			 file = tmp[1];
+		}catch(Exception e){System.out.println("Cannot access Database!");}
 		
-	}
-	public void sendToClient(){
-		Database data = new Database();
-		String url="";
-		try {
-			url = data.getClientIP(this._command.getClientID());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String ip = url.split(":")[0];
-		try {
-			this._command.setFTP_IP(data.getFTP_IP_FILE(Integer.parseInt(this._command.getParameter()))[0]);
-			this._command.setFTP_File(data.getFTP_IP_FILE(Integer.parseInt(this._command.getParameter()))[1]);
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		int port = Integer.parseInt(url.split(":")[1]);
-		this._com.send(this._command, ip, port);
+		Command c = this._command.clone();
+		c.setName("install");
+		c.setFTP_File(file);
+		c.setFTP_IP(ftpip);
+		c.setStatus(100);
+		c.setInfo("default");
+		this._com.send(c, ip, port);
+		
 	}
 }

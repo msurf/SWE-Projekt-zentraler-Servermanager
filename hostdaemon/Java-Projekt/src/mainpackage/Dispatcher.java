@@ -23,7 +23,7 @@ public class Dispatcher implements ListDataListener{
 	}
 
 	@Override
-	public synchronized void intervalAdded(ListDataEvent arg0) {
+	public void intervalAdded(ListDataEvent arg0) {
 		// TODO Auto-generated method stub
 		// Hier werden die Workerthreads implementiert
 		// arg0.getindex0 -> gibt die stelle des Befehls wieder

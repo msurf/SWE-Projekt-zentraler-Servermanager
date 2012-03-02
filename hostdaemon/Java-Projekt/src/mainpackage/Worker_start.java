@@ -1,6 +1,5 @@
 package mainpackage;
 
-import java.sql.SQLException;
 
 public class Worker_start extends Worker{
 
@@ -11,28 +10,23 @@ public class Worker_start extends Worker{
 		this._com = com;
 	}
 	public void run(){
-		sendToClient();
+		buildCommand();
 	}
-	
-	public void sendToClient(){
-		Database data = new Database();
-		String url="";
-		try {
-			url = data.getClientIP(this._command.getClientID());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String ip = url.split(":")[0];
+	private void buildCommand(){
+		Database base = new Database();
+		String ip = "";
+		int port = 5550;
+		try{
+			String[] tmp = base.getClientIP(this._command.getClientID()).split(":");
+			ip = tmp[0];
+			port = Integer.parseInt(tmp[1]);
+		}catch(Exception e){System.out.println("Cannot access Database!");}
+		// the user specifies the program to stop/start/restart and is given by the page
+		Command c = this._command.clone();
+		c.setName("start");
+		c.setStatus(100);
+		c.setInfo("default");
+		this._com.send(c, ip, port);
 		
-		int port = Integer.parseInt(url.split(":")[1]);
-	
-		this._com.send(this._command, ip, port);
 	}
 }

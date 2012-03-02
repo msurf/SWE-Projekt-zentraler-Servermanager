@@ -60,23 +60,12 @@ public class ServerSocketThread extends Thread {
 			//work()start
 			try {
 				work();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (Exception e) {System.out.println("Problems in ServerSocketThread: cannot work");}
 			//work()end
 			
 			if(this._command.getStatus() != 105)//105 is response, responding commands are allready done
 			{
-				synchronized (this._queue) {
 					this._queue.add(this._command);
-				}// synchronized
 				if(this._command.getStatus() == 100)
 				{
 					this._command.setStatus(101);
@@ -121,9 +110,7 @@ public class ServerSocketThread extends Thread {
 			commandnew.setStatus(100);
 			commandnew.setClient(this._command.getClient());
 			commandnew.setClientID(this._command.getClientID());
-			synchronized (this._queue) {
 				this._queue.add(commandnew);
-			}
 			String info = base.getInfo_getClientStatus(this._command.getClientID());
 			this._command.setInfo(info);
 			work_done = true;
@@ -133,9 +120,7 @@ public class ServerSocketThread extends Thread {
 			Command commandnew = new Command();
 			commandnew.setName("updaterepolist");
 			commandnew.setStatus(100);
-			synchronized (this._queue) {
 				this._queue.add(commandnew);
-			}
 			String info = base.getInfo_getRepoList();
 			this._command.setInfo(info);
 			work_done = true;
@@ -147,9 +132,7 @@ public class ServerSocketThread extends Thread {
 			commandnew.setStatus(100);
 			commandnew.setClient(this._command.getClient());
 			commandnew.setClientID(this._command.getClientID());
-			synchronized (this._queue) {
 				this._queue.add(commandnew);
-			}
 			String info = base.getInfo_hwInfo(this._command.getClientID());
 			this._command.setInfo(info);
 			work_done = true;
@@ -161,9 +144,7 @@ public class ServerSocketThread extends Thread {
 			commandnew.setStatus(100);
 			commandnew.setClient(this._command.getClient());
 			commandnew.setClientID(this._command.getClientID());
-			synchronized (this._queue) {
 				this._queue.add(commandnew);
-			}
 			String info = base.getInfo_swInfo(this._command.getClientID());
 			this._command.setInfo(info);
 			work_done = true;
