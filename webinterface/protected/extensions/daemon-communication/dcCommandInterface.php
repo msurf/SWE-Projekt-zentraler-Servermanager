@@ -176,4 +176,13 @@ interface dcCommandInterface {
      * @return string 
      */
     public function toXml();
+    /**
+     * @param string $xml
+     * @return dcCommandInterface 
+     */
+    public static function fromXml($xml);
+    /**
+     * @return dcCommandInterface 
+     */
+    public static function createPageToHostCommand();
 }
