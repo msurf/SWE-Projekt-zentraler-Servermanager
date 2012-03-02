@@ -422,30 +422,27 @@ public class Database {
 		return result;
 	}
 	
-	//methode ist quatsch
-	/*protected void update_swinfo(String soft, int clientid, String status)throws Exception
+	protected void update_swinfo(int clientid, String user, String status)throws Exception
 	{
 		System.out.println("Updateing SoftwareInfo");
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:servermanager.db");
 		Statement stat = conn.createStatement();
 		int success = -1;
-		int softid = getSoftID(soft);
-		ResultSet rs  = stat.executeQuery("select clientid from insoftware where clientid='"+clientid+"';");
-		String tmp = "";
 		
+		ResultSet rs  = stat.executeQuery("select clientid from insoftware where clientid='"+clientid+"' and user='"+user+"';");
+		String tmp = "";
 		while(rs.next()){tmp += rs.getString("clientid");}
 		
-		if(tmp.length() != 0 )
-		success = stat.executeUpdate("update software set status='"+status+"'where clientid='"+clientid+"' and softid='"+softid+"';");
-		if(success == 0)
-		System.out.println("Successfully updated SoftwareInfo");
-		else
-		System.out.println("Problems while updating SoftwareInfo");
 		
-		stat.close();
-		conn.close();
-	}*/
+		if(tmp.length() != 0)
+			success = stat.executeUpdate(	"update insoftware set status='"+status+"'where clientid='"+clientid+"' and user='"+user+"' ;");
+		if(success == 1)
+			System.out.println("Successfully updated SoftwareInfo");
+		else
+			System.out.println("Problems while updating SoftwareInfo");
+			
+	}
 
 	protected void update_swinfo(int softid, int clientid, String user, String status)throws Exception
 	{
@@ -476,6 +473,8 @@ public class Database {
 			System.out.println("Successfully updated SoftwareInfo");
 		else
 			System.out.println("Problems while updating SoftwareInfo");
+		stat.close();
+		conn.close();
 	}
 	
 	protected String getInfo_swInfo(int clientID) throws SQLException, ClassNotFoundException, Exception {

@@ -139,7 +139,9 @@ public class OutputThread extends Thread {
 			
 			try{
 				for(String[] i: soft)
-					base.update_swinfo(i[0], c.getClientID(), i[1]);
+					{
+					base.update_swinfo(c.getClientID(), i[0], i[1]);
+					}
 			}catch(Exception e){System.out.println("Cannot update SoftwareInfo from: "+c.getClient());}
 			
 			
