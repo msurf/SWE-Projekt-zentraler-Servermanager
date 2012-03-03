@@ -22,7 +22,9 @@ public class Worker_updaterepolist extends Worker{
 		try{
 		for(String i : tmp)
 			hard.add(i.split("out:")[1].replace(".tar.gz", "").trim());
-		}catch(Exception e){System.out.println("Problems while splitting Repolist");}
+		}catch(Exception e){
+			this._command.setStatus(200);
+			System.out.println("Problems while splitting Repolist");}
 		
 		ArrayList<String> delete = new ArrayList<String>();
 		Database base = new Database();
@@ -37,7 +39,9 @@ public class Worker_updaterepolist extends Worker{
 					
 			for(String i : hard)
 				base.insertSoftware(i, i+".tar.gz", this._conf.getIP_own());
-		}catch(Exception e){System.out.println("Cannot access Database");}
+		}catch(Exception e){
+			this._command.setStatus(200);
+			System.out.println("Cannot access Database");}
 		
 		
 	}

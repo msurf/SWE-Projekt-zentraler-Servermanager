@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class SystemProperties{
 
-	//consider that lshw has to be installed
 	
 	
 	private String _cpu = "unknown";
@@ -20,18 +19,21 @@ public class SystemProperties{
 	public int collect() throws Malfunction{
 		
 		ShellRunner shell = new ShellRunner();
-		shell.execute("lshw -short | grep -e 'processor.*@'"); 
-		shell.execute("lshw -short | grep -e 'System memory'");
+		shell.execute("cat /proc/cpuinfo | grep -e 'model name'"); 
+		shell.execute("cat /proc/meminfo | grep -e 'MemTotal'");
 		shell.execute("dpkg --print-architecture");
 		ArrayList<String> out = shell.getOutput();
-		if(out.size() == 3)
+		if(out.size() >= 3)
 		{
+			int cores = 0;
 			for(String line : out)
 			{
-				if(line.contains("processor"))
+				if(line.contains("model name"))
 				{
+					
 					try{
-						this._cpu = line.split("processor")[1].trim();
+						cores++;
+						this._cpu = line.split("model name")[1].replace(":", "").replaceAll("\\s+", " ").trim() + "Cores: "+cores;
 						this._done = true;
 					}//try
 					catch(Exception e)
@@ -39,11 +41,11 @@ public class SystemProperties{
 						this._cpu = "unknown";
 					}//catch
 				}
-				if(line.contains("System memory"))
+				if(line.contains("MemTotal"))
 				{
 					try
 					{
-						this._ram = line.split("memory")[1].replaceAll("System", "").trim();
+						this._ram = line.split("MemTotal:")[1].replace("  ", " ").trim();
 					}//try
 					catch(Exception e)
 					{
@@ -54,7 +56,7 @@ public class SystemProperties{
 				if(line.contains("i386") || line.contains("amd64"))
 				{
 					try{
-						this._architecture = line.split("out:")[1].trim();
+						this._architecture = line.split("out:")[1].replace("  ", " ").trim();
 					}catch(Exception e)
 					{
 						this._architecture = "default";

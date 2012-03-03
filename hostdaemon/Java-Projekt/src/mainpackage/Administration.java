@@ -291,7 +291,7 @@ public class Administration extends Thread {
 				for(int i = 1; i < soft.length +1 ; i++)
 					output += "\n| "+i+ " -> "+soft[i-1];
 			}
-			output += "+-------------------->";
+			output += "\n+-------------------->";
 			
 			System.out.println(output);
 			try{

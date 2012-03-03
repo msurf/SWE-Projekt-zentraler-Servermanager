@@ -121,10 +121,7 @@ public class Config {
 							addSoftware(tmp[1].trim());
 					}
 				}
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (FileNotFoundException e) {System.out.println("Cannot find Config-File");}
 		}
 		getSof();
 		if(!checkSys())
@@ -163,7 +160,10 @@ public class Config {
 		SystemProperties props = new SystemProperties();
 		//while(!props.done())
 		{
-			props.collect();
+			
+			try {
+				props.collect();
+			} catch (Malfunction e) {System.out.println("Cannot collect HardwareInfos");}
 		}
 		this._CPU = props.getCPU();
 		this._RAM = props.getRam();
