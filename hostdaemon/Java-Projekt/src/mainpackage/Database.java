@@ -505,8 +505,8 @@ public class Database {
 			clientid = Integer.parseInt(rs.getString("clientid"));
 		if(clientid != -1)
 			update_ClientStatus(clientid, status);
-	stat.close();
-	conn.close();
+		stat.close();
+		conn.close();
 	}
 	
 	protected void update_ClientStatus(int clientid, String status)throws SQLException, ClassNotFoundException, Exception

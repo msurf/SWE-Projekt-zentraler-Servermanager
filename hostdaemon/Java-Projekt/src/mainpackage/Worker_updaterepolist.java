@@ -42,7 +42,5 @@ public class Worker_updaterepolist extends Worker{
 		}catch(Exception e){
 			this._command.setStatus(200);
 			System.out.println("Cannot access Database");}
-		
-		
 	}
 }

@@ -26,7 +26,10 @@ public class Worker_install extends Worker{
 			String user =  this._command.getUser();
 			String status = "off";
 			base.insertInstalledSofware(softid, cid, user, status);
-		}catch(Exception e){System.out.println("Cannot write SoftwareInfo from: "+this._command.getClient());}
+			this._command.setStatus(102);
+		}catch(Exception e){
+			this._command.setStatus(200);
+			System.out.println("Cannot write SoftwareInfo from: "+this._command.getClient());}
 	}
 	
 	
@@ -36,6 +39,12 @@ public class Worker_install extends Worker{
 		int port = 5550;
 		String file = "";
 		String ftpip = "";
+		Command c = this._command.clone();
+		c.setName("install");
+		c.setFTP_File(file);
+		c.setFTP_IP(ftpip);
+		c.setStatus(100);
+		c.setInfo("default");
 		try{
 			String[] tmp = base.getClientIP(this._command.getClientID()).split(":");
 			ip = tmp[0];
@@ -45,15 +54,10 @@ public class Worker_install extends Worker{
 			 tmp = base.getFTP_IP_FILE(this._command.getProgram());
 			 ftpip = tmp[0];
 			 file = tmp[1];
-		}catch(Exception e){System.out.println("Cannot access Database!");}
-		
-		Command c = this._command.clone();
-		c.setName("install");
-		c.setFTP_File(file);
-		c.setFTP_IP(ftpip);
-		c.setStatus(100);
-		c.setInfo("default");
-		this._com.send(c, ip, port);
+			 this._com.send(c, ip, port);
+		}catch(Exception e){
+			this._command.setStatus(200);
+			System.out.println("Cannot access Database!");}
 		
 	}
 }

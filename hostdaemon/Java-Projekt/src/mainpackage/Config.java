@@ -2,7 +2,6 @@ package mainpackage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Config {
@@ -24,15 +23,7 @@ public class Config {
 	 logpath= 
 	 */
 	
-	/*Software*/
-	private ArrayList<String> _software = new ArrayList<String>();
-	
-	private void addSoftware(String software){this._software.add(software);}
-	private void removeSoftware(String software){
-		if(this._software.contains(software))
-			this._software.remove(software);
-	}
-	public synchronized ArrayList<String> getSoftware(){return this._software;}
+		
 	
 	/*System*/
 	private String _logpath = System.getProperty("user.dir");
@@ -117,13 +108,11 @@ public class Config {
 						if(tmp[0].trim().equals("architecture"))
 							setArchitecture(tmp[1].trim());
 						}
-						if(tmp[0].trim().equals("software"))
-							addSoftware(tmp[1].trim());
+						
 					}
 				}
 			} catch (FileNotFoundException e) {System.out.println("Cannot find Config-File");}
 		}
-		getSof();
 		if(!checkSys())
 		{
 			System.out.println("asking System");
@@ -143,8 +132,6 @@ public class Config {
 		shell.execute("echo 'cpu="+this._CPU+"'>>"+this._config);
 		shell.execute("echo 'ram="+this._RAM+"'>>"+this._config);
 		shell.execute("echo 'logpath="+this._logpath+"'>>"+this._config);
-		for(String i : this._software)
-			shell.execute("echo 'software="+i+"'>>"+this._config);
 		System.out.println("Writing done!");
 	}
 	
@@ -170,28 +157,12 @@ public class Config {
 		this._architectur = props.getArchitecture();
 		System.out.println("Hardware updated");
 	}
-	protected void getSof(){
-		System.out.println("Checking for Software");
-		SystemSoftware soft = new SystemSoftware();
-		ArrayList<String> tmp = soft.getSoftware();
-		for(String i : tmp)
-			if(!this._software.contains(i))
-				addSoftware(i);
-		for(String i : this._software)
-			if(!tmp.contains(i))
-				removeSoftware(i);
-		System.out.println("Software updated");
-	}
+	
 	public synchronized String hwinfo(){
 		String tmp = "architecture:"+ this._architectur+"#cpu:"+ this._CPU +"#ram:"+ this._RAM;
 		return tmp;
 	}
-	public synchronized String swinfo(){
-		String tmp = "";
-		for (String i : this._software)
-			tmp += "software:"+i;
-		return tmp;
-	}
+	
 	
 
 }//class

@@ -23,13 +23,10 @@ public class Worker_updatehwinfo extends Worker{
 			String[] tmp = base.getClientIP(this._command.getClientID()).split(":");
 			ip = tmp[0];
 			port = Integer.parseInt(tmp[1]);
+			this._com.send(c, ip, port);
 		}catch(Exception e){
 			c.setStatus(200);
 			this._command.setStatus(200);
 			System.out.println("Cannot access Database!");}
-		
-		
-		this._com.send(c, ip, port);
-		
 	}
 }

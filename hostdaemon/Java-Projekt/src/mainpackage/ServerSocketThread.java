@@ -86,6 +86,7 @@ public class ServerSocketThread extends Thread {
 				dec.close();
 		}
 	}//readIn
+	
 	private void work() throws Exception {
 		String name = this._command.getName();
 		boolean work_done = false;

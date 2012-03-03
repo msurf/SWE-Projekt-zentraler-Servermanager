@@ -16,18 +16,18 @@ public class Worker_restart extends Worker{
 		Database base = new Database();
 		String ip = "";
 		int port = 5550;
-		try{
-			String[] tmp = base.getClientIP(this._command.getClientID()).split(":");
-			ip = tmp[0];
-			port = Integer.parseInt(tmp[1]);
-		}catch(Exception e){System.out.println("Cannot access Database!");}
 		// the user specifies the program to stop/start/restart and is given by the page
 		Command c = this._command.clone();
 		c.setName("hwinfo");
 		c.setStatus(100);
 		c.setInfo("default");
-		this._com.send(c, ip, port);
-		
+		try{
+			String[] tmp = base.getClientIP(this._command.getClientID()).split(":");
+			ip = tmp[0];
+			port = Integer.parseInt(tmp[1]);
+			this._com.send(c, ip, port);
+		}catch(Exception e){
+			this._command.setStatus(200);
+			System.out.println("Cannot access Database!");}
 	}
-
 }

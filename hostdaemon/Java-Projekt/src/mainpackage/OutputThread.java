@@ -70,6 +70,7 @@ public class OutputThread extends Thread {
 			new ShellRunner().execute("echo 'Command_ID: " + response.getID() + " : " + response.getStatus()+"'>>"+this._conf.getLogpath()+"/swe.response");
 		}//try 
 		catch (UnknownHostException e) {
+			this._command.setStatus(200);
 			System.out.println("Can't resolve Host!");
 			Database base = new Database();
 			try{
@@ -78,6 +79,7 @@ public class OutputThread extends Thread {
 			
 		}//catch
 		catch (IOException e) {
+			this._command.setStatus(200);
 			System.out.println("Cannot write/read Command to/from Socket");
 		}//catch
 		finally{
@@ -85,7 +87,7 @@ public class OutputThread extends Thread {
 			{	
 					try {
 						socket.close();
-					} catch (IOException e) {System.out.println("Cannot write/read Command to/from Socket");}
+					} catch (IOException e) {System.out.println("Cannot close Socket");}
 				
 			}
 			if(dec != null)

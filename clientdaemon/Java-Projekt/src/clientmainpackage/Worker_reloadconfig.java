@@ -26,5 +26,5 @@ public class Worker_reloadconfig extends Worker{
 		updateCommand();
 		this._com.send(this._command, this._conf.getIP_send(), this._conf.getPort_send());
 	}
-
+	//TODO exception
 }
