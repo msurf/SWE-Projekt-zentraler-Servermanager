@@ -1,0 +1,3 @@
+[submodule "webinterface/protected/extensions/fluentdom"]
+	path = webinterface/protected/extensions/fluentdom
+	url = https://github.com/FluentDOM/FluentDOM.git
