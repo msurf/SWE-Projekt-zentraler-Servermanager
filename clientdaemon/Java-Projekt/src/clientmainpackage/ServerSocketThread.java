@@ -7,6 +7,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+
 /**
  * This Thread handles the incoming requests and adds the message to the task-list
  * 
@@ -33,7 +34,6 @@ public class ServerSocketThread extends Thread {
 	public ServerSocketThread(Socket s, TaskList<Command> list, Config config) {
 		this._socket = s;
 		this._queue = list;
-		System.out.println(config.hwinfo());
 		this._config = config;
 		setDaemon(true); // all daemon-threads are terminated, if there is no user-thread. the user-thread in this program is the Administration-thread!
 	}// constructor
@@ -53,26 +53,39 @@ public class ServerSocketThread extends Thread {
 		try {
 			enc = new XMLEncoder(new BufferedOutputStream(this._socket.getOutputStream()));
 			dec = new XMLDecoder(new BufferedInputStream(this._socket.getInputStream()));
-			int status = 0;
-				this._command = (Command) dec.readObject();
-			work();
-				status = this._command.getStatus();
-			if(status != 105 && status != 0)//105 is response, responding commands are allready done
+			
+			this._command = new Command();
+			System.out.println(this._command.getName());
+			
+			
+			this._command = (Command) dec.readObject();
+			System.out.println(this._command.getName());
+			
+			
+			//this._command.setStatus(101);
+			
+			//work()start
+			try {
+				work();
+			} catch (Exception e) {
+				this._command.setStatus(200);
+				System.out.println("Problems in ServerSocketThread: cannot work");}
+			//work()end
+			
+			if(this._command.getStatus() != 105 && this._command.getStatus() != 200)//105 is response, responding commands are allready done
 			{
-				
-				if(status == 100)
+					this._queue.add(this._command);
+				if(this._command.getStatus() == 100)
 				{
 					this._command.setStatus(101);
 					this._command.setInfo("recived");
 				}
-				enc.writeObject(this._command);
-					this._queue.add(this._command.clone());
 			}
-				enc.writeObject(this._command);
+			enc.writeObject(this._command);
 		}// try
 		catch (IOException e) {
-			System.out.println("ServerSocketThread : "+this.getId()+" Cannot handle Command");
-			new Logger(this._config.getLogpath()).write("ServerSocketThread : "+this.getId()+" Cannot handle Command");
+			this._command.setStatus(200);
+			System.out.println("Cannot write Command to Socket!");
 		}// catch
 		finally{
 			if(enc != null)
