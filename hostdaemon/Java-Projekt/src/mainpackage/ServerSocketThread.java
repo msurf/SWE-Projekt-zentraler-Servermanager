@@ -55,6 +55,8 @@ public class ServerSocketThread extends Thread {
 			dec = new XMLDecoder(new BufferedInputStream(this._socket.getInputStream()));
 			this._command = (Command) dec.readObject();
 			//this._command.setStatus(101);
+			this._socket.shutdownInput();
+			
 			
 			//work()start
 			try {
@@ -74,6 +76,7 @@ public class ServerSocketThread extends Thread {
 				}
 			}
 			enc.writeObject(this._command);
+			enc.flush();
 		}// try
 		catch (IOException e) {
 			this._command.setStatus(200);
