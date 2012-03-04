@@ -1,5 +1,7 @@
 #!/bin/bash
 
 SERVICE=$1
+var=$(screen -ls | grep $SERVICE)
+spid=${var%%.$SERVICE*}
 
-./services/$SERVICE/stop
+kill $spid

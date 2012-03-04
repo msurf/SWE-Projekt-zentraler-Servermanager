@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
 /**
  * This Thread opens up a Socket and permanently listens to it
  * if there is a request, this request is given to a temporarily ServerSocketThread
@@ -61,8 +62,7 @@ public class InputThread extends Thread {
 				}// while
 		}// try
 		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("OputputThread : "+this.getId()+" Problem with Connection");
 		}// catch
 		}//while
 	}// listenUp()

@@ -2,4 +2,4 @@
 
 # copy to the same directory as Server.jar
 
-java -jar Server.jar
+java -jar Host.jar
