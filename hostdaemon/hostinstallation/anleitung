@@ -1,0 +1,59 @@
+Anleitung zur installation des Hostservers
+
+Wen ich "->: irgendwas"  schreibe, muss "irgendwas" in die Konsole eingegeben werden
+1. Komponenten Installieren
+
+->: apt-get install proftpd-basic 
+->: apt-get install screen 
+->: apt-get install ssh 
+->: apt-get install openjdk-6-jdk 
+->: apt-get install php5 
+->: apt-get install apache2
+
+2. Benutzer swedaemon anlegen
+
+->: adduser swedaemon -home /home/swedaemon -shell /bin/bash
+
+als pw nimmst du: swe1234
+
+dann die Scripte: "startServer" und "repolist" in das home-verzeichniss kopieren
+dann das Host.jar in das Home-Vezeichniss kopieren.
+Alles ausführbar machen(chmod +x dateiname)
+
+->: mkdir repository
+->: chown -R swedaemon:swedaemon /home/swedaemon
+
+
+3. FTP einrichten:
+Die folgende Datei mit einem Editor öffnen: /etc/proftpd/proftpd.conf
+
+die folgenden Zeilen an das ende der Datei hängen:
+<Global>
+	RequireValidShell off
+</Global>
+ 
+DefaultRoot ~ ftpuser
+
+<Limit LOGIN>
+	DenyGroup !ftpuser
+</Limit>
+
+Zum Schluss noch eine Leerzeile und dann speichern und schließen
+
+
+->:/etc/init.d/proftpd restart
+
+addgroup ftpuser
+
+	adduser swedaemon ftpuser
+	adduser sweftp --shell /bin/false --home /home/$daemon/repository
+	adduser sweftp ftpuser
+
+4. FTP füllen:
+
+die fcss.tar.gz in das Verzeichniss /home/sweuser/repository kopieren
+
+5. Starten
+->: ./startServer
+
+
