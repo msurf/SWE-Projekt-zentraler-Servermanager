@@ -1,0 +1,24 @@
+Mit dieser Anleitung wird der Clientserver installiert
+
+->: bedeutet Konsole
+
+
+
+1. Pakete installieren
+->: apt-get install sudo
+->: apt-get install screen
+->: apt-get install ssh
+->: apt-get install openjdk-6-jdk
+
+2. User Anlegen
+
+adduser swedaemon --shell /bin/bash --home /home/javadaemon
+
+Das passwort ist dann: swe1234
+
+alle Scripte(start/stop/status/restart/software/ftpget/) und das Client.jar in das Home-verzeichniss kopieren und ausführbar machen
+->: mkdir services
+
+->:chown swedaemon:swedaemon /home/swedaemon
+
+
