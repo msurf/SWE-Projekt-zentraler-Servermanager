@@ -28,13 +28,30 @@ class SiteController extends Controller
 	public function actionIndex()
 	{
 		// renders the view file 'protected/views/site/index.php'
-		// using the default layout 'protected/views/layouts/main.php'
-		// $fd=new FluentDOM($xml);
-	        // $cmd = new dcCommand();
- 		// $cmd=dcCommand::createPageToHostCommand();  
- 		// $cmd->setFrom('test');	
- 		// echo $cmd->getFrom();	
-		$this->render('index');
+		// using the default layout 'protected/views/layouts/main.php
+                $conn = new dcConnection(Yii::app()->params["hostDaemonIp"],
+                                         Yii::app()->params["hostDaemonPort"]);
+ 		$cmd=dcCommand::createPageToHostCommand();  
+                $cmd->setName("getclients");
+                $clientList = $conn->sendCommand($cmd);
+                $clients = array();
+                foreach ($clientList->getInfo() as $client => $clientId) {
+                    $cmd = dcCommand::createPageToHostCommand();
+                    $cmd->setName("getclientstatus");
+                    $cmd->setClient($client);
+                    $cmd->setClientId($clientId);
+                    $clientStatus = $conn->sendCommand($cmd);
+                    $info = $clientStatus->getInfo();
+                    $status = $info[0];
+                    $cmd = dcCommand::createPageToHostCommand();
+                    $cmd->setName("swinfo");
+                    $cmd->setClient($client);
+                    $cmd->setClientId($clientId);
+                    $softwareInfo = $conn->sendCommand($cmd);
+                    $clients[] = array("name" => $client, "id" => $clientId,
+                                       "status" => $status, "software" => $softwareInfo->getInfo());
+                }
+		$this->render('index', array("clients" => $clients));
 	}
 
 	/**

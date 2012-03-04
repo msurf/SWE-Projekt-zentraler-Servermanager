@@ -27,7 +27,6 @@ class dcConnection implements dcConnectionInterface {
         do {
             $xml .= fread($sock, 4096);
             $retrycount++;
-            echo $xml;
         } while (!feof($sock) && $retrycount < 5);
         fclose($sock);
         return dcCommand::fromXml($xml);

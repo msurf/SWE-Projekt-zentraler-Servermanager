@@ -23,3 +23,14 @@ REQUEST_URI=/
 in /home/tobias/sources/SWE-Projekt-zentraler-Servermanager/webinterface/protected/views/layouts/main.php (54)
 in /home/tobias/sources/SWE-Projekt-zentraler-Servermanager/webinterface/protected/views/layouts/column1.php (5)
 in /home/tobias/sources/SWE-Projekt-zentraler-Servermanager/webinterface/protected/controllers/SiteController.php (32)
+2012/03/05 00:16:29 [error] [php] Undefined variable: k (/home/tobias/sources/SWE-Projekt-zentraler-Servermanager/webinterface/protected/controllers/SiteController.php:51)
+Stack trace:
+#0 /home/tobias/sources/SWE-Projekt-zentraler-Servermanager/webinterface/protected/framework/web/CController.php(287): SiteController->runAction()
+#1 /home/tobias/sources/SWE-Projekt-zentraler-Servermanager/webinterface/protected/framework/web/CController.php(266): SiteController->runActionWithFilters()
+#2 /home/tobias/sources/SWE-Projekt-zentraler-Servermanager/webinterface/protected/framework/web/CWebApplication.php(276): SiteController->run()
+#3 /home/tobias/sources/SWE-Projekt-zentraler-Servermanager/webinterface/protected/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/tobias/sources/SWE-Projekt-zentraler-Servermanager/webinterface/protected/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/tobias/sources/SWE-Projekt-zentraler-Servermanager/webinterface/index.php(13): CWebApplication->run()
+REQUEST_URI=/index.php?r=site/index
+in /home/tobias/sources/SWE-Projekt-zentraler-Servermanager/webinterface/protected/controllers/SiteController.php (51)
+in /home/tobias/sources/SWE-Projekt-zentraler-Servermanager/webinterface/index.php (13)
