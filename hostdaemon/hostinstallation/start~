@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SERVICE=$1
+CMD="./services/$SERVICE/start"
+screen -dmS $SERVICE $CMD
