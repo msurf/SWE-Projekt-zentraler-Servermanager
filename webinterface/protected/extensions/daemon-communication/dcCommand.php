@@ -1,15 +1,8 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+require_once dirname(__FILE__) . '/dcCommandInterface.php';
+require_once dirname(__FILE__) . '/../fluentdom/src/FluentDOM.php';
 
-/**
- * Description of dcCommand
- *
- * @author Tobias
- */
 class dcCommand implements dcCommandInterface {
     private $client;
     private $clientId;
@@ -18,6 +11,10 @@ class dcCommand implements dcCommandInterface {
     private $ftpFile;
     private $ftpIp;
     private $id;
+    /**
+     *
+     * @var array 
+     */
     private $info;
     private $name;
     private $parameter;
@@ -25,9 +22,51 @@ class dcCommand implements dcCommandInterface {
     private $program;
     private $query;
     private $status;
+    /**
+     * @var DateTime 
+     */
     private $time;
     private $url;
     private $user;
+    
+    private static $attributeMap = array(
+        "client"     => array("property" => "client",    "type" => "string"),
+        "clientId"   => array("property" => "clientID",  "type" => "int"),
+        "direction"  => array("property" => "direction", "type" => "string"),
+        "from"       => array("property" => "from",      "type" => "string"),
+        "ftpFile"    => array("property" => "FTP_File",  "type" => "string"),
+        "ftpIp"      => array("property" => "FTP_IP",    "type" => "string"),
+        "id"         => array("property" => "ID",        "type" => "int"),
+        "info"       => array("property" => "info",      "type" => "string"),
+        "name"       => array("property" => "name",      "type" => "string"),
+        "parameter"  => array("property" => "parameter", "type" => "string"),
+        "password"   => array("property" => "password",  "type" => "string"),
+        "program"    => array("property" => "program",   "type" => "string"),
+        "query"      => array("property" => "query",     "type" => "string"),
+        "status"     => array("property" => "status",    "type" => "int"),
+        "time"       => array("property" => "time",      "type" => "string"),
+        "url"        => array("property" => "URL",       "type" => "string"),
+        "user"       => array("property" => "user",      "type" => "string")
+    );
+    private static $attributeMapInverse = array(
+        "client"     => array("property" => "client",    "type" => "string"),
+        "clientID"   => array("property" => "clientId",  "type" => "int"),
+        "direction"  => array("property" => "direction", "type" => "string"),
+        "from"       => array("property" => "from",      "type" => "string"),
+        "FTP_File"   => array("property" => "ftpFile",   "type" => "string"),
+        "FTP_IP"     => array("property" => "ftpIp",     "type" => "string"),
+        "ID"         => array("property" => "id",        "type" => "int"),
+        "info"       => array("property" => "info",      "type" => "string"),
+        "name"       => array("property" => "name",      "type" => "string"),
+        "parameter"  => array("property" => "parameter", "type" => "string"),
+        "password"   => array("property" => "password",  "type" => "string"),
+        "program"    => array("property" => "program",   "type" => "string"),
+        "query"      => array("property" => "query",     "type" => "string"),
+        "status"     => array("property" => "status",    "type" => "int"),
+        "time"       => array("property" => "time",      "type" => "string"),
+        "URL"        => array("property" => "url",       "type" => "string"),
+        "user"       => array("property" => "user",      "type" => "string")
+    );
     
     public function getClient() {
         return $this->client;
@@ -153,7 +192,34 @@ class dcCommand implements dcCommandInterface {
         $this->user = (string) $user;
     }
     public function toXml() {
-        
+        $fd = new FluentDom();
+        $fd->contentType = "xml";
+        $fd->document->encoding = "utf-8";
+        $rootNode = $fd->append('<java version="1.6.0_23" class="java.beans.XMLDecoder" />');
+        $objectNode = $rootNode->append('<object class="xml.Command" />');
+        foreach (self::$attributeMap as $key => $attribute) {
+            if ($this->$key == null) {
+                continue;
+            }
+            if ($key == "info") {
+                $elements = array();
+                foreach ($this->info as $k => $v) {
+                    $tmp = "";
+                    if (!is_numeric($k)) {
+                        $tmp .= "$k:";
+                    }
+                    $elements[] = $tmp . $v;
+                }
+                $value = implode("#", $elements);
+            } else if ($key == "time") {
+                $value = $this->time->format("U") * 1000;
+            } else {
+                $value = $this->$key;
+            }
+            $prop = $objectNode->append('<void property="' . $attribute["property"] . '" />');
+            $prop->append('<'. $attribute["type"] . ' />')->text($value);
+        }
+        return $fd->__toString();
     }
     public static function fromXml($xml) {
         $fd = new FluentDom();
@@ -162,6 +228,22 @@ class dcCommand implements dcCommandInterface {
         if ($object->attr("class") != "xml.Command") {
             throw new Exception("This method can only unserialize Java objects of type xml.Command!");
         }
+        $dcCommand = new dcCommand();
+        $children = $object->find("./void");
+        foreach ($children as $child) {
+            $property = $child->attr("property");
+            if (!isset(self::$attributeMapInverse[$property])) {
+                continue;
+            }
+            $attributeMap = self::$attributeMapInverse[$property];
+            $setter = "set" . ucfirst($attributeMap["property"]);
+            if ($attributeMap["type"] == "string") {
+                $dcCommand->$setter($child->find("./string")->text());
+            } elseif ($attributeMap["type"] == "int") {
+                $dcCommand->$setter($child->find("./int")->text());
+            }
+        }
+        return $dcCommand;
     }
     public static function createPageToHostCommand() {
         $cmd = new dcCommand();
