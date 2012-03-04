@@ -6,7 +6,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.sql.*;
 
 /**
  * This Thread handles the incoming requests and adds the message to the task-list
@@ -60,10 +59,12 @@ public class ServerSocketThread extends Thread {
 			//work()start
 			try {
 				work();
-			} catch (Exception e) {System.out.println("Problems in ServerSocketThread: cannot work");}
+			} catch (Exception e) {
+				this._command.setStatus(200);
+				System.out.println("Problems in ServerSocketThread: cannot work");}
 			//work()end
 			
-			if(this._command.getStatus() != 105)//105 is response, responding commands are allready done
+			if(this._command.getStatus() != 105 && this._command.getStatus() != 200)//105 is response, responding commands are allready done
 			{
 					this._queue.add(this._command);
 				if(this._command.getStatus() == 100)
@@ -75,9 +76,8 @@ public class ServerSocketThread extends Thread {
 			enc.writeObject(this._command);
 		}// try
 		catch (IOException e) {
-			// TODO store error on local device
-			// send error-message to the host-server
-			e.printStackTrace();
+			this._command.setStatus(200);
+			System.out.println("Cannot write Command to Socket!");
 		}// catch
 		finally{
 			if(enc != null)
@@ -86,7 +86,8 @@ public class ServerSocketThread extends Thread {
 				dec.close();
 		}
 	}//readIn
-	private void work() throws SQLException, ClassNotFoundException, Exception {
+	
+	private void work() throws Exception {
 		String name = this._command.getName();
 		boolean work_done = false;
 		Database base = new Database();

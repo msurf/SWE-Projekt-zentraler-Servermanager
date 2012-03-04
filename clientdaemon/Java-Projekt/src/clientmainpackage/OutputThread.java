@@ -69,14 +69,17 @@ public class OutputThread extends Thread {
 			new ShellRunner().execute("echo 'Command_ID: " + response.getID() + " : " + response.getStatus()+"'>>"+this._conf.getLogpath()+"/swe.response");
 			}catch(Malfunction m)
 			{
+				this._command.setStatus(200);
 				System.out.println("OutputThread " + this.getId()+ " : " + m);
 				new Logger(this._conf.getLogpath()).write("OutputThread " + this.getId()+ " : " + m);
 			}
 		}//try 
 		catch (UnknownHostException e) {
+			this._command.setStatus(200);
 			System.out.println("OputputThread : "+this.getId()+" Can't resolve Host!");
 		}//catch
 		catch (IOException e) {
+			this._command.setStatus(200);
 			System.out.println("OputputThread : "+this.getId()+" Cannot handle Command");
 		}//catch
 		finally{

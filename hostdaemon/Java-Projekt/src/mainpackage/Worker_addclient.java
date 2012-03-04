@@ -30,6 +30,7 @@ public class Worker_addclient extends Worker{
 		base.insertNewClient(name, ip, user, pwd);
 		}catch(Exception e)
 		{
+			this._command.setStatus(200);
 			System.out.println("Could not add Client. Problems with the Database");
 		}
 	}

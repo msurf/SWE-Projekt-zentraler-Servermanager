@@ -1,0 +1,17 @@
+users(name,pw,rights) values ('ptendyra','tendyrapw','admin')
+		
+client(name,ip,user,pw) values ('debian2','192.168.21.22:5550','debian2','debian2')
+client(name,ip,user,pw) values ('debian3','192.168.21.23:5550','debian3','debian3')
+
+software(name,description,file,ftpip) values ('css','Installiert CounterStrike:Source','css.tar.gz','192.168.1.21')
+			
+insoftware(softid,clientid,user,pw) values ('1','1','css1','none')
+insoftware(softid,clientid,user,pw) values ('1','1','css2','none')
+insoftware(softid,clientid,user,pw) values ('1','1','css3','none')
+		
+insoftware(softid,clientid,user,pw) values ('1','2','css1','none')
+insoftware(softid,clientid,user,pw) values ('1','2','css2','none')
+
+hardware(clientid,cpu,ram,architecture) values ('1','C2D@2.667Ghz','2024Mb','i386')
+hardware(clientid,cpu,ram,architecture) values ('2','AMD@1.8Ghz','4096Mb','amd64')
+

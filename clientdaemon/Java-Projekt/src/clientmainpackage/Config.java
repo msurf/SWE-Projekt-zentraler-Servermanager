@@ -191,11 +191,6 @@ public class Config {
 		{
 			System.out.println("Error: No Softwareinfos collected! Please check!");
 		}
-		
-	}
-	
-	public synchronized void update(){
-		
 	}
 	
 	/*safe config*/

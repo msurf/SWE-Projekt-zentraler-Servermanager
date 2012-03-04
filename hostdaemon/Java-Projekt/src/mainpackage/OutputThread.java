@@ -70,7 +70,7 @@ public class OutputThread extends Thread {
 			new ShellRunner().execute("echo 'Command_ID: " + response.getID() + " : " + response.getStatus()+"'>>"+this._conf.getLogpath()+"/swe.response");
 		}//try 
 		catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
+			this._command.setStatus(200);
 			System.out.println("Can't resolve Host!");
 			Database base = new Database();
 			try{
@@ -79,16 +79,16 @@ public class OutputThread extends Thread {
 			
 		}//catch
 		catch (IOException e) {
-			// TODO Auto-generated catch block
+			this._command.setStatus(200);
+			System.out.println("Cannot write/read Command to/from Socket");
 		}//catch
 		finally{
 			if(socket != null)
-			{	try {
-					socket.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			{	
+					try {
+						socket.close();
+					} catch (IOException e) {System.out.println("Cannot close Socket");}
+				
 			}
 			if(dec != null)
 				dec.close();
@@ -122,7 +122,9 @@ public class OutputThread extends Thread {
 			
 			try{
 			base.update_hwinfo(clientid, cpu, ram, architecture);
-			}catch(Exception e){System.out.println("Cannot update HardwareInfo from: "+ c.getClient());}
+			}catch(Exception e){
+				c.setStatus(200);
+				System.out.println("Cannot update HardwareInfo from: "+ c.getClient());}
 		}
 		if(name.equals("swinfo"))
 		{
@@ -134,6 +136,8 @@ public class OutputThread extends Thread {
 					soft = new String[tmp.length][];
 					for(int i = 0; i < tmp.length; i++)
 						soft[i]=tmp[i].split(":");
+					
+				
 				}
 			}catch(Exception e){System.out.println("Cannot handle Infos from: "+c.getClient());}
 			
@@ -142,7 +146,9 @@ public class OutputThread extends Thread {
 					{
 					base.update_swinfo(c.getClientID(), i[0], i[1]);
 					}
-			}catch(Exception e){System.out.println("Cannot update SoftwareInfo from: "+c.getClient());}
+			}catch(Exception e){
+				c.setStatus(200);
+				System.out.println("Cannot update SoftwareInfo from: "+c.getClient());}
 			
 			
 		}
@@ -150,7 +156,9 @@ public class OutputThread extends Thread {
 		{
 			try{
 				base.update_ClientStatus(c.getClientID(), c.getInfo());
-			}catch(Exception e){System.out.println("Cannot update ClientStatus from: "+c.getClient());}
+			}catch(Exception e){
+				c.setStatus(200);
+				System.out.println("Cannot update ClientStatus from: "+c.getClient());}
 		}
 		
 	}

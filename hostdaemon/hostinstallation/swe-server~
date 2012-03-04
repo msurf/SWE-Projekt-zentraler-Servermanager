@@ -17,7 +17,7 @@ if [ `whoami` != "root" ]; then
 	exit 1
 fi
 
-screen -dmS $DAEMON $CMD
+screen -AmdS $DAEMON $CMD
 }
 
 stop() {
