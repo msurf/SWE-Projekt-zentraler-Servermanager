@@ -196,7 +196,7 @@ class dcCommand implements dcCommandInterface {
         $fd->contentType = "xml";
         $fd->document->encoding = "utf-8";
         $rootNode = $fd->append('<java version="1.6.0_23" class="java.beans.XMLDecoder" />');
-        $objectNode = $rootNode->append('<object class="xml.Command" />');
+        $objectNode = $rootNode->append('<object class="mainpackage.Command" />');
         foreach (self::$attributeMap as $key => $attribute) {
             if ($this->$key == null) {
                 continue;
@@ -219,18 +219,19 @@ class dcCommand implements dcCommandInterface {
             $prop = $objectNode->append('<void property="' . $attribute["property"] . '" />');
             $prop->append('<'. $attribute["type"] . ' />')->text($value);
         }
-        return $fd->__toString();
+        return $fd->formatOutput()->__toString();
     }
     public static function fromXml($xml) {
         $fd = new FluentDom();
         $fd->load($xml);
         $object = $fd->find("/java/object");
-        if ($object->attr("class") != "xml.Command") {
+        if ($object->attr("class") != "mainpackage.Command") {
             throw new Exception("This method can only unserialize Java objects of type xml.Command!");
         }
         $dcCommand = new dcCommand();
         $children = $object->find("./void");
         foreach ($children as $child) {
+            $child = FluentDOM($child);
             $property = $child->attr("property");
             if (!isset(self::$attributeMapInverse[$property])) {
                 continue;
@@ -247,7 +248,7 @@ class dcCommand implements dcCommandInterface {
     }
     public static function createPageToHostCommand() {
         $cmd = new dcCommand();
-        $cmd->setFrom("website");
+        $cmd->setFrom("page");
         $cmd->setDirection("page2host");
         $cmd->setStatus(100);
         return $cmd;
