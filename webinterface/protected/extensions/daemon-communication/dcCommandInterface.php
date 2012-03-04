@@ -152,11 +152,12 @@ interface dcCommandInterface {
      */
     public function getStatus();
     /**
-     * If $time is a string, we will try to parse it using DateTime's constructor
+     * If $time is not a DateTime object, we will assume it is an integer
+     * representing the number of *milli*seconds since 1/1/1970 (Unix epoch timestamp, Java style)
      * 
-     * @param string|DateTime $time
+     * @param int|DateTime $time
      * @return null  
-     * @throws Exception if turning the string in $time into a DateTime object fails
+     * @throws Exception if turning the integer in $time into a DateTime object fails
      */
     public function setTime($time);
     /**

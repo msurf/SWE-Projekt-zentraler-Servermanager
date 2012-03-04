@@ -153,10 +153,15 @@ class dcCommand implements dcCommandInterface {
         $this->user = (string) $user;
     }
     public function toXml() {
-        throw new BadMethodCallException("not yet implemented");
+        
     }
     public static function fromXml($xml) {
-        throw new BadMethodCallException("not yet implemented");
+        $fd = new FluentDom();
+        $fd->load($xml);
+        $object = $fd->find("/java/object");
+        if ($object->attr("class") != "xml.Command") {
+            throw new Exception("This method can only unserialize Java objects of type xml.Command!");
+        }
     }
     public static function createPageToHostCommand() {
         $cmd = new dcCommand();
