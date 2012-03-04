@@ -1,6 +1,6 @@
 own_ip=192.168.1.51
 own_port=5550
-send_ip=192.168.1.50
+send_ip=localhost
 send_port=5550
 architecture=x86_64
 cpu=Intel(R) Pentium(R) CPU        P6000  @ 1.87GHz

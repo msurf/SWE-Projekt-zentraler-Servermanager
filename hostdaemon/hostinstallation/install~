@@ -3,7 +3,7 @@
 ## by Philipp Tendyra
 
 proof=0
-apt-get install sudo lshw lscpu proftpd-basic screen ssh openjdk-1.6-jdk php5 apache2
+apt-get install sudo lshw proftpd-basic screen ssh openjdk-1.6-jdk php5 apache2
 proof="$proof $?"
 
 echo 'start configuration'
