@@ -12,7 +12,7 @@ Wen ich "->: irgendwas"  schreibe, muss "irgendwas" in die Konsole eingegeben we
 
 2. Benutzer swedaemon anlegen
 
-->: adduser swedaemon -home /home/swedaemon -shell /bin/bash
+->: adduser swedaemon --home /home/swedaemon --shell /bin/bash
 
 als pw nimmst du: swe1234
 

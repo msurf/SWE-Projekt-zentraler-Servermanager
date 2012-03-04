@@ -53,4 +53,7 @@ addgroup ftpuser
 
 die fcss.tar.gz in das Verzeichniss /home/sweuser/repository kopieren
 
+5. Starten
+->: ./startServer
+
 
