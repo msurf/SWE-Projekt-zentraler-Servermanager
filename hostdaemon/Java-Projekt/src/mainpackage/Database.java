@@ -297,8 +297,8 @@ public class Database {
 		stat.executeUpdate("insert into users(name,pw,rights) values ('ptendyra','tendyrapw','admin')");
 		
 		/* Clients */
-		stat.executeUpdate("insert into client(name,ip,user,pw) values ('debian2','192.168.21.22:5550','debian2','debian2')");
-		stat.executeUpdate("insert into client(name,ip,user,pw) values ('debian3','192.168.21.23:5550','debian3','debian3')");
+		stat.executeUpdate("insert into client(name,ip,user,pw) values ('debian2','192.168.1.22:5550','swedaemon','swe1234')");
+		stat.executeUpdate("insert into client(name,ip,user,pw) values ('debian3','192.168.1.23:5550','swedaemon','swe1234')");
 		/* Software */
 		stat.executeUpdate("insert into software(name,description,file,ftpip) values ('css','Installiert CounterStrike:Source','css.tar.gz','192.168.1.21')");
 		

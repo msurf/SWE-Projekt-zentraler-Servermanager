@@ -20,7 +20,6 @@ public class ServerSocketThread extends Thread {
 	
 	private Command _command = new Command();
 	
-	@SuppressWarnings("unused")
 	private Config _config;
 
 	/**
@@ -55,8 +54,6 @@ public class ServerSocketThread extends Thread {
 			dec = new XMLDecoder(new BufferedInputStream(this._socket.getInputStream()));
 			this._command = (Command) dec.readObject();
 			//this._command.setStatus(101);
-			this._socket.shutdownInput();
-			
 			
 			//work()start
 			try {
@@ -75,8 +72,9 @@ public class ServerSocketThread extends Thread {
 					this._command.setInfo("recived");
 				}
 			}
-			enc.writeObject(this._command);
-			enc.flush();
+			
+			Command response = this._command.clone();
+			enc.writeObject(response);
 		}// try
 		catch (IOException e) {
 			this._command.setStatus(200);
@@ -90,71 +88,29 @@ public class ServerSocketThread extends Thread {
 		}
 	}//readIn
 	
-	private void work() throws Exception {
-		String name = this._command.getName();
-		boolean work_done = false;
-		Database base = new Database();
-		if(name.equals("authenticate"))
-		{		
-				String info = base.getInfo_Authenticate(this._command.getUser(),this._command.getPassword());
+	private void work(){
+		// direct response
+			String name = "none";
+			name = this._command.getName();
+			boolean work_done = false;
+		if(name.equals("hwinfo")){
+				String info = this._config.hwinfo();
 				this._command.setInfo(info);
-				this._command.setPassword("default");
-				work_done = true;
+			work_done = true;
 		}
-		if(name.equals("getclients"))
-		{			
-				String info = base.getInfo_getClients();	
+		if(name.equals("swinfo")){
+			String info = "default";
+				info = this._config.swinfo();
 				this._command.setInfo(info);
-				work_done = true;
-		}
-		if(name.equals("getclientstatus"))
-		{
-			Command commandnew = new Command();
-			commandnew.setName("updateclientstatus");
-			commandnew.setStatus(100);
-			commandnew.setClient(this._command.getClient());
-			commandnew.setClientID(this._command.getClientID());
-				this._queue.add(commandnew);
-			String info = base.getInfo_getClientStatus(this._command.getClientID());
-			this._command.setInfo(info);
 			work_done = true;
 		}
-		if(name.equals("getrepoliste"))
-		{
-			Command commandnew = new Command();
-			commandnew.setName("updaterepolist");
-			commandnew.setStatus(100);
-				this._queue.add(commandnew);
-			String info = base.getInfo_getRepoList();
-			this._command.setInfo(info);
+		if(name.equals("busy")){
+			String info = "on";
+				info = this._config.isBusy();
+				this._command.setInfo(info);
 			work_done = true;
 		}
-		if(name.equals("hwinfo"))
-		{
-			Command commandnew = new Command();
-			commandnew.setName("updatehwinfo");
-			commandnew.setStatus(100);
-			commandnew.setClient(this._command.getClient());
-			commandnew.setClientID(this._command.getClientID());
-				this._queue.add(commandnew);
-			String info = base.getInfo_hwInfo(this._command.getClientID());
-			this._command.setInfo(info);
-			work_done = true;
-		}
-		if(name.equals("swinfo"))
-		{
-			Command commandnew = new Command();
-			commandnew.setName("updateswinfo");
-			commandnew.setStatus(100);
-			commandnew.setClient(this._command.getClient());
-			commandnew.setClientID(this._command.getClientID());
-				this._queue.add(commandnew);
-			String info = base.getInfo_swInfo(this._command.getClientID());
-			this._command.setInfo(info);
-			work_done = true;
-		}
-		
-		if(work_done)
-			this._command.setStatus(105);
+		if(work_done)			
+				this._command.setStatus(105);
 	}
 }// class
