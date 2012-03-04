@@ -29,6 +29,11 @@ class SiteController extends Controller
 	{
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
+		// $fd=new FluentDOM($xml);
+	        // $cmd = new dcCommand();
+ 		// $cmd=dcCommand::createPageToHostCommand();  
+ 		// $cmd->setFrom('test');	
+ 		// echo $cmd->getFrom();	
 		$this->render('index');
 	}
 
@@ -67,6 +72,7 @@ class SiteController extends Controller
 	}
 	public function actionCommands()
 	{
+              $clients=array('client1','client2','clientc');	
 		$this->render('commands');
 	}
 

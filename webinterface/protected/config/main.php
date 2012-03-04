@@ -16,6 +16,8 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'application.extensions.daemon-communication.*',
+		'application.extensions.fluentdom.*',
 	),
 
 	'modules'=>array(
