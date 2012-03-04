@@ -1,4 +1,6 @@
 daemon_vorlage/.classpath
 daemon_vorlage/.project
 daemon_vorlage/manifest.mf
-/nbproject/private/
+nbproject/
+webinterface/assets/
+webinterface/protected/runtime/

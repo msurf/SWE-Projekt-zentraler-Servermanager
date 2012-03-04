@@ -1,12 +1,26 @@
 <?php $this->pageTitle=Yii::app()->name; ?>
 <h1>Server Status</h1>
 <?php
+$statusColorMap = array("off" => "red", "busy" => "yellow", "ok" => "green");
+$accordionArray = array();
+foreach ($clients as $client) {
+    $bullet = '<span style="font-size: 16px; color: ' . $statusColorMap[$client["status"]] . '">&bull;</span>';
+    $key = $bullet . " " . $client["name"];
+    if ($client["status"] == "off") {
+        $value = $client["name"] . " is offline";
+    } else {
+        $value = "<ul>";
+        foreach ($client["software"] as $name => $status) {
+            if ($status == "on") {
+                $value .= "<li>$name</li>";
+            }
+        }
+        $value .= "</ul>";
+    }
+    $accordionArray[$key] = $value;
+}
 $this->widget('zii.widgets.jui.CJuiAccordion', array(
-        'panels'=>array(
-        '<span style="font-size:16px;color:red;">&bull;</span> debian 1'=>'debian 1 is not reachable',
-        '<span style="font-size:16px;color:red;">&bull;</span> debian 2'=>'debian 2 is not reachable',
-
-        ),
+        'panels'=>$accordionArray,
         // additional javascript options for the accordion plugin
         // 'options'=>array(
        //  'animated'=>'bounceslide',
