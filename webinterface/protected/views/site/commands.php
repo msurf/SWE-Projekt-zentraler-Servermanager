@@ -24,7 +24,24 @@ $this->widget('zii.widgets.jui.CJuiAccordion', array(
         ),
         // additional javascript options for the accordion plugin
        'options'=>array(
-       'animated'=>'bounceslide',
+       //'animated'=>'bounceslide',
        ),
 ));
+
+echo "<hl> <br/> <br/> ";
+
+$this->widget('zii.widgets.jui.CJuiButton',
+	array(
+		'name'=>'updateswcatalog',
+		'buttonType'=>'link',
+		'caption'=>'Update Software Catolog',
+		'htmlOptions'=>array("style"=>'text-align:center'),
+		'value'=>'updswctg',
+		'url'=>Yii::app()->controller->createUrl("site/swcatalog",array()),
+ 		// 'onclick'=>'http://www.google.de',
+		// 'onclick'=>'js:function(){alert("Update Software Catlog"); this.blur(); return false;}',
+		)
+);
+
+
 ?>

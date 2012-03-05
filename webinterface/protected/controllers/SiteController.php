@@ -89,8 +89,14 @@ class SiteController extends Controller
 	}
 	public function actionCommands()
 	{
-              $clients=array('client1','client2','clientc');	
+                // $clients=array('client1','client2','clientc');	
 		$this->render('commands');
+	}
+	
+	public function actionSwcatalog()
+	{
+		// var_dump($_POST);
+		$this->render('swcatalog');
 	}
 
 	/**
